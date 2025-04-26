@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>6-tutorial-daftar-tambah-mahasiswa.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="tutorial-membuat-halaman-daftar-dan-form-tambah-mahasiswa-di-laravel">Tutorial: Membuat Halaman Daftar dan Form Tambah Mahasiswa di Laravel</h1>
+<p>Pada praktik ini, kita akan membuat halaman untuk menampilkan daftar mahasiswa dan form untuk menambah data mahasiswa baru di aplikasi Laravel. Mari kita ikuti langkah-langkah berikut:</p>
+<h2 id="1-persiapan-model-dan-migrasi">1. Persiapan Model dan Migrasi</h2>
+<p>Pastikan Anda sudah memiliki model dan migrasi Mahasiswa:</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// Buat model dan migrasi</span>
+php artisan make:model Mahasiswa -m
+</div></code></pre>
+<p>Edit file migrasi untuk tabel mahasiswa:</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// database/migrations/xxxx_xx_xx_create_mahasiswas_table.php</span>
+<span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">up</span><span class="hljs-params">()</span>
+</span>{
+    Schema::create(<span class="hljs-string">'mahasiswas'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(Blueprint $table)</span> </span>{
+        $table-&gt;id();
+        $table-&gt;string(<span class="hljs-string">'nim'</span>, <span class="hljs-number">20</span>)-&gt;unique();
+        $table-&gt;string(<span class="hljs-string">'nama'</span>, <span class="hljs-number">100</span>);
+        $table-&gt;string(<span class="hljs-string">'email'</span>, <span class="hljs-number">100</span>)-&gt;unique();
+        $table-&gt;string(<span class="hljs-string">'jurusan'</span>, <span class="hljs-number">50</span>);
+        $table-&gt;text(<span class="hljs-string">'alamat'</span>)-&gt;nullable();
+        $table-&gt;date(<span class="hljs-string">'tanggal_lahir'</span>)-&gt;nullable();
+        $table-&gt;enum(<span class="hljs-string">'jenis_kelamin'</span>, [<span class="hljs-string">'L'</span>, <span class="hljs-string">'P'</span>]);
+        $table-&gt;timestamps();
+    });
+}
+</div></code></pre>
+<p>Lakukan migrasi:</p>
+<pre class="hljs"><code><div>php artisan migrate
+</div></code></pre>
+<h2 id="2-membuat-controller">2. Membuat Controller</h2>
+<p>Buat controller untuk mengelola data Mahasiswa:</p>
+<pre class="hljs"><code><div>php artisan make:controller MahasiswaController --resource
+</div></code></pre>
+<h2 id="3-implementasi-route">3. Implementasi Route</h2>
+<p>Tambahkan route di <code>routes/web.php</code>:</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// routes/web.php</span>
+<span class="hljs-keyword">use</span> <span class="hljs-title">App</span>\<span class="hljs-title">Http</span>\<span class="hljs-title">Controllers</span>\<span class="hljs-title">MahasiswaController</span>;
+
+Route::resource(<span class="hljs-string">'mahasiswa'</span>, MahasiswaController::class);
+</div></code></pre>
+<h2 id="4-membuat-halaman-daftar-mahasiswa">4. Membuat Halaman Daftar Mahasiswa</h2>
+<h3 id="41-controller---method-index">4.1 Controller - Method Index</h3>
+<p>Edit method <code>index</code> pada controller:</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// app/Http/Controllers/MahasiswaController.php</span>
+<span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">index</span><span class="hljs-params">()</span>
+</span>{
+    $mahasiswas = Mahasiswa::latest()-&gt;paginate(<span class="hljs-number">10</span>);
+    <span class="hljs-keyword">return</span> view(<span class="hljs-string">'mahasiswa.index'</span>, compact(<span class="hljs-string">'mahasiswas'</span>));
+}
+</div></code></pre>
+<h3 id="42-view---daftar-mahasiswa">4.2 View - Daftar Mahasiswa</h3>
+<p>Buat direktori dan file view:</p>
+<pre class="hljs"><code><div>mkdir -p resources/views/mahasiswa
+touch resources/views/mahasiswa/index.blade.php
+</div></code></pre>
+<p>Isi file <code>index.blade.php</code>:</p>
+<pre class="hljs"><code><div>@extends('layouts.app')
+
+@section('content')
+<span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"container"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"row justify-content-center"</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"col-md-12"</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"card"</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"card-header d-flex justify-content-between align-items-center"</span>&gt;</span>
+                    <span class="hljs-tag">&lt;<span class="hljs-name">h4</span>&gt;</span>Daftar Mahasiswa<span class="hljs-tag">&lt;/<span class="hljs-name">h4</span>&gt;</span>
+                    <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"{{ route('mahasiswa.create') }}"</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"btn btn-success"</span>&gt;</span>Tambah Mahasiswa<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
+                <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"card-body"</span>&gt;</span>
+                    @if(session('success'))
+                        <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"alert alert-success alert-dismissible fade show"</span> <span class="hljs-attr">role</span>=<span class="hljs-string">"alert"</span>&gt;</span>
+                            {{ session('success') }}
+                            <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"button"</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"btn-close"</span> <span class="hljs-attr">data-bs-dismiss</span>=<span class="hljs-string">"alert"</span> <span class="hljs-attr">aria-label</span>=<span class="hljs-string">"Close"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+                        <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+                    @endif
+
+                    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"table-responsive"</span>&gt;</span>
+                        <span class="hljs-tag">&lt;<span class="hljs-name">table</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"table table-striped"</span>&gt;</span>
+                            <span class="hljs-tag">&lt;<span class="hljs-name">thead</span>&gt;</span>
+                                <span class="hljs-tag">&lt;<span class="hljs-name">tr</span>&gt;</span>
+                                    <span class="hljs-tag">&lt;<span class="hljs-name">th</span>&gt;</span>No<span class="hljs-tag">&lt;/<span class="hljs-name">th</span>&gt;</span>
+                                    <span class="hljs-tag">&lt;<span class="hljs-name">th</span>&gt;</span>NIM<span class="hljs-tag">&lt;/<span class="hljs-name">th</span>&gt;</span>
+                                    <span class="hljs-tag">&lt;<span class="hljs-name">th</span>&gt;</span>Nama<span class="hljs-tag">&lt;/<span class="hljs-name">th</span>&gt;</span>
+                                    <span class="hljs-tag">&lt;<span class="hljs-name">th</span>&gt;</span>Email<span class="hljs-tag">&lt;/<span class="hljs-name">th</span>&gt;</span>
+                                    <span class="hljs-tag">&lt;<span class="hljs-name">th</span>&gt;</span>Jurusan<span class="hljs-tag">&lt;/<span class="hljs-name">th</span>&gt;</span>
+                                    <span class="hljs-tag">&lt;<span class="hljs-name">th</span>&gt;</span>Aksi<span class="hljs-tag">&lt;/<span class="hljs-name">th</span>&gt;</span>
+                                <span class="hljs-tag">&lt;/<span class="hljs-name">tr</span>&gt;</span>
+                            <span class="hljs-tag">&lt;/<span class="hljs-name">thead</span>&gt;</span>
+                            <span class="hljs-tag">&lt;<span class="hljs-name">tbody</span>&gt;</span>
+                                @forelse($mahasiswas as $index =&gt; $mahasiswa)
+                                <span class="hljs-tag">&lt;<span class="hljs-name">tr</span>&gt;</span>
+                                    <span class="hljs-tag">&lt;<span class="hljs-name">td</span>&gt;</span>{{ $mahasiswas-&gt;firstItem() + $index }}<span class="hljs-tag">&lt;/<span class="hljs-name">td</span>&gt;</span>
+                                    <span class="hljs-tag">&lt;<span class="hljs-name">td</span>&gt;</span>{{ $mahasiswa-&gt;nim }}<span class="hljs-tag">&lt;/<span class="hljs-name">td</span>&gt;</span>
+                                    <span class="hljs-tag">&lt;<span class="hljs-name">td</span>&gt;</span>{{ $mahasiswa-&gt;nama }}<span class="hljs-tag">&lt;/<span class="hljs-name">td</span>&gt;</span>
+                                    <span class="hljs-tag">&lt;<span class="hljs-name">td</span>&gt;</span>{{ $mahasiswa-&gt;email }}<span class="hljs-tag">&lt;/<span class="hljs-name">td</span>&gt;</span>
+                                    <span class="hljs-tag">&lt;<span class="hljs-name">td</span>&gt;</span>{{ $mahasiswa-&gt;jurusan }}<span class="hljs-tag">&lt;/<span class="hljs-name">td</span>&gt;</span>
+                                    <span class="hljs-tag">&lt;<span class="hljs-name">td</span>&gt;</span>
+                                        <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"{{ route('mahasiswa.show', $mahasiswa-&gt;id) }}"</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"btn btn-sm btn-info"</span>&gt;</span>Detail<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
+                                        <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"{{ route('mahasiswa.edit', $mahasiswa-&gt;id) }}"</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"btn btn-sm btn-warning"</span>&gt;</span>Edit<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
+                                        <span class="hljs-tag">&lt;<span class="hljs-name">form</span> <span class="hljs-attr">action</span>=<span class="hljs-string">"{{ route('mahasiswa.destroy', $mahasiswa-&gt;id) }}"</span> <span class="hljs-attr">method</span>=<span class="hljs-string">"POST"</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"d-inline"</span>&gt;</span>
+                                            @csrf
+                                            @method('DELETE')
+                                            <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"submit"</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"btn btn-sm btn-danger"</span> <span class="hljs-attr">onclick</span>=<span class="hljs-string">"return confirm('Yakin ingin menghapus data ini?')"</span>&gt;</span>Hapus<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+                                        <span class="hljs-tag">&lt;/<span class="hljs-name">form</span>&gt;</span>
+                                    <span class="hljs-tag">&lt;/<span class="hljs-name">td</span>&gt;</span>
+                                <span class="hljs-tag">&lt;/<span class="hljs-name">tr</span>&gt;</span>
+                                @empty
+                                <span class="hljs-tag">&lt;<span class="hljs-name">tr</span>&gt;</span>
+                                    <span class="hljs-tag">&lt;<span class="hljs-name">td</span> <span class="hljs-attr">colspan</span>=<span class="hljs-string">"6"</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"text-center"</span>&gt;</span>Tidak ada data mahasiswa.<span class="hljs-tag">&lt;/<span class="hljs-name">td</span>&gt;</span>
+                                <span class="hljs-tag">&lt;/<span class="hljs-name">tr</span>&gt;</span>
+                                @endforelse
+                            <span class="hljs-tag">&lt;/<span class="hljs-name">tbody</span>&gt;</span>
+                        <span class="hljs-tag">&lt;/<span class="hljs-name">table</span>&gt;</span>
+                    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+
+                    <span class="hljs-comment">&lt;!-- Pagination --&gt;</span>
+                    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"d-flex justify-content-center mt-4"</span>&gt;</span>
+                        {{ $mahasiswas-&gt;links() }}
+                    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+                <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+            <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+@endsection
+</div></code></pre>
+<h2 id="5-membuat-form-tambah-mahasiswa">5. Membuat Form Tambah Mahasiswa</h2>
+<h3 id="51-controller---method-create--store">5.1 Controller - Method Create &amp; Store</h3>
+<p>Edit method <code>create</code> dan <code>store</code> pada controller:</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// app/Http/Controllers/MahasiswaController.php</span>
+<span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">create</span><span class="hljs-params">()</span>
+</span>{
+    <span class="hljs-keyword">return</span> view(<span class="hljs-string">'mahasiswa.create'</span>);
+}
+
+<span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">store</span><span class="hljs-params">(Request $request)</span>
+</span>{
+    <span class="hljs-comment">// Validasi data input</span>
+    $validated = $request-&gt;validate([
+        <span class="hljs-string">'nim'</span> =&gt; <span class="hljs-string">'required|string|max:20|unique:mahasiswas'</span>,
+        <span class="hljs-string">'nama'</span> =&gt; <span class="hljs-string">'required|string|max:100'</span>,
+        <span class="hljs-string">'email'</span> =&gt; <span class="hljs-string">'required|email|max:100|unique:mahasiswas'</span>,
+        <span class="hljs-string">'jurusan'</span> =&gt; <span class="hljs-string">'required|string|max:50'</span>,
+        <span class="hljs-string">'alamat'</span> =&gt; <span class="hljs-string">'nullable|string'</span>,
+        <span class="hljs-string">'tanggal_lahir'</span> =&gt; <span class="hljs-string">'nullable|date'</span>,
+        <span class="hljs-string">'jenis_kelamin'</span> =&gt; <span class="hljs-string">'required|in:L,P'</span>,
+    ]);
+    
+    <span class="hljs-comment">// Simpan data mahasiswa</span>
+    Mahasiswa::create($validated);
+    
+    <span class="hljs-comment">// Redirect dengan pesan sukses</span>
+    <span class="hljs-keyword">return</span> redirect()-&gt;route(<span class="hljs-string">'mahasiswa.index'</span>)
+                    -&gt;with(<span class="hljs-string">'success'</span>, <span class="hljs-string">'Data mahasiswa berhasil ditambahkan!'</span>);
+}
+</div></code></pre>
+<h3 id="52-perbarui-model-mahasiswa">5.2 Perbarui Model Mahasiswa</h3>
+<p>Tambahkan <code>$fillable</code> pada model Mahasiswa:</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// app/Models/Mahasiswa.php</span>
+<span class="hljs-keyword">protected</span> $fillable = [
+    <span class="hljs-string">'nim'</span>,
+    <span class="hljs-string">'nama'</span>,
+    <span class="hljs-string">'email'</span>,
+    <span class="hljs-string">'jurusan'</span>,
+    <span class="hljs-string">'alamat'</span>,
+    <span class="hljs-string">'tanggal_lahir'</span>,
+    <span class="hljs-string">'jenis_kelamin'</span>,
+];
+</div></code></pre>
+<h3 id="53-view---form-tambah-mahasiswa">5.3 View - Form Tambah Mahasiswa</h3>
+<p>Buat file view untuk form tambah:</p>
+<pre class="hljs"><code><div>touch resources/views/mahasiswa/create.blade.php
+</div></code></pre>
+<p>Isi file <code>create.blade.php</code>:</p>
+<pre class="hljs"><code><div>@extends('layouts.app')
+
+@section('content')
+<span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"container"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"row justify-content-center"</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"col-md-8"</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"card"</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"card-header"</span>&gt;</span>
+                    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"d-flex justify-content-between align-items-center"</span>&gt;</span>
+                        <span class="hljs-tag">&lt;<span class="hljs-name">h4</span>&gt;</span>Tambah Mahasiswa<span class="hljs-tag">&lt;/<span class="hljs-name">h4</span>&gt;</span>
+                        <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"{{ route('mahasiswa.index') }}"</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"btn btn-secondary"</span>&gt;</span>Kembali<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
+                    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+                <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"card-body"</span>&gt;</span>
+                    @if ($errors-&gt;any())
+                        <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"alert alert-danger"</span>&gt;</span>
+                            <span class="hljs-tag">&lt;<span class="hljs-name">ul</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"mb-0"</span>&gt;</span>
+                                @foreach ($errors-&gt;all() as $error)
+                                    <span class="hljs-tag">&lt;<span class="hljs-name">li</span>&gt;</span>{{ $error }}<span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>
+                                @endforeach
+                            <span class="hljs-tag">&lt;/<span class="hljs-name">ul</span>&gt;</span>
+                        <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+                    @endif
+
+                    <span class="hljs-tag">&lt;<span class="hljs-name">form</span> <span class="hljs-attr">action</span>=<span class="hljs-string">"{{ route('mahasiswa.store') }}"</span> <span class="hljs-attr">method</span>=<span class="hljs-string">"POST"</span>&gt;</span>
+                        @csrf
+                        
+                        <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"mb-3"</span>&gt;</span>
+                            <span class="hljs-tag">&lt;<span class="hljs-name">label</span> <span class="hljs-attr">for</span>=<span class="hljs-string">"nim"</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"form-label"</span>&gt;</span>NIM <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"text-danger"</span>&gt;</span>*<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">label</span>&gt;</span>
+                            <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"text"</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"form-control @error('nim') is-invalid @enderror"</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"nim"</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"nim"</span> <span class="hljs-attr">value</span>=<span class="hljs-string">"{{ old('nim') }}"</span> <span class="hljs-attr">required</span>&gt;</span>
+                            @error('nim')
+                                <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"invalid-feedback"</span>&gt;</span>{{ $message }}<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+                            @enderror
+                        <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+                        
+                        <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"mb-3"</span>&gt;</span>
+                            <span class="hljs-tag">&lt;<span class="hljs-name">label</span> <span class="hljs-attr">for</span>=<span class="hljs-string">"nama"</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"form-label"</span>&gt;</span>Nama Lengkap <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"text-danger"</span>&gt;</span>*<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">label</span>&gt;</span>
+                            <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"text"</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"form-control @error('nama') is-invalid @enderror"</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"nama"</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"nama"</span> <span class="hljs-attr">value</span>=<span class="hljs-string">"{{ old('nama') }}"</span> <span class="hljs-attr">required</span>&gt;</span>
+                            @error('nama')
+                                <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"invalid-feedback"</span>&gt;</span>{{ $message }}<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+                            @enderror
+                        <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+                        
+                        <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"mb-3"</span>&gt;</span>
+                            <span class="hljs-tag">&lt;<span class="hljs-name">label</span> <span class="hljs-attr">for</span>=<span class="hljs-string">"email"</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"form-label"</span>&gt;</span>Email <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"text-danger"</span>&gt;</span>*<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">label</span>&gt;</span>
+                            <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"email"</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"form-control @error('email') is-invalid @enderror"</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"email"</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"email"</span> <span class="hljs-attr">value</span>=<span class="hljs-string">"{{ old('email') }}"</span> <span class="hljs-attr">required</span>&gt;</span>
+                            @error('email')
+                                <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"invalid-feedback"</span>&gt;</span>{{ $message }}<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+                            @enderror
+                        <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+                        
+                        <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"mb-3"</span>&gt;</span>
+                            <span class="hljs-tag">&lt;<span class="hljs-name">label</span> <span class="hljs-attr">for</span>=<span class="hljs-string">"jurusan"</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"form-label"</span>&gt;</span>Jurusan <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"text-danger"</span>&gt;</span>*<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">label</span>&gt;</span>
+                            <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"text"</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"form-control @error('jurusan') is-invalid @enderror"</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"jurusan"</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"jurusan"</span> <span class="hljs-attr">value</span>=<span class="hljs-string">"{{ old('jurusan') }}"</span> <span class="hljs-attr">required</span>&gt;</span>
+                            @error('jurusan')
+                                <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"invalid-feedback"</span>&gt;</span>{{ $message }}<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+                            @enderror
+                        <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+                        
+                        <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"mb-3"</span>&gt;</span>
+                            <span class="hljs-tag">&lt;<span class="hljs-name">label</span> <span class="hljs-attr">for</span>=<span class="hljs-string">"jenis_kelamin"</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"form-label"</span>&gt;</span>Jenis Kelamin <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"text-danger"</span>&gt;</span>*<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">label</span>&gt;</span>
+                            <span class="hljs-tag">&lt;<span class="hljs-name">select</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"form-select @error('jenis_kelamin') is-invalid @enderror"</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"jenis_kelamin"</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"jenis_kelamin"</span> <span class="hljs-attr">required</span>&gt;</span>
+                                <span class="hljs-tag">&lt;<span class="hljs-name">option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">""</span>&gt;</span>Pilih Jenis Kelamin<span class="hljs-tag">&lt;/<span class="hljs-name">option</span>&gt;</span>
+                                <span class="hljs-tag">&lt;<span class="hljs-name">option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">"L"</span> {{ <span class="hljs-attr">old</span>('<span class="hljs-attr">jenis_kelamin</span>') == <span class="hljs-string">'L'</span> ? '<span class="hljs-attr">selected</span>' <span class="hljs-attr">:</span> '' }}&gt;</span>Laki-laki<span class="hljs-tag">&lt;/<span class="hljs-name">option</span>&gt;</span>
+                                <span class="hljs-tag">&lt;<span class="hljs-name">option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">"P"</span> {{ <span class="hljs-attr">old</span>('<span class="hljs-attr">jenis_kelamin</span>') == <span class="hljs-string">'P'</span> ? '<span class="hljs-attr">selected</span>' <span class="hljs-attr">:</span> '' }}&gt;</span>Perempuan<span class="hljs-tag">&lt;/<span class="hljs-name">option</span>&gt;</span>
+                            <span class="hljs-tag">&lt;/<span class="hljs-name">select</span>&gt;</span>
+                            @error('jenis_kelamin')
+                                <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"invalid-feedback"</span>&gt;</span>{{ $message }}<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+                            @enderror
+                        <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+                        
+                        <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"mb-3"</span>&gt;</span>
+                            <span class="hljs-tag">&lt;<span class="hljs-name">label</span> <span class="hljs-attr">for</span>=<span class="hljs-string">"tanggal_lahir"</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"form-label"</span>&gt;</span>Tanggal Lahir<span class="hljs-tag">&lt;/<span class="hljs-name">label</span>&gt;</span>
+                            <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"date"</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"form-control @error('tanggal_lahir') is-invalid @enderror"</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"tanggal_lahir"</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"tanggal_lahir"</span> <span class="hljs-attr">value</span>=<span class="hljs-string">"{{ old('tanggal_lahir') }}"</span>&gt;</span>
+                            @error('tanggal_lahir')
+                                <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"invalid-feedback"</span>&gt;</span>{{ $message }}<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+                            @enderror
+                        <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+                        
+                        <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"mb-3"</span>&gt;</span>
+                            <span class="hljs-tag">&lt;<span class="hljs-name">label</span> <span class="hljs-attr">for</span>=<span class="hljs-string">"alamat"</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"form-label"</span>&gt;</span>Alamat<span class="hljs-tag">&lt;/<span class="hljs-name">label</span>&gt;</span>
+                            <span class="hljs-tag">&lt;<span class="hljs-name">textarea</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"form-control @error('alamat') is-invalid @enderror"</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"alamat"</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"alamat"</span> <span class="hljs-attr">rows</span>=<span class="hljs-string">"3"</span>&gt;</span>{{ old('alamat') }}<span class="hljs-tag">&lt;/<span class="hljs-name">textarea</span>&gt;</span>
+                            @error('alamat')
+                                <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"invalid-feedback"</span>&gt;</span>{{ $message }}<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+                            @enderror
+                        <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+                        
+                        <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"d-grid gap-2"</span>&gt;</span>
+                            <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"submit"</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"btn btn-primary"</span>&gt;</span>Simpan Data<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+                        <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+                    <span class="hljs-tag">&lt;/<span class="hljs-name">form</span>&gt;</span>
+                <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+            <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+@endsection
+</div></code></pre>
+<h2 id="6-membuat-layout-master">6. Membuat Layout Master</h2>
+<p>Untuk layout yang konsisten, buat file layout master:</p>
+<pre class="hljs"><code><div>mkdir -p resources/views/layouts
+touch resources/views/layouts/app.blade.php
+</div></code></pre>
+<p>Isi file <code>app.blade.php</code>:</p>
+<pre class="hljs"><code><div><span class="hljs-meta">&lt;!DOCTYPE <span class="hljs-meta-keyword">html</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">html</span> <span class="hljs-attr">lang</span>=<span class="hljs-string">"id"</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">charset</span>=<span class="hljs-string">"UTF-8"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"viewport"</span> <span class="hljs-attr">content</span>=<span class="hljs-string">"width=device-width, initial-scale=1.0"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">title</span>&gt;</span>Aplikasi Mahasiswa<span class="hljs-tag">&lt;/<span class="hljs-name">title</span>&gt;</span>
+    <span class="hljs-comment">&lt;!-- Bootstrap CSS --&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"</span> <span class="hljs-attr">rel</span>=<span class="hljs-string">"stylesheet"</span>&gt;</span>
+    <span class="hljs-comment">&lt;!-- Custom CSS --&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span><span class="css">
+        <span class="hljs-selector-tag">body</span> {
+            <span class="hljs-attribute">padding-top</span>: <span class="hljs-number">20px</span>;
+            <span class="hljs-attribute">padding-bottom</span>: <span class="hljs-number">20px</span>;
+        }
+    </span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">nav</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"navbar navbar-expand-lg navbar-dark bg-primary mb-4"</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"container"</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"navbar-brand"</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"{{ url('/') }}"</span>&gt;</span>Mahasiswa App<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"navbar-toggler"</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"button"</span> <span class="hljs-attr">data-bs-toggle</span>=<span class="hljs-string">"collapse"</span> <span class="hljs-attr">data-bs-target</span>=<span class="hljs-string">"#navbarNav"</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"navbar-toggler-icon"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
+            <span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"collapse navbar-collapse"</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"navbarNav"</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-name">ul</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"navbar-nav"</span>&gt;</span>
+                    <span class="hljs-tag">&lt;<span class="hljs-name">li</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"nav-item"</span>&gt;</span>
+                        <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"nav-link {{ request()-&gt;is('/') ? 'active' : '' }}"</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"{{ url('/') }}"</span>&gt;</span>Home<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
+                    <span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>
+                    <span class="hljs-tag">&lt;<span class="hljs-name">li</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"nav-item"</span>&gt;</span>
+                        <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"nav-link {{ request()-&gt;is('mahasiswa*') ? 'active' : '' }}"</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"{{ route('mahasiswa.index') }}"</span>&gt;</span>Mahasiswa<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
+                    <span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>
+                <span class="hljs-tag">&lt;/<span class="hljs-name">ul</span>&gt;</span>
+            <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">nav</span>&gt;</span>
+
+    <span class="hljs-tag">&lt;<span class="hljs-name">main</span>&gt;</span>
+        @yield('content')
+    <span class="hljs-tag">&lt;/<span class="hljs-name">main</span>&gt;</span>
+
+    <span class="hljs-tag">&lt;<span class="hljs-name">footer</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"container mt-5"</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">hr</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">p</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"text-center text-muted"</span>&gt;</span><span class="hljs-symbol">&amp;copy;</span> {{ date('Y') }} Aplikasi Mahasiswa<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">footer</span>&gt;</span>
+
+    <span class="hljs-comment">&lt;!-- Bootstrap Bundle with Popper --&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span>
+</div></code></pre>
+<h2 id="7-alur-kerja-aplikasi-crud">7. Alur Kerja Aplikasi CRUD</h2>
+<pre><code class="language-mermaid"><div class="mermaid">flowchart TD
+    A[User mengakses /mahasiswa] --> B[Controller: index]
+    B --> C[View: mahasiswa.index]
+    C --> D{User memilih aksi}
+    D -->|Tambah| E[ /mahasiswa/create]
+    E --> F[Controller: create]
+    F --> G[View: mahasiswa.create]
+    G --> H[User mengisi form]
+    H --> I[POST /mahasiswa]
+    I --> J[Controller: store]
+    J --> K{Validasi}
+    K -->|Valid| L[Simpan data ke database]
+    L --> M[Redirect ke index dengan pesan sukses]
+    K -->|Invalid| N[Kembali ke form dengan error]
+    N --> H
+</div></code></pre>
+<h2 id="8-testing-aplikasi">8. Testing Aplikasi</h2>
+<h3 id="81-seed-data-untuk-testing">8.1 Seed Data untuk Testing</h3>
+<p>Buat seeder untuk data mahasiswa:</p>
+<pre class="hljs"><code><div>php artisan make:seeder MahasiswaSeeder
+</div></code></pre>
+<p>Edit file seeder:</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// database/seeders/MahasiswaSeeder.php</span>
+<span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">run</span><span class="hljs-params">()</span>
+</span>{
+    $mahasiswas = [
+        [
+            <span class="hljs-string">'nim'</span> =&gt; <span class="hljs-string">'20200001'</span>,
+            <span class="hljs-string">'nama'</span> =&gt; <span class="hljs-string">'Budi Santoso'</span>,
+            <span class="hljs-string">'email'</span> =&gt; <span class="hljs-string">'budi@example.com'</span>,
+            <span class="hljs-string">'jurusan'</span> =&gt; <span class="hljs-string">'Teknik Informatika'</span>,
+            <span class="hljs-string">'alamat'</span> =&gt; <span class="hljs-string">'Jl. Raya No. 123, Jakarta'</span>,
+            <span class="hljs-string">'tanggal_lahir'</span> =&gt; <span class="hljs-string">'2002-05-15'</span>,
+            <span class="hljs-string">'jenis_kelamin'</span> =&gt; <span class="hljs-string">'L'</span>,
+        ],
+        [
+            <span class="hljs-string">'nim'</span> =&gt; <span class="hljs-string">'20200002'</span>,
+            <span class="hljs-string">'nama'</span> =&gt; <span class="hljs-string">'Siti Aminah'</span>,
+            <span class="hljs-string">'email'</span> =&gt; <span class="hljs-string">'siti@example.com'</span>,
+            <span class="hljs-string">'jurusan'</span> =&gt; <span class="hljs-string">'Sistem Informasi'</span>,
+            <span class="hljs-string">'alamat'</span> =&gt; <span class="hljs-string">'Jl. Mawar No. 45, Bandung'</span>,
+            <span class="hljs-string">'tanggal_lahir'</span> =&gt; <span class="hljs-string">'2001-08-21'</span>,
+            <span class="hljs-string">'jenis_kelamin'</span> =&gt; <span class="hljs-string">'P'</span>,
+        ],
+        <span class="hljs-comment">// Tambahkan data dummy lainnya</span>
+    ];
+    
+    <span class="hljs-keyword">foreach</span> ($mahasiswas <span class="hljs-keyword">as</span> $mahasiswa) {
+        \App\Models\Mahasiswa::create($mahasiswa);
+    }
+}
+</div></code></pre>
+<p>Update database seeder:</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// database/seeders/DatabaseSeeder.php</span>
+<span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">run</span><span class="hljs-params">()</span>
+</span>{
+    <span class="hljs-keyword">$this</span>-&gt;call(MahasiswaSeeder::class);
+}
+</div></code></pre>
+<p>Jalankan seeder:</p>
+<pre class="hljs"><code><div>php artisan db:seed
+</div></code></pre>
+<h3 id="82-uji-aplikasi">8.2 Uji Aplikasi</h3>
+<ol>
+<li>Buka URL <code>http://mahasiswa-app.test/mahasiswa</code> di browser</li>
+<li>Periksa tampilan daftar mahasiswa</li>
+<li>Klik tombol &quot;Tambah Mahasiswa&quot; dan isi form</li>
+<li>Submit form dan pastikan redirect kembali ke halaman daftar dengan pesan sukses</li>
+<li>Verifikasi data baru muncul di daftar</li>
+</ol>
+<h2 id="9-tips-dan-pengembangan-lebih-lanjut">9. Tips dan Pengembangan Lebih Lanjut</h2>
+<ol>
+<li><strong>Validasi Form</strong>: Tambahkan JavaScript untuk validasi client-side sebelum form dikirim</li>
+<li><strong>Pemilihan Jurusan</strong>: Buat tabel terpisah untuk jurusan dan gunakan dropdown untuk seleksi</li>
+<li><strong>Upload Foto</strong>: Tambahkan fitur untuk upload foto mahasiswa</li>
+<li><strong>Filter dan Sorting</strong>: Implementasikan filter berdasarkan jurusan dan sorting</li>
+<li><strong>Export Data</strong>: Tambahkan fitur export data ke Excel atau PDF</li>
+<li><strong>Import Data</strong>: Implementasikan fitur import data dari file Excel</li>
+</ol>
+<p>Dengan mengikuti langkah-langkah di atas, Anda telah berhasil membuat halaman daftar mahasiswa dan form tambah data yang fungsional dalam aplikasi Laravel. Praktek ini memberikan dasar yang kuat untuk pengembangan fitur CRUD lainnya.</p>
+
+</body>
+</html>

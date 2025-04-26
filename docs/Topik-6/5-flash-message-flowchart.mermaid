@@ -1,0 +1,34 @@
+flowchart TD
+    A[User melakukan aksi] -->|Submit form| B[Controller menerima request]
+    B --> C{Proses berhasil?}
+    
+    C -->|Ya| D[Simpan flash message 'success' ke session]
+    C -->|Tidak| E[Simpan flash message 'error' ke session]
+    
+    D --> F[Redirect ke halaman yang dituju]
+    E --> G[Redirect kembali ke form dengan input sebelumnya]
+    
+    F --> H[View memuat halaman baru]
+    G --> H
+    
+    H --> I{Cek session untuk flash messages}
+    
+    I -->|Ada 'success'| J[Tampilkan alert success]
+    I -->|Ada 'error'| K[Tampilkan alert error]
+    I -->|Ada 'warning'| L[Tampilkan alert warning]
+    I -->|Ada 'info'| M[Tampilkan alert info]
+    I -->|Tidak ada| N[Tidak menampilkan alert]
+    
+    J & K & L & M --> O[Auto-dismiss alert setelah beberapa detik]
+    
+    O --> P[Flash message dihapus dari session]
+    N --> P
+    
+    P --> Q[Halaman siap untuk interaksi berikutnya]
+    
+    subgraph "Contoh Tipe Flash Messages"
+        R[Success: Operasi berhasil]
+        S[Error: Terjadi kesalahan]
+        T[Warning: Perhatian diperlukan]
+        U[Info: Informasi penting]
+    end

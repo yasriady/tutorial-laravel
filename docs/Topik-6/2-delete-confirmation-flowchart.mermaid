@@ -1,0 +1,34 @@
+flowchart TD
+    A[Pengguna] -->|Klik tombol Hapus| B{Pilih Metode Konfirmasi}
+    
+    B -->|JavaScript Native| C[Tampilkan dialog confirm]
+    B -->|Bootstrap Modal| D[Tampilkan modal Bootstrap]
+    B -->|SweetAlert2| E[Tampilkan dialog SweetAlert]
+    
+    C -->|User Pilih| C1{Keputusan}
+    C1 -->|OK| F[Kirim DELETE request ke server]
+    C1 -->|Cancel| G[Batalkan aksi]
+    
+    D -->|User Pilih| D1{Keputusan}
+    D1 -->|Hapus| F
+    D1 -->|Batal| G
+    
+    E -->|User Pilih| E1{Keputusan}
+    E1 -->|Ya, Hapus!| F
+    E1 -->|Batal| G
+    
+    F -->|Proses di server| H[Controller: findOrFail dan delete]
+    H -->|Sukses| I[Redirect dengan pesan sukses]
+    I --> J[Tampilkan halaman index dengan data terbaru]
+    
+    %% Subflowchart untuk metode lanjutan
+    subgraph Konfirmasi_Tingkat_Lanjut
+        K[Tampilkan input validasi]
+        L{Input valid?}
+        K --> L
+        L -->|Ya| F
+        L -->|Tidak| M[Tampilkan pesan error]
+        M --> K
+    end
+    
+    B -->|Konfirmasi Lanjutan| K

@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>4-implementasi-pagination.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="tutorial-implementasi-pagination-di-laravel">Tutorial: Implementasi Pagination di Laravel</h1>
+<p>Pagination memungkinkan Anda menampilkan data dalam jumlah besar secara terpisah dalam beberapa halaman. Laravel menyediakan fitur pagination yang mudah digunakan dan sangat fleksibel.</p>
+<h2 id="langkah-1-implementasi-pagination-di-controller">Langkah 1: Implementasi Pagination di Controller</h2>
+<p>Pagination dapat diterapkan dengan sangat mudah di Laravel dengan memodifikasi query pada controller:</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// app/Http/Controllers/MahasiswaController.php</span>
+<span class="hljs-keyword">namespace</span> <span class="hljs-title">App</span>\<span class="hljs-title">Http</span>\<span class="hljs-title">Controllers</span>;
+
+<span class="hljs-keyword">use</span> <span class="hljs-title">App</span>\<span class="hljs-title">Models</span>\<span class="hljs-title">Mahasiswa</span>;
+<span class="hljs-keyword">use</span> <span class="hljs-title">Illuminate</span>\<span class="hljs-title">Http</span>\<span class="hljs-title">Request</span>;
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MahasiswaController</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Controller</span>
+</span>{
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">index</span><span class="hljs-params">()</span>
+    </span>{
+        <span class="hljs-comment">// Mengambil data dengan pagination (10 item per halaman)</span>
+        $mahasiswa = Mahasiswa::orderBy(<span class="hljs-string">'nama'</span>, <span class="hljs-string">'asc'</span>)-&gt;paginate(<span class="hljs-number">10</span>);
+        
+        <span class="hljs-comment">// Kirim data ke view</span>
+        <span class="hljs-keyword">return</span> view(<span class="hljs-string">'mahasiswa.index'</span>, compact(<span class="hljs-string">'mahasiswa'</span>));
+    }
+}
+</div></code></pre>
+<h2 id="langkah-2-menampilkan-links-pagination-di-view">Langkah 2: Menampilkan Links Pagination di View</h2>
+<p>Setelah mengatur pagination di controller, sekarang kita perlu menampilkan link navigasi halaman di view:</p>
+<pre class="hljs"><code><div><span class="hljs-comment">&lt;!-- resources/views/mahasiswa/index.blade.php --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"container"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">h2</span>&gt;</span>Daftar Mahasiswa<span class="hljs-tag">&lt;/<span class="hljs-name">h2</span>&gt;</span>
+    
+    <span class="hljs-tag">&lt;<span class="hljs-name">table</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"table"</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">thead</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">tr</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-name">th</span>&gt;</span>NIM<span class="hljs-tag">&lt;/<span class="hljs-name">th</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-name">th</span>&gt;</span>Nama<span class="hljs-tag">&lt;/<span class="hljs-name">th</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-name">th</span>&gt;</span>Email<span class="hljs-tag">&lt;/<span class="hljs-name">th</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-name">th</span>&gt;</span>Aksi<span class="hljs-tag">&lt;/<span class="hljs-name">th</span>&gt;</span>
+            <span class="hljs-tag">&lt;/<span class="hljs-name">tr</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">thead</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">tbody</span>&gt;</span>
+            @foreach($mahasiswa as $mhs)
+            <span class="hljs-tag">&lt;<span class="hljs-name">tr</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-name">td</span>&gt;</span>{{ $mhs-&gt;nim }}<span class="hljs-tag">&lt;/<span class="hljs-name">td</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-name">td</span>&gt;</span>{{ $mhs-&gt;nama }}<span class="hljs-tag">&lt;/<span class="hljs-name">td</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-name">td</span>&gt;</span>{{ $mhs-&gt;email }}<span class="hljs-tag">&lt;/<span class="hljs-name">td</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-name">td</span>&gt;</span>
+                    <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"{{ route('mahasiswa.show', $mhs-&gt;id) }}"</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"btn btn-sm btn-info"</span>&gt;</span>Detail<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
+                <span class="hljs-tag">&lt;/<span class="hljs-name">td</span>&gt;</span>
+            <span class="hljs-tag">&lt;/<span class="hljs-name">tr</span>&gt;</span>
+            @endforeach
+        <span class="hljs-tag">&lt;/<span class="hljs-name">tbody</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">table</span>&gt;</span>
+    
+    <span class="hljs-comment">&lt;!-- Pagination Links --&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"d-flex justify-content-center"</span>&gt;</span>
+        {{ $mahasiswa-&gt;links() }}
+    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+</div></code></pre>
+<h2 id="langkah-3-konfigurasi-tampilan-pagination">Langkah 3: Konfigurasi Tampilan Pagination</h2>
+<h3 id="menggunakan-bootstrap-style-laravel-8">Menggunakan Bootstrap Style (Laravel 8+)</h3>
+<p>Laravel 8 dan yang lebih baru secara default menggunakan Tailwind CSS untuk tampilan pagination. Jika ingin menggunakan Bootstrap, tambahkan kode berikut di <code>AppServiceProvider.php</code>:</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// app/Providers/AppServiceProvider.php</span>
+<span class="hljs-keyword">namespace</span> <span class="hljs-title">App</span>\<span class="hljs-title">Providers</span>;
+
+<span class="hljs-keyword">use</span> <span class="hljs-title">Illuminate</span>\<span class="hljs-title">Support</span>\<span class="hljs-title">ServiceProvider</span>;
+<span class="hljs-keyword">use</span> <span class="hljs-title">Illuminate</span>\<span class="hljs-title">Pagination</span>\<span class="hljs-title">Paginator</span>;
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">AppServiceProvider</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">ServiceProvider</span>
+</span>{
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">boot</span><span class="hljs-params">()</span>
+    </span>{
+        <span class="hljs-comment">// Gunakan Bootstrap untuk pagination</span>
+        Paginator::useBootstrap();
+    }
+}
+</div></code></pre>
+<h3 id="menggunakan-tailwind-css-default-untuk-laravel-8">Menggunakan Tailwind CSS (Default untuk Laravel 8+)</h3>
+<p>Jika ingin tetap menggunakan Tailwind CSS (default):</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// app/Providers/AppServiceProvider.php</span>
+<span class="hljs-comment">// Tidak perlu konfigurasi tambahan untuk Tailwind CSS</span>
+</div></code></pre>
+<h2 id="langkah-4-customize-jumlah-item-per-halaman">Langkah 4: Customize Jumlah Item per Halaman</h2>
+<p>Anda dapat memberikan kontrol kepada pengguna untuk menentukan berapa banyak item yang ingin ditampilkan per halaman:</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// app/Http/Controllers/MahasiswaController.php</span>
+<span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">index</span><span class="hljs-params">(Request $request)</span>
+</span>{
+    $perPage = $request-&gt;input(<span class="hljs-string">'per_page'</span>, <span class="hljs-number">10</span>); <span class="hljs-comment">// Default 10 item per halaman</span>
+    
+    $mahasiswa = Mahasiswa::orderBy(<span class="hljs-string">'nama'</span>, <span class="hljs-string">'asc'</span>)
+                          -&gt;paginate($perPage);
+    
+    <span class="hljs-keyword">return</span> view(<span class="hljs-string">'mahasiswa.index'</span>, compact(<span class="hljs-string">'mahasiswa'</span>, <span class="hljs-string">'perPage'</span>));
+}
+</div></code></pre>
+<p>Lalu tambahkan dropdown di view:</p>
+<pre class="hljs"><code><div><span class="hljs-comment">&lt;!-- resources/views/mahasiswa/index.blade.php --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"mb-3"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">form</span> <span class="hljs-attr">action</span>=<span class="hljs-string">"{{ route('mahasiswa.index') }}"</span> <span class="hljs-attr">method</span>=<span class="hljs-string">"GET"</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"form-inline"</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">label</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"mr-2"</span>&gt;</span>Tampilkan:<span class="hljs-tag">&lt;/<span class="hljs-name">label</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">select</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"per_page"</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"form-control form-control-sm"</span> <span class="hljs-attr">onchange</span>=<span class="hljs-string">"this.form.submit()"</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">"5"</span> {{ $<span class="hljs-attr">perPage</span> == <span class="hljs-string">5</span> ? '<span class="hljs-attr">selected</span>' <span class="hljs-attr">:</span> '' }}&gt;</span>5<span class="hljs-tag">&lt;/<span class="hljs-name">option</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">"10"</span> {{ $<span class="hljs-attr">perPage</span> == <span class="hljs-string">10</span> ? '<span class="hljs-attr">selected</span>' <span class="hljs-attr">:</span> '' }}&gt;</span>10<span class="hljs-tag">&lt;/<span class="hljs-name">option</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">"25"</span> {{ $<span class="hljs-attr">perPage</span> == <span class="hljs-string">25</span> ? '<span class="hljs-attr">selected</span>' <span class="hljs-attr">:</span> '' }}&gt;</span>25<span class="hljs-tag">&lt;/<span class="hljs-name">option</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">"50"</span> {{ $<span class="hljs-attr">perPage</span> == <span class="hljs-string">50</span> ? '<span class="hljs-attr">selected</span>' <span class="hljs-attr">:</span> '' }}&gt;</span>50<span class="hljs-tag">&lt;/<span class="hljs-name">option</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">select</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">form</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+</div></code></pre>
+<h2 id="langkah-5-mempertahankan-query-string-pada-links-pagination">Langkah 5: Mempertahankan Query String pada Links Pagination</h2>
+<p>Ketika menggunakan pencarian atau filter lainnya bersama dengan pagination, penting untuk mempertahankan parameter query string:</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// app/Http/Controllers/MahasiswaController.php</span>
+<span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">index</span><span class="hljs-params">(Request $request)</span>
+</span>{
+    $search = $request-&gt;input(<span class="hljs-string">'search'</span>);
+    $perPage = $request-&gt;input(<span class="hljs-string">'per_page'</span>, <span class="hljs-number">10</span>);
+    
+    $query = Mahasiswa::query();
+    
+    <span class="hljs-comment">// Filter berdasarkan pencarian jika ada</span>
+    <span class="hljs-keyword">if</span> ($search) {
+        $query-&gt;where(<span class="hljs-string">'nama'</span>, <span class="hljs-string">'like'</span>, <span class="hljs-string">"%{$search}%"</span>)
+              -&gt;orWhere(<span class="hljs-string">'nim'</span>, <span class="hljs-string">'like'</span>, <span class="hljs-string">"%{$search}%"</span>);
+    }
+    
+    $mahasiswa = $query-&gt;orderBy(<span class="hljs-string">'nama'</span>, <span class="hljs-string">'asc'</span>)
+                       -&gt;paginate($perPage)
+                       -&gt;appends($request-&gt;except(<span class="hljs-string">'page'</span>)); <span class="hljs-comment">// Ini akan mempertahankan semua parameter query</span>
+    
+    <span class="hljs-keyword">return</span> view(<span class="hljs-string">'mahasiswa.index'</span>, compact(<span class="hljs-string">'mahasiswa'</span>, <span class="hljs-string">'search'</span>, <span class="hljs-string">'perPage'</span>));
+}
+</div></code></pre>
+<h2 id="langkah-6-menampilkan-informasi-pagination">Langkah 6: Menampilkan Informasi Pagination</h2>
+<p>Tambahkan informasi pagination untuk memberikan konteks kepada pengguna:</p>
+<pre class="hljs"><code><div><span class="hljs-comment">&lt;!-- resources/views/mahasiswa/index.blade.php --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"pagination-info mb-3"</span>&gt;</span>
+    Menampilkan {{ $mahasiswa-&gt;firstItem() ?? 0 }} hingga {{ $mahasiswa-&gt;lastItem() ?? 0 }} dari {{ $mahasiswa-&gt;total() }} data
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+</div></code></pre>
+<h2 id="langkah-7-menggunakan-simple-pagination">Langkah 7: Menggunakan Simple Pagination</h2>
+<p>Jika Anda hanya memerlukan tombol &quot;Previous&quot; dan &quot;Next&quot; tanpa nomor halaman, gunakan <code>simplePaginate()</code>:</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// app/Http/Controllers/MahasiswaController.php</span>
+<span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">index</span><span class="hljs-params">()</span>
+</span>{
+    $mahasiswa = Mahasiswa::orderBy(<span class="hljs-string">'nama'</span>, <span class="hljs-string">'asc'</span>)-&gt;simplePaginate(<span class="hljs-number">10</span>);
+    
+    <span class="hljs-keyword">return</span> view(<span class="hljs-string">'mahasiswa.index'</span>, compact(<span class="hljs-string">'mahasiswa'</span>));
+}
+</div></code></pre>
+<h2 id="alur-kerja-pagination-di-laravel">Alur Kerja Pagination di Laravel</h2>
+<pre><code class="language-mermaid"><div class="mermaid">sequenceDiagram
+    participant User
+    participant Browser
+    participant Controller
+    participant Model
+    participant Database
+    
+    User->>Browser: Akses halaman mahasiswa
+    Browser->>Controller: GET /mahasiswa?page=2
+    Controller->>Model: Mahasiswa::paginate(10)
+    Model->>Database: SELECT * FROM mahasiswa LIMIT 10 OFFSET 10
+    Database-->>Model: Data mahasiswa (10 records)
+    Model-->>Controller: LengthAwarePaginator Object
+    Controller-->>Browser: Render view dengan pagination links
+    Browser-->>User: Tampilkan daftar & link pagination
+    
+    User->>Browser: Klik halaman selanjutnya
+    Browser->>Controller: GET /mahasiswa?page=3
+    Controller->>Model: Mahasiswa::paginate(10)
+    Model->>Database: SELECT * FROM mahasiswa LIMIT 10 OFFSET 20
+    Database-->>Model: Data mahasiswa (10 records)
+    Model-->>Controller: LengthAwarePaginator Object
+    Controller-->>Browser: Render view dengan pagination links
+    Browser-->>User: Tampilkan halaman baru
+</div></code></pre>
+<h2 id="tips-dan-trik">Tips dan Trik</h2>
+<ol>
+<li>
+<p><strong>Efisiensi Query</strong>: Pagination secara otomatis mengoptimalkan query dengan menambahkan <code>LIMIT</code> dan <code>OFFSET</code>, namun jumlah total record tetap dihitung. Jika Anda hanya perlu tombol next/previous, gunakan <code>simplePaginate()</code> untuk menghindari query COUNT.</p>
+</li>
+<li>
+<p><strong>Custom View Pagination</strong>: Jika ingin membuat tampilan pagination kustom:</p>
+<pre class="hljs"><code><div>php artisan vendor:publish --tag=laravel-pagination
+</div></code></pre>
+<p>Ini akan membuat file view pagination di <code>resources/views/vendor/pagination/</code>.</p>
+</li>
+<li>
+<p><strong>Lazy Loading</strong>: Untuk performa lebih baik pada dataset besar:</p>
+<pre class="hljs"><code><div>$mahasiswa = Mahasiswa::orderBy(<span class="hljs-string">'nama'</span>)-&gt;cursorPaginate(<span class="hljs-number">10</span>);
+</div></code></pre>
+<p>Ini menggunakan cursor-based pagination yang lebih efisien dibandingkan offset-based.</p>
+</li>
+<li>
+<p><strong>Integrasi dengan JavaScript</strong>:</p>
+<ul>
+<li>Gunakan AJAX untuk loading data tanpa refresh halaman.</li>
+<li>Kombinasikan dengan library seperti DataTables untuk fitur lebih lengkap.</li>
+</ul>
+</li>
+</ol>
+<p>Dengan mengikuti langkah-langkah di atas, Anda akan memiliki sistem pagination yang berfungsi dengan baik dan mudah disesuaikan untuk kebutuhan aplikasi Anda.</p>
+
+</body>
+</html>

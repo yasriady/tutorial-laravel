@@ -1,0 +1,32 @@
+flowchart TD
+    A[Start: HTTP Request] --> B[Router mencocokkan URL dengan Route]
+    B --> C{Route memiliki Middleware?}
+    
+    C -->|Ya| D[Eksekusi Middleware Pertama]
+    C -->|Tidak| H
+    
+    D --> E{Middleware Approve?}
+    E -->|Ya| F{Masih ada Middleware?}
+    E -->|Tidak| G[Return Response: Redirect/Error]
+    
+    F -->|Ya| I[Eksekusi Middleware Berikutnya]
+    F -->|Tidak| H[Eksekusi Controller/Action]
+    
+    I --> J{Middleware Approve?}
+    J -->|Ya| F
+    J -->|Tidak| G
+    
+    H --> K[Generate Response]
+    K --> L{Ada Middleware After?}
+    
+    L -->|Ya| M[Proses Response oleh Middleware]
+    L -->|Tidak| N[Return Final Response]
+    
+    M --> O{Masih ada Middleware After?}
+    O -->|Ya| P[Proses Response oleh Middleware Berikutnya]
+    O -->|Tidak| N
+    
+    P --> O
+    
+    G --> Q[End: Request Cycle]
+    N --> Q

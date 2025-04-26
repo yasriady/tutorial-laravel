@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>5-pencarian-data-mahasiswa.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="tutorial-implementasi-pencarian-data-mahasiswa-di-laravel">Tutorial: Implementasi Pencarian Data Mahasiswa di Laravel</h1>
+<p>Berikut adalah tutorial langkah-demi-langkah untuk mengimplementasikan fitur pencarian data mahasiswa dalam aplikasi Laravel Anda.</p>
+<h2 id="1-persiapkan-controller">1. Persiapkan Controller</h2>
+<p>Pertama, kita perlu memperbarui controller untuk menangani pencarian:</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// app/Http/Controllers/MahasiswaController.php</span>
+
+<span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">index</span><span class="hljs-params">(Request $request)</span>
+</span>{
+    $keyword = $request-&gt;search ?? <span class="hljs-string">""</span>;
+    
+    $mahasiswas = Mahasiswa::where(<span class="hljs-string">'nama'</span>, <span class="hljs-string">'like'</span>, <span class="hljs-string">"%{$keyword}%"</span>)
+                  -&gt;orWhere(<span class="hljs-string">'nim'</span>, <span class="hljs-string">'like'</span>, <span class="hljs-string">"%{$keyword}%"</span>)
+                  -&gt;orWhere(<span class="hljs-string">'email'</span>, <span class="hljs-string">'like'</span>, <span class="hljs-string">"%{$keyword}%"</span>)
+                  -&gt;paginate(<span class="hljs-number">10</span>);
+    
+    <span class="hljs-keyword">return</span> view(<span class="hljs-string">'mahasiswa.index'</span>, compact(<span class="hljs-string">'mahasiswas'</span>, <span class="hljs-string">'keyword'</span>));
+}
+</div></code></pre>
+<h2 id="2-buat-form-pencarian-di-view">2. Buat Form Pencarian di View</h2>
+<p>Tambahkan form pencarian ke view daftar mahasiswa:</p>
+<pre class="hljs"><code><div><span class="hljs-comment">&lt;!-- resources/views/mahasiswa/index.blade.php --&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"card mb-4"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"card-header"</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">h4</span>&gt;</span>Cari Mahasiswa<span class="hljs-tag">&lt;/<span class="hljs-name">h4</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"card-body"</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">form</span> <span class="hljs-attr">action</span>=<span class="hljs-string">"{{ route('mahasiswa.index') }}"</span> <span class="hljs-attr">method</span>=<span class="hljs-string">"GET"</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"input-group"</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"text"</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"search"</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"form-control"</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">"Cari berdasarkan nama, NIM atau email..."</span> <span class="hljs-attr">value</span>=<span class="hljs-string">"{{ $keyword }}"</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"btn btn-primary"</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"submit"</span>&gt;</span>Cari<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+                @if($keyword)
+                    <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"{{ route('mahasiswa.index') }}"</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"btn btn-secondary"</span>&gt;</span>Reset<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
+                @endif
+            <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">form</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+</div></code></pre>
+<h2 id="3-modifikasi-tampilan-hasil-pencarian">3. Modifikasi Tampilan Hasil Pencarian</h2>
+<p>Update tampilan untuk menampilkan hasil pencarian dengan informasi yang jelas:</p>
+<pre class="hljs"><code><div><span class="hljs-comment">&lt;!-- Setelah komponen pencarian --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"card"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"card-header d-flex justify-content-between align-items-center"</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">h4</span>&gt;</span>Daftar Mahasiswa<span class="hljs-tag">&lt;/<span class="hljs-name">h4</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"{{ route('mahasiswa.create') }}"</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"btn btn-success"</span>&gt;</span>Tambah Mahasiswa<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"card-body"</span>&gt;</span>
+        @if($keyword)
+            <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"alert alert-info"</span>&gt;</span>
+                Menampilkan hasil pencarian untuk: <span class="hljs-tag">&lt;<span class="hljs-name">strong</span>&gt;</span>{{ $keyword }}<span class="hljs-tag">&lt;/<span class="hljs-name">strong</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"badge bg-primary"</span>&gt;</span>{{ $mahasiswas-&gt;total() }} hasil<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
+            <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+        @endif
+        
+        @if($mahasiswas-&gt;count() &gt; 0)
+            <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"table-responsive"</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-name">table</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"table table-striped"</span>&gt;</span>
+                    <span class="hljs-comment">&lt;!-- Header tabel --&gt;</span>
+                    <span class="hljs-tag">&lt;<span class="hljs-name">thead</span>&gt;</span>
+                        <span class="hljs-tag">&lt;<span class="hljs-name">tr</span>&gt;</span>
+                            <span class="hljs-tag">&lt;<span class="hljs-name">th</span>&gt;</span>No<span class="hljs-tag">&lt;/<span class="hljs-name">th</span>&gt;</span>
+                            <span class="hljs-tag">&lt;<span class="hljs-name">th</span>&gt;</span>NIM<span class="hljs-tag">&lt;/<span class="hljs-name">th</span>&gt;</span>
+                            <span class="hljs-tag">&lt;<span class="hljs-name">th</span>&gt;</span>Nama<span class="hljs-tag">&lt;/<span class="hljs-name">th</span>&gt;</span>
+                            <span class="hljs-tag">&lt;<span class="hljs-name">th</span>&gt;</span>Email<span class="hljs-tag">&lt;/<span class="hljs-name">th</span>&gt;</span>
+                            <span class="hljs-tag">&lt;<span class="hljs-name">th</span>&gt;</span>Aksi<span class="hljs-tag">&lt;/<span class="hljs-name">th</span>&gt;</span>
+                        <span class="hljs-tag">&lt;/<span class="hljs-name">tr</span>&gt;</span>
+                    <span class="hljs-tag">&lt;/<span class="hljs-name">thead</span>&gt;</span>
+                    <span class="hljs-comment">&lt;!-- Body tabel --&gt;</span>
+                    <span class="hljs-tag">&lt;<span class="hljs-name">tbody</span>&gt;</span>
+                        @foreach($mahasiswas as $index =&gt; $mahasiswa)
+                            <span class="hljs-tag">&lt;<span class="hljs-name">tr</span>&gt;</span>
+                                <span class="hljs-tag">&lt;<span class="hljs-name">td</span>&gt;</span>{{ $mahasiswas-&gt;firstItem() + $index }}<span class="hljs-tag">&lt;/<span class="hljs-name">td</span>&gt;</span>
+                                <span class="hljs-tag">&lt;<span class="hljs-name">td</span>&gt;</span>{{ $mahasiswa-&gt;nim }}<span class="hljs-tag">&lt;/<span class="hljs-name">td</span>&gt;</span>
+                                <span class="hljs-tag">&lt;<span class="hljs-name">td</span>&gt;</span>{{ $mahasiswa-&gt;nama }}<span class="hljs-tag">&lt;/<span class="hljs-name">td</span>&gt;</span>
+                                <span class="hljs-tag">&lt;<span class="hljs-name">td</span>&gt;</span>{{ $mahasiswa-&gt;email }}<span class="hljs-tag">&lt;/<span class="hljs-name">td</span>&gt;</span>
+                                <span class="hljs-tag">&lt;<span class="hljs-name">td</span>&gt;</span>
+                                    <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"{{ route('mahasiswa.show', $mahasiswa-&gt;id) }}"</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"btn btn-sm btn-info"</span>&gt;</span>Detail<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
+                                    <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"{{ route('mahasiswa.edit', $mahasiswa-&gt;id) }}"</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"btn btn-sm btn-warning"</span>&gt;</span>Edit<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
+                                    <span class="hljs-comment">&lt;!-- Tombol hapus --&gt;</span>
+                                <span class="hljs-tag">&lt;/<span class="hljs-name">td</span>&gt;</span>
+                            <span class="hljs-tag">&lt;/<span class="hljs-name">tr</span>&gt;</span>
+                        @endforeach
+                    <span class="hljs-tag">&lt;/<span class="hljs-name">tbody</span>&gt;</span>
+                <span class="hljs-tag">&lt;/<span class="hljs-name">table</span>&gt;</span>
+            <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+            
+            <span class="hljs-comment">&lt;!-- Pagination --&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"mt-4"</span>&gt;</span>
+                {{ $mahasiswas-&gt;appends(['search' =&gt; $keyword])-&gt;links() }}
+            <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+        @else
+            <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"alert alert-warning"</span>&gt;</span>
+                Tidak ada data mahasiswa yang ditemukan.
+            <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+        @endif
+    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+</div></code></pre>
+<h2 id="4-alur-kerja-fitur-pencarian">4. Alur Kerja Fitur Pencarian</h2>
+<pre><code class="language-mermaid"><div class="mermaid">flowchart TD
+    A[User mengakses halaman mahasiswa] --> B[Tampilkan daftar mahasiswa]
+    B --> C[User memasukkan kata kunci pencarian]
+    C --> D[Submit form pencarian]
+    D --> E[Controller mencari data berdasarkan kata kunci]
+    E --> F{Data ditemukan?}
+    F -->|Ya| G[Tampilkan hasil pencarian dengan pagination]
+    F -->|Tidak| H[Tampilkan pesan data tidak ditemukan]
+    G --> I[User dapat reset pencarian]
+    H --> I
+    I --> B
+</div></code></pre>
+<h2 id="5-tips-pengembangan-lebih-lanjut">5. Tips Pengembangan Lebih Lanjut</h2>
+<ol>
+<li>
+<p><strong>Pencarian Lanjutan</strong>: Tambahkan filter tambahan seperti pencarian berdasarkan jurusan, tahun masuk, atau status mahasiswa.</p>
+</li>
+<li>
+<p><strong>Penyimpanan State Pencarian</strong>: Gunakan session untuk menyimpan state pencarian sehingga saat user berpindah halaman dan kembali, kata kunci pencarian masih ada.</p>
+</li>
+<li>
+<p><strong>Highlight Kata Kunci</strong>: Tambahkan highlight pada kata kunci yang ditemukan dalam hasil pencarian untuk UX yang lebih baik.</p>
+</li>
+<li>
+<p><strong>Live Search</strong>: Implementasikan pencarian secara real-time menggunakan AJAX tanpa perlu refresh halaman.</p>
+</li>
+<li>
+<p><strong>Sort dan Filter</strong>: Integrasikan fitur pengurutan dan filter tambahan untuk pengalaman pencarian yang lebih komprehensif.</p>
+</li>
+</ol>
+<h2 id="6-implementasi-live-search-dengan-ajax">6. Implementasi Live Search dengan AJAX</h2>
+<p>Berikut cara mengimplementasikan live search menggunakan AJAX untuk pengalaman pengguna yang lebih baik:</p>
+<h3 id="61-perbarui-form-pencarian">6.1 Perbarui Form Pencarian</h3>
+<pre class="hljs"><code><div><span class="hljs-comment">&lt;!-- resources/views/mahasiswa/index.blade.php --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"card mb-4"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"card-header"</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">h4</span>&gt;</span>Cari Mahasiswa (Live Search)<span class="hljs-tag">&lt;/<span class="hljs-name">h4</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"card-body"</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"input-group"</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"text"</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"search"</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"form-control"</span> 
+                   <span class="hljs-attr">placeholder</span>=<span class="hljs-string">"Cari berdasarkan nama, NIM atau email..."</span> 
+                   <span class="hljs-attr">value</span>=<span class="hljs-string">"{{ $keyword }}"</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"btn btn-secondary"</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"resetSearch"</span>&gt;</span>Reset<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"search-results"</span>&gt;</span>
+    <span class="hljs-comment">&lt;!-- Hasil pencarian akan dimuat di sini --&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+</div></code></pre>
+<h3 id="62-tambahkan-route-api-untuk-pencarian">6.2 Tambahkan Route API untuk Pencarian</h3>
+<pre class="hljs"><code><div><span class="hljs-comment">// routes/web.php</span>
+Route::get(<span class="hljs-string">'/mahasiswa/search'</span>, [MahasiswaController::class, <span class="hljs-string">'search'</span>])-&gt;name(<span class="hljs-string">'mahasiswa.search'</span>);
+</div></code></pre>
+<h3 id="63-tambahkan-method-search-di-controller">6.3 Tambahkan Method Search di Controller</h3>
+<pre class="hljs"><code><div><span class="hljs-comment">// app/Http/Controllers/MahasiswaController.php</span>
+<span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">search</span><span class="hljs-params">(Request $request)</span>
+</span>{
+    $keyword = $request-&gt;search ?? <span class="hljs-string">""</span>;
+    
+    $mahasiswas = Mahasiswa::where(<span class="hljs-string">'nama'</span>, <span class="hljs-string">'like'</span>, <span class="hljs-string">"%{$keyword}%"</span>)
+                  -&gt;orWhere(<span class="hljs-string">'nim'</span>, <span class="hljs-string">'like'</span>, <span class="hljs-string">"%{$keyword}%"</span>)
+                  -&gt;orWhere(<span class="hljs-string">'email'</span>, <span class="hljs-string">'like'</span>, <span class="hljs-string">"%{$keyword}%"</span>)
+                  -&gt;paginate(<span class="hljs-number">10</span>);
+    
+    <span class="hljs-keyword">return</span> response()-&gt;json([
+        <span class="hljs-string">'html'</span> =&gt; view(<span class="hljs-string">'mahasiswa.partials.table'</span>, compact(<span class="hljs-string">'mahasiswas'</span>, <span class="hljs-string">'keyword'</span>))-&gt;render(),
+        <span class="hljs-string">'count'</span> =&gt; $mahasiswas-&gt;total()
+    ]);
+}
+</div></code></pre>
+<h3 id="64-buat-partial-view-untuk-tabel">6.4 Buat Partial View untuk Tabel</h3>
+<pre class="hljs"><code><div><span class="hljs-comment">&lt;!-- resources/views/mahasiswa/partials/table.blade.php --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"card"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"card-header d-flex justify-content-between align-items-center"</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">h4</span>&gt;</span>Daftar Mahasiswa<span class="hljs-tag">&lt;/<span class="hljs-name">h4</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"{{ route('mahasiswa.create') }}"</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"btn btn-success"</span>&gt;</span>Tambah Mahasiswa<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"card-body"</span>&gt;</span>
+        @if($keyword)
+            <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"alert alert-info"</span>&gt;</span>
+                Menampilkan hasil pencarian untuk: <span class="hljs-tag">&lt;<span class="hljs-name">strong</span>&gt;</span>{{ $keyword }}<span class="hljs-tag">&lt;/<span class="hljs-name">strong</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"badge bg-primary"</span>&gt;</span>{{ $mahasiswas-&gt;total() }} hasil<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
+            <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+        @endif
+        
+        @if($mahasiswas-&gt;count() &gt; 0)
+            <span class="hljs-comment">&lt;!-- Kode tabel sama seperti sebelumnya --&gt;</span>
+        @else
+            <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"alert alert-warning"</span>&gt;</span>
+                Tidak ada data mahasiswa yang ditemukan.
+            <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+        @endif
+    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+</div></code></pre>
+<h3 id="65-tambahkan-script-javascript">6.5 Tambahkan Script JavaScript</h3>
+<pre class="hljs"><code><div><span class="hljs-comment">&lt;!-- Di bagian bawah file resources/views/mahasiswa/index.blade.php --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="javascript">
+    $(<span class="hljs-built_in">document</span>).ready(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+        <span class="hljs-keyword">let</span> typingTimer;
+        <span class="hljs-keyword">const</span> doneTypingInterval = <span class="hljs-number">500</span>; <span class="hljs-comment">// Waktu tunggu dalam milidetik</span>
+        
+        <span class="hljs-comment">// Fungsi pencarian</span>
+        <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">performSearch</span>(<span class="hljs-params"></span>) </span>{
+            <span class="hljs-keyword">let</span> keyword = $(<span class="hljs-string">'#search'</span>).val();
+            
+            $.ajax({
+                <span class="hljs-attr">url</span>: <span class="hljs-string">"{{ route('mahasiswa.search') }}"</span>,
+                <span class="hljs-attr">method</span>: <span class="hljs-string">'GET'</span>,
+                <span class="hljs-attr">data</span>: { <span class="hljs-attr">search</span>: keyword },
+                <span class="hljs-attr">beforeSend</span>: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+                    $(<span class="hljs-string">'#search-results'</span>).html(<span class="hljs-string">'&lt;div class="text-center"&gt;&lt;div class="spinner-border" role="status"&gt;&lt;span class="visually-hidden"&gt;Loading...&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;'</span>);
+                },
+                <span class="hljs-attr">success</span>: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">response</span>) </span>{
+                    $(<span class="hljs-string">'#search-results'</span>).html(response.html);
+                    
+                    <span class="hljs-comment">// Update URL dengan parameter pencarian</span>
+                    <span class="hljs-keyword">let</span> url = <span class="hljs-keyword">new</span> URL(<span class="hljs-built_in">window</span>.location);
+                    <span class="hljs-keyword">if</span> (keyword) {
+                        url.searchParams.set(<span class="hljs-string">'search'</span>, keyword);
+                    } <span class="hljs-keyword">else</span> {
+                        url.searchParams.delete(<span class="hljs-string">'search'</span>);
+                    }
+                    history.pushState({}, <span class="hljs-string">''</span>, url);
+                },
+                <span class="hljs-attr">error</span>: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+                    $(<span class="hljs-string">'#search-results'</span>).html(<span class="hljs-string">'&lt;div class="alert alert-danger"&gt;Terjadi kesalahan saat mencari data.&lt;/div&gt;'</span>);
+                }
+            });
+        }
+        
+        <span class="hljs-comment">// Event listener untuk input pencarian</span>
+        $(<span class="hljs-string">'#search'</span>).on(<span class="hljs-string">'keyup'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+            clearTimeout(typingTimer);
+            typingTimer = setTimeout(performSearch, doneTypingInterval);
+        });
+        
+        $(<span class="hljs-string">'#search'</span>).on(<span class="hljs-string">'keydown'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+            clearTimeout(typingTimer);
+        });
+        
+        <span class="hljs-comment">// Event listener untuk tombol reset</span>
+        $(<span class="hljs-string">'#resetSearch'</span>).on(<span class="hljs-string">'click'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+            $(<span class="hljs-string">'#search'</span>).val(<span class="hljs-string">''</span>);
+            performSearch();
+        });
+        
+        <span class="hljs-comment">// Load initial content</span>
+        performSearch();
+    });
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+</div></code></pre>
+<h2 id="7-penanganan-error-dan-validasi-input-pencarian">7. Penanganan Error dan Validasi Input Pencarian</h2>
+<p>Untuk membuat fitur pencarian yang handal, penting untuk menangani berbagai kasus penggunaan dan kemungkinan error:</p>
+<h3 id="71-validasi-input-pencarian">7.1 Validasi Input Pencarian</h3>
+<pre class="hljs"><code><div><span class="hljs-comment">// app/Http/Controllers/MahasiswaController.php</span>
+<span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">index</span><span class="hljs-params">(Request $request)</span>
+</span>{
+    <span class="hljs-comment">// Validasi input</span>
+    $validated = $request-&gt;validate([
+        <span class="hljs-string">'search'</span> =&gt; <span class="hljs-string">'nullable|string|max:100'</span>
+    ]);
+    
+    $keyword = $validated[<span class="hljs-string">'search'</span>] ?? <span class="hljs-string">""</span>;
+    
+    <span class="hljs-comment">// Lanjutkan dengan pencarian seperti sebelumnya</span>
+}
+</div></code></pre>
+<h3 id="72-diagram-alur-penanganan-error">7.2 Diagram Alur Penanganan Error</h3>
+<pre><code class="language-mermaid"><div class="mermaid">flowchart TD
+    A[User input kata kunci] --> B{Validasi input}
+    B -->|Valid| C[Proses pencarian]
+    B -->|Invalid| D[Tampilkan pesan error]
+    C --> E{Database tersedia?}
+    E -->|Ya| F[Lakukan query]
+    E -->|Tidak| G[Tampilkan pesan error koneksi]
+    F --> H{Query berhasil?}
+    H -->|Ya| I[Tampilkan hasil]
+    H -->|Tidak| J[Tampilkan pesan error query]
+</div></code></pre>
+<h2 id="8-optimasi-performa-pencarian">8. Optimasi Performa Pencarian</h2>
+<p>Beberapa tips untuk mengoptimalkan performa pencarian pada data mahasiswa yang banyak:</p>
+<h3 id="81-buat-index-database">8.1 Buat Index Database</h3>
+<pre class="hljs"><code><div><span class="hljs-comment">// Pada migrasi tabel mahasiswa</span>
+Schema::create(<span class="hljs-string">'mahasiswas'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(Blueprint $table)</span> </span>{
+    <span class="hljs-comment">// Kolom lainnya</span>
+    
+    <span class="hljs-comment">// Tambahkan index pada kolom yang sering dicari</span>
+    $table-&gt;index([<span class="hljs-string">'nama'</span>, <span class="hljs-string">'nim'</span>, <span class="hljs-string">'email'</span>]);
+});
+</div></code></pre>
+<h3 id="82-gunakan-full-text-search-untuk-data-besar">8.2 Gunakan Full-Text Search untuk Data Besar</h3>
+<pre class="hljs"><code><div><span class="hljs-comment">// app/Http/Controllers/MahasiswaController.php</span>
+<span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">index</span><span class="hljs-params">(Request $request)</span>
+</span>{
+    $keyword = $request-&gt;search ?? <span class="hljs-string">""</span>;
+    
+    <span class="hljs-comment">// Gunakan full-text search untuk data besar</span>
+    <span class="hljs-keyword">if</span> (!<span class="hljs-keyword">empty</span>($keyword)) {
+        $mahasiswas = Mahasiswa::whereRaw(
+            <span class="hljs-string">"MATCH(nama, nim, email) AGAINST(? IN BOOLEAN MODE)"</span>, 
+            [$keyword . <span class="hljs-string">"*"</span>]
+        )-&gt;paginate(<span class="hljs-number">10</span>);
+    } <span class="hljs-keyword">else</span> {
+        $mahasiswas = Mahasiswa::paginate(<span class="hljs-number">10</span>);
+    }
+    
+    <span class="hljs-keyword">return</span> view(<span class="hljs-string">'mahasiswa.index'</span>, compact(<span class="hljs-string">'mahasiswas'</span>, <span class="hljs-string">'keyword'</span>));
+}
+</div></code></pre>
+<h3 id="83-implementasi-caching-untuk-hasil-pencarian">8.3 Implementasi Caching untuk Hasil Pencarian</h3>
+<pre class="hljs"><code><div><span class="hljs-comment">// app/Http/Controllers/MahasiswaController.php</span>
+<span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">index</span><span class="hljs-params">(Request $request)</span>
+</span>{
+    $keyword = $request-&gt;search ?? <span class="hljs-string">""</span>;
+    $page = $request-&gt;page ?? <span class="hljs-number">1</span>;
+    
+    <span class="hljs-comment">// Buat cache key berdasarkan kata kunci dan halaman</span>
+    $cacheKey = <span class="hljs-string">"mahasiswas_search_{$keyword}_page_{$page}"</span>;
+    
+    <span class="hljs-comment">// Coba ambil dari cache dulu</span>
+    $mahasiswas = Cache::remember($cacheKey, now()-&gt;addMinutes(<span class="hljs-number">5</span>), <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">()</span> <span class="hljs-title">use</span> <span class="hljs-params">($keyword)</span> </span>{
+        <span class="hljs-keyword">return</span> Mahasiswa::where(<span class="hljs-string">'nama'</span>, <span class="hljs-string">'like'</span>, <span class="hljs-string">"%{$keyword}%"</span>)
+                    -&gt;orWhere(<span class="hljs-string">'nim'</span>, <span class="hljs-string">'like'</span>, <span class="hljs-string">"%{$keyword}%"</span>)
+                    -&gt;orWhere(<span class="hljs-string">'email'</span>, <span class="hljs-string">'like'</span>, <span class="hljs-string">"%{$keyword}%"</span>)
+                    -&gt;paginate(<span class="hljs-number">10</span>);
+    });
+    
+    <span class="hljs-keyword">return</span> view(<span class="hljs-string">'mahasiswa.index'</span>, compact(<span class="hljs-string">'mahasiswas'</span>, <span class="hljs-string">'keyword'</span>));
+}
+</div></code></pre>
+<p>Dengan mengikuti langkah-langkah di atas, Anda telah berhasil mengimplementasikan fitur pencarian data mahasiswa yang fungsional, user-friendly, dan teroptimasi di aplikasi Laravel Anda. Fitur pencarian ini akan memudahkan pengguna untuk menemukan data mahasiswa dengan cepat dan efisien.</p>
+
+</body>
+</html>
