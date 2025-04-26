@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>1-laravel-introduction.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="pengenalan-tentang-laravel-dan-ekosistemnya">Pengenalan tentang Laravel dan Ekosistemnya</h1>
+<h2 id="apa-itu-laravel">Apa itu Laravel?</h2>
+<p>Laravel adalah framework PHP open-source yang dirancang untuk pengembangan aplikasi web dengan sintaks yang ekspresif dan elegan. Framework ini dibuat oleh Taylor Otwell pada tahun 2011 dan telah menjadi salah satu framework PHP paling populer di dunia.</p>
+<p>Laravel menyediakan struktur dan titik awal yang jelas untuk membangun aplikasi web dari yang sederhana hingga yang kompleks, dengan pendekatan MVC (Model-View-Controller) yang membuat kode lebih terorganisir dan mudah dipelihara.</p>
+<h2 id="mengapa-memilih-laravel">Mengapa Memilih Laravel?</h2>
+<p><img src="https://laravel.com/img/logomark.min.svg" alt="Laravel Logo"> <img src="https://laravel.com/img/logotype.min.svg" alt="Laravel Text"></p>
+<p>Laravel menawarkan banyak keunggulan dibandingkan framework PHP lainnya:</p>
+<ol>
+<li><strong>Sintaks yang Elegan</strong> - Kode Laravel mudah dibaca dan ditulis</li>
+<li><strong>Dokumentasi Lengkap</strong> - Panduan resmi yang komprehensif dan komunitas besar</li>
+<li><strong>Tools Development</strong> - Artisan CLI, Migrations, Seeders, dan lainnya</li>
+<li><strong>Security</strong> - Fitur keamanan bawaan seperti CSRF protection, hashing password, dll</li>
+<li><strong>Scalability</strong> - Dapat menangani aplikasi skala kecil hingga enterprise</li>
+<li><strong>Modularitas</strong> - Package system yang kuat dan ekosistem yang luas</li>
+</ol>
+<h2 id="arsitektur-laravel">Arsitektur Laravel</h2>
+<p>Laravel menggunakan pola arsitektur MVC (Model-View-Controller) yang membagi aplikasi menjadi tiga komponen utama:</p>
+<pre><code class="language-mermaid"><div class="mermaid">graph TD
+    A[Request] --> B[Routes]
+    B --> C[Controller]
+    C --> D[Model]
+    D --> E[Database]
+    D --> C
+    C --> F[View]
+    F --> G[Response]
+</div></code></pre>
+<ul>
+<li><strong>Model</strong>: Berhubungan dengan database dan logika bisnis</li>
+<li><strong>View</strong>: Menangani tampilan dan presentasi data kepada pengguna</li>
+<li><strong>Controller</strong>: Menghubungkan Model dan View, mengelola request dan response</li>
+</ul>
+<h2 id="ekosistem-laravel">Ekosistem Laravel</h2>
+<p>Laravel memiliki ekosistem yang kaya dan terus berkembang:</p>
+<h3 id="1-package-dan-library">1. Package dan Library</h3>
+<p>Laravel memiliki ekosistem package yang luas melalui Composer, memungkinkan Anda menambahkan fungsionalitas dengan mudah:</p>
+<ul>
+<li><strong>Laravel Breeze</strong> - Implementasi autentikasi sederhana</li>
+<li><strong>Laravel Sanctum</strong> - Autentikasi API lightweight</li>
+<li><strong>Laravel Jetstream</strong> - Scaffold aplikasi dengan login, registrasi, dan fitur lainnya</li>
+<li><strong>Laravel Horizon</strong> - Dashboard untuk Redis Queue</li>
+<li><strong>Laravel Telescope</strong> - Debugging assistant</li>
+<li><strong>Laravel Nova</strong> - Admin panel</li>
+</ul>
+<h3 id="2-tools-pengembangan">2. Tools Pengembangan</h3>
+<pre><code class="language-mermaid"><div class="mermaid">flowchart LR
+    A[Laravel] --- B[Laravel Sail]
+    A --- C[Laravel Valet]
+    A --- D[Laravel Homestead]
+    A --- E[Laragon]
+    A --- F[Laravel Forge]
+    A --- G[Laravel Envoyer]
+    A --- H[Laravel Vapor]
+    
+    B --- Dev[Local Development]
+    C --- Dev
+    D --- Dev
+    E --- Dev
+    
+    F --- Deploy[Deployment]
+    G --- Deploy
+    H --- Deploy
+</div></code></pre>
+<ul>
+<li><strong>Laravel Sail</strong> - Docker development environment</li>
+<li><strong>Laravel Valet</strong> - Development environment untuk Mac</li>
+<li><strong>Laravel Homestead</strong> - Pre-packaged Vagrant box</li>
+<li><strong>Laragon</strong> - Development environment untuk Windows</li>
+<li><strong>Laravel Forge</strong> - Server management dan deployment</li>
+<li><strong>Laravel Envoyer</strong> - Zero downtime deployment</li>
+<li><strong>Laravel Vapor</strong> - Serverless deployment platform untuk AWS</li>
+</ul>
+<h3 id="3-fitur-utama-laravel">3. Fitur Utama Laravel</h3>
+<p>Laravel menyediakan banyak fitur bawaan yang membantu mempercepat pengembangan aplikasi:</p>
+<ul>
+<li><strong>Eloquent ORM</strong> - Object-Relational Mapping untuk database</li>
+<li><strong>Blade Templating</strong> - Template engine yang powerful dan mudah dipahami</li>
+<li><strong>Migrations</strong> - Version control untuk struktur database</li>
+<li><strong>Seeding</strong> - Mengisi database dengan data testing</li>
+<li><strong>Middleware</strong> - Filter HTTP request</li>
+<li><strong>Authentication</strong> - Sistem login dan register bawaan</li>
+<li><strong>Artisan Console</strong> - Command-line tool untuk otomatisasi</li>
+<li><strong>Task Scheduling</strong> - Cron jobs yang terintegrasi</li>
+<li><strong>Queue System</strong> - Background processing</li>
+<li><strong>Event &amp; Listeners</strong> - Untuk arsitektur event-driven</li>
+<li><strong>Broadcasting</strong> - Real-time events dengan WebSockets</li>
+</ul>
+<h2 id="alur-kerja-pengembangan-laravel">Alur Kerja Pengembangan Laravel</h2>
+<pre><code class="language-mermaid"><div class="mermaid">graph LR
+    A[Setup Project] --> B[Definisi Routes]
+    B --> C[Buat Controller]
+    C --> D[Buat Model & Migrations]
+    D --> E[Buat Views]
+    E --> F[Implementasi Logic]
+    F --> G[Testing]
+    G --> H[Deployment]
+</div></code></pre>
+<h2 id="versi-laravel">Versi Laravel</h2>
+<p>Laravel merilis versi baru secara reguler dengan dukungan jangka panjang (LTS) setiap beberapa versi:</p>
+<ul>
+<li><strong>Laravel 5.x</strong> - Rilis lama dengan beberapa versi LTS</li>
+<li><strong>Laravel 6.x</strong> - September 2019 (LTS)</li>
+<li><strong>Laravel 7.x</strong> - Maret 2020</li>
+<li><strong>Laravel 8.x</strong> - September 2020</li>
+<li><strong>Laravel 9.x</strong> - Februari 2022 (LTS)</li>
+<li><strong>Laravel 10.x</strong> - Februari 2023</li>
+<li><strong>Laravel 11.x</strong> - Februari 2024 (Current)</li>
+</ul>
+<h2 id="memulai-dengan-laravel">Memulai dengan Laravel</h2>
+<p>Untuk memulai dengan Laravel, Anda memerlukan:</p>
+<ol>
+<li><strong>PHP</strong> (versi 8.1+ untuk Laravel 11)</li>
+<li><strong>Composer</strong> (package manager untuk PHP)</li>
+<li><strong>Server Web</strong> (Apache/Nginx)</li>
+<li><strong>Database</strong> (MySQL, PostgreSQL, SQLite, SQL Server)</li>
+</ol>
+<p>Di pertemuan selanjutnya, kita akan menginstal Laragon sebagai lingkungan pengembangan yang menyediakan semua kebutuhan ini dalam satu paket untuk pengguna Windows.</p>
+<h2 id="komunitas-dan-sumber-belajar">Komunitas dan Sumber Belajar</h2>
+<p>Laravel memiliki komunitas yang aktif dan banyak sumber belajar:</p>
+<ul>
+<li><a href="https://laravel.com/docs">Dokumentasi Resmi</a></li>
+<li><a href="https://laracasts.com">Laracasts</a> - Tutorial video premium</li>
+<li><a href="https://laravel-news.com">Laravel News</a></li>
+<li><a href="https://laravel.io">Laravel.io Forum</a></li>
+<li><a href="https://stackoverflow.com/questions/tagged/laravel">StackOverflow</a></li>
+<li><a href="https://github.com/laravel/laravel">GitHub</a></li>
+</ul>
+<h2 id="kesimpulan">Kesimpulan</h2>
+<p>Laravel menawarkan kerangka kerja modern untuk pengembangan aplikasi web PHP dengan sintaks yang elegan, fitur-fitur powerful, dan ekosistem yang luas. Memahami Laravel dan ekosistemnya akan membantu Anda membangun aplikasi web dengan lebih efisien dan mengikuti praktik terbaik pengembangan software.</p>
+<p>Dalam pertemuan selanjutnya, kita akan mulai dengan instalasi dan konfigurasi Laragon sebagai lingkungan pengembangan Laravel kita dan membuat proyek Laravel pertama kita.</p>
+
+</body>
+</html>

@@ -15,18 +15,18 @@ Pelatihan ini dirancang untuk memperkenalkan peserta ke dasar-dasar pengembangan
 - Nama direktori project: mahasiswa-app
 - Platform: Windows 10/11, Linux
 - Url project: http://mahasiswa-app.test
-- Jika mengguakan server lokal, Url: http://localhost/mahasiswa-app/public
+- Jika menggunakan server lokal, Url: http://localhost/mahasiswa-app/public
 
 ## Struktur Pelatihan
 
 ### Pertemuan 1: Pengenalan dan Persiapan (2 jam)
-- Pengenalan tentang Laravel dan ekosistemnya
-- Instalasi dan konfigurasi Laragon (v)
-- Instalasi dan konfigurasi Visual Studio Code (v)
-- Pengenalan struktur folder Laravel
-- Pembuatan proyek Laravel pertama (v)
-- Pengenalan Git untuk version control
-- Praktik: Inisialisasi repositori Git dan commit pertama (v)
+- [Pengenalan tentang Laravel dan ekosistemnya](Topik-1/1-laravel-introduction.html)
+- [Instalasi dan konfigurasi Laragon](Topik-1/2b-laragon-installation-guide.html)
+- [Instalasi dan konfigurasi Visual Studio Code](Topik-1/3b-vscode-installation-tutorial.html)
+- [Pengenalan struktur folder Laravel](Topik-1/4-laravel-folder-structure.html)
+- [Pembuatan proyek Laravel pertama](Topik-1/5-first-laravel-project.html)
+- [Pengenalan Git untuk version control](Topik-1/6-introduction-to-git.html)
+- [Praktik: Inisialisasi repositori Git dan commit pertama](Topik-1/7-git-repository-initialization.html)
 
 ### Pertemuan 2: Dasar-Dasar Laravel (2 jam)
 - Konfigurasi database di Laravel
@@ -35,7 +35,7 @@ Pelatihan ini dirancang untuk memperkenalkan peserta ke dasar-dasar pengembangan
 - Routing di Laravel
 - Membuat Controller pertama
 - Membuat View pertama
-- Praktik: Membuat halaman home sederhana
+- [Praktik: Membuat halaman home sederhana](Topik-2/7b-laravel-home-page-tutorial.html)
 
 ### Pertemuan 3: Model dan Database (2 jam)
 - Pengenalan Model pada Laravel

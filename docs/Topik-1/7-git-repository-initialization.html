@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>outline-laravel-training.md</title>
+<title>7-git-repository-initialization.md</title>
 <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
 
 <style>
@@ -365,138 +365,103 @@ code {
           : 'default'
     });
   </script>
-<h1 id="outline-pelatihan-pemrograman-laravel-untuk-pemula">Outline Pelatihan Pemrograman Laravel untuk Pemula</h1>
-<h2 id="ringkasan-pelatihan">Ringkasan Pelatihan</h2>
-<p>Pelatihan ini dirancang untuk memperkenalkan peserta ke dasar-dasar pengembangan aplikasi web menggunakan Laravel dengan fokus pada manajemen data Mahasiswa. Peserta akan belajar dari instalasi lingkungan pengembangan hingga pengembangan fitur CRUD lengkap.</p>
-<h2 id="alat-yang-digunakan">Alat yang Digunakan</h2>
+<h1 id="praktik-inisialisasi-repositori-git-dan-commit-pertama">Praktik: Inisialisasi Repositori Git dan Commit Pertama</h1>
+<p>Pada tutorial ini, kita akan belajar cara menggunakan Git untuk mengelola kode proyek Laravel kita. Git adalah sistem kontrol versi yang memungkinkan kita melacak perubahan kode, berkolaborasi dengan tim, dan mengelola riwayat pengembangan proyek dengan baik.</p>
+<h2 id="apa-itu-git">Apa itu Git?</h2>
+<p>Git adalah sistem kontrol versi terdistribusi yang membantu developer melacak perubahan pada kode sumber. Dengan Git, kita bisa:</p>
 <ul>
-<li>Laragon (sebagai lingkungan pengembangan lokal)</li>
-<li>Visual Studio Code (editor kode)</li>
-<li>Laravel Framework</li>
-<li>Git (untuk version control)</li>
-<li>Postman (untuk testing API)</li>
+<li>Menyimpan riwayat perubahan kode</li>
+<li>Bekerja secara paralel dalam cabang terpisah (branch)</li>
+<li>Menggabungkan perubahan dari berbagai sumber</li>
+<li>Kembali ke versi kode sebelumnya jika diperlukan</li>
 </ul>
-<h2 id="project-detail">Project Detail</h2>
-<ul>
-<li>Nama direktori project: mahasiswa-app</li>
-<li>Platform: Windows 10/11, Linux</li>
-<li>Url project: http://mahasiswa-app.test</li>
-<li>Jika menggunakan server lokal, Url: http://localhost/mahasiswa-app/public</li>
-</ul>
-<h2 id="struktur-pelatihan">Struktur Pelatihan</h2>
-<h3 id="pertemuan-1-pengenalan-dan-persiapan-2-jam">Pertemuan 1: Pengenalan dan Persiapan (2 jam)</h3>
-<ul>
-<li><a href="Topik-1/1-laravel-introduction.html">Pengenalan tentang Laravel dan ekosistemnya</a></li>
-<li><a href="Topik-1/2b-laragon-installation-guide.html">Instalasi dan konfigurasi Laragon</a></li>
-<li><a href="Topik-1/3b-vscode-installation-tutorial.html">Instalasi dan konfigurasi Visual Studio Code</a></li>
-<li><a href="Topik-1/4-laravel-folder-structure.html">Pengenalan struktur folder Laravel</a></li>
-<li><a href="Topik-1/5-first-laravel-project.html">Pembuatan proyek Laravel pertama</a></li>
-<li><a href="Topik-1/6-introduction-to-git.html">Pengenalan Git untuk version control</a></li>
-<li><a href="Topik-1/7-git-repository-initialization.html">Praktik: Inisialisasi repositori Git dan commit pertama</a></li>
-</ul>
-<h3 id="pertemuan-2-dasar-dasar-laravel-2-jam">Pertemuan 2: Dasar-Dasar Laravel (2 jam)</h3>
-<ul>
-<li>Konfigurasi database di Laravel</li>
-<li>Pengenalan Artisan CLI</li>
-<li>Pengenalan Request Lifecycle di Laravel</li>
-<li>Routing di Laravel</li>
-<li>Membuat Controller pertama</li>
-<li>Membuat View pertama</li>
-<li><a href="Topik-2/7b-laravel-home-page-tutorial.html">Praktik: Membuat halaman home sederhana</a></li>
-</ul>
-<h3 id="pertemuan-3-model-dan-database-2-jam">Pertemuan 3: Model dan Database (2 jam)</h3>
-<ul>
-<li>Pengenalan Model pada Laravel</li>
-<li>Membuat migrasi database untuk tabel Mahasiswa</li>
-<li>Implementasi model Mahasiswa</li>
-<li>Eloquent ORM dasar</li>
-<li>Seeder dan Factory untuk data dummy</li>
-<li>Praktik: Membuat model dan migrasi untuk Mahasiswa</li>
-</ul>
-<h3 id="pertemuan-4-error-handling-dan-debugging-2-jam">Pertemuan 4: Error Handling dan Debugging (2 jam)</h3>
-<ul>
-<li>Pengenalan error handling di Laravel</li>
-<li>Menggunakan logging untuk debugging</li>
-<li>Laravel Debugbar untuk monitoring queries</li>
-<li>Error reporting dan pemecahan masalah umum</li>
-<li>Try-catch dan exception handling</li>
-<li>Praktik: Debugging aplikasi dengan skenario error</li>
-</ul>
-<h3 id="pertemuan-5-crud---create-dan-read-2-jam">Pertemuan 5: CRUD - Create dan Read (2 jam)</h3>
-<ul>
-<li>Membuat form tambah data Mahasiswa</li>
-<li>Validasi input data</li>
-<li>Menampilkan daftar Mahasiswa</li>
-<li>Implementasi pagination</li>
-<li>Implementasi pencarian data Mahasiswa</li>
-<li>Praktik: Membuat halaman daftar dan form tambah Mahasiswa</li>
-</ul>
-<h3 id="pertemuan-6-crud---update-dan-delete-2-jam">Pertemuan 6: CRUD - Update dan Delete (2 jam)</h3>
-<ul>
-<li>Membuat form edit data Mahasiswa</li>
-<li>Implementasi update data</li>
-<li>Implementasi hapus data</li>
-<li>Konfirmasi hapus data</li>
-<li>Flash messages untuk notifikasi</li>
-<li>Praktik: Melengkapi CRUD dengan fitur edit dan hapus</li>
-</ul>
-<h3 id="pertemuan-7-authentication-dan-authorization-2-jam">Pertemuan 7: Authentication dan Authorization (2 jam)</h3>
-<ul>
-<li>Implementasi sistem login dan register</li>
-<li>Middleware di Laravel</li>
-<li>Pembatasan akses halaman</li>
-<li>Role dan permission sederhana</li>
-<li>Proteksi form dan data</li>
-<li>Praktik: Mengimplementasikan login dan proteksi halaman</li>
-</ul>
-<h3 id="pertemuan-8-relationship-dan-queries-dasar-2-jam">Pertemuan 8: Relationship dan Queries Dasar (2 jam)</h3>
-<ul>
-<li>Relationship antar tabel (One-to-Many)</li>
-<li>Menghubungkan Mahasiswa dengan tabel Jurusan</li>
-<li>Query builder dasar</li>
-<li>Menampilkan data relasi</li>
-<li>Praktik: Membuat relasi Mahasiswa-Jurusan</li>
-</ul>
-<h3 id="pertemuan-9-advanced-relationship-dan-queries-2-jam">Pertemuan 9: Advanced Relationship dan Queries (2 jam)</h3>
-<ul>
-<li>Relationship lanjutan (Many-to-Many)</li>
-<li>Menghubungkan Mahasiswa dengan tabel Mata Kuliah</li>
-<li>Query builder lanjutan</li>
-<li>Eager loading untuk optimasi query</li>
-<li>Praktik: Membuat relasi Mahasiswa-Mata Kuliah</li>
-</ul>
-<h3 id="pertemuan-10-laravel-ui-dan-ux-2-jam">Pertemuan 10: Laravel UI dan UX (2 jam)</h3>
-<ul>
-<li>Penggunaan Blade template</li>
-<li>Layout master dan komponen</li>
-<li>Integrasi CSS framework sederhana</li>
-<li>Form dengan validasi JavaScript</li>
-<li>Datatable untuk manajemen data Mahasiswa</li>
-<li>Praktik: Mempercantik tampilan aplikasi</li>
-</ul>
-<h3 id="pertemuan-11-api-dan-json-response-2-jam">Pertemuan 11: API dan JSON Response (2 jam)</h3>
-<ul>
-<li>Pengenalan RESTful API</li>
-<li>Membuat API endpoint untuk data Mahasiswa</li>
-<li>Resource dan Collection di Laravel</li>
-<li>Testing API dengan Postman</li>
-<li>Authentication API dengan token</li>
-<li>Praktik: Membuat API sederhana untuk data Mahasiswa</li>
-</ul>
-<h3 id="pertemuan-12-project-akhir-dan-deployment-2-jam">Pertemuan 12: Project Akhir dan Deployment (2 jam)</h3>
-<ul>
-<li>Penyempurnaan project aplikasi Mahasiswa</li>
-<li>Best practices pengembangan Laravel</li>
-<li>Persiapan deployment</li>
-<li>Review code dan optimasi performa</li>
-<li>Diskusi dan tanya jawab</li>
-<li>Praktik: Deployment aplikasi ke server sederhana</li>
-</ul>
-<h2 id="total-jam-pelatihan">Total Jam Pelatihan</h2>
-<ul>
-<li>12 pertemuan x 2 jam = 24 jam</li>
-</ul>
-<p>Pelatihan ini menyediakan dasar yang kuat untuk pengembangan aplikasi web dengan Laravel, dengan fokus khusus pada pengelolaan data Mahasiswa sebagai contoh kasus nyata sepanjang kursus. Setiap pertemuan diakhiri dengan praktik untuk memastikan pemahaman peserta terhadap materi yang diajarkan.</p>
+<h2 id="alur-kerja-dasar-git">Alur Kerja Dasar Git</h2>
+<pre><code class="language-mermaid"><div class="mermaid">graph LR
+    A[Working Directory] -->|git add| B[Staging Area]
+    B -->|git commit| C[Local Repository]
+    C -->|git push| D[Remote Repository]
+    D -->|git pull| A
+
+</div></code></pre>
+<h2 id="langkah-langkah-inisialisasi-repositori-git">Langkah-langkah Inisialisasi Repositori Git</h2>
+<h3 id="1-instalasi-git">1. Instalasi Git</h3>
+<p>Pastikan Git sudah terinstal di komputer Anda:</p>
+<pre class="hljs"><code><div>git --version
+</div></code></pre>
+<p>Jika belum terinstal, download dari <a href="https://git-scm.com/">git-scm.com</a> atau gunakan manajer paket sistem Anda.</p>
+<h3 id="2-konfigurasi-git">2. Konfigurasi Git</h3>
+<p>Sebelum menggunakan Git, lakukan konfigurasi identitas Anda:</p>
+<pre class="hljs"><code><div>git config --global user.name <span class="hljs-string">"Nama Anda"</span>
+git config --global user.email <span class="hljs-string">"email@anda.com"</span>
+</div></code></pre>
+<h3 id="3-inisialisasi-repositori-git-dalam-proyek-laravel">3. Inisialisasi Repositori Git dalam Proyek Laravel</h3>
+<p>Buka terminal dan navigasikan ke direktori proyek Laravel:</p>
+<pre class="hljs"><code><div><span class="hljs-built_in">cd</span> mahasiswa-app
+</div></code></pre>
+<p>Inisialisasi repositori Git baru:</p>
+<pre class="hljs"><code><div>git init
+</div></code></pre>
+<p>Perintah ini akan membuat subdirektori <code>.git</code> yang berisi semua file yang diperlukan untuk repositori Git.</p>
+<h3 id="4-membuat-file-gitignore">4. Membuat File .gitignore</h3>
+<p>Laravel sudah menyertakan file <code>.gitignore</code> secara default, tetapi kita bisa memastikannya ada dengan isi yang sesuai:</p>
+<pre class="hljs"><code><div>/node_modules
+/public/hot
+/public/storage
+/storage/*.key
+/vendor
+.env
+.env.backup
+.phpunit.result.cache
+Homestead.json
+Homestead.yaml
+npm-debug.log
+yarn-error.log
+</div></code></pre>
+<p>File ini mencegah Git melacak file yang tidak perlu disimpan dalam repositori, seperti dependensi, file konfigurasi lokal, dan file sementara.</p>
+<h3 id="5-menambahkan-file-ke-staging-area">5. Menambahkan File ke Staging Area</h3>
+<p>Tambahkan semua file proyek ke staging area:</p>
+<pre class="hljs"><code><div>git add .
+</div></code></pre>
+<p>Perintah ini menandai semua file (kecuali yang ada di .gitignore) untuk dimasukkan ke commit berikutnya.</p>
+<h3 id="6-commit-pertama">6. Commit Pertama</h3>
+<p>Buat commit pertama dengan pesan deskriptif:</p>
+<pre class="hljs"><code><div>git commit -m <span class="hljs-string">"Initial commit: Laravel project setup"</span>
+</div></code></pre>
+<p>Selamat! Anda telah berhasil membuat commit pertama di repositori Git.</p>
+<h2 id="alur-kerja-git-untuk-pengembangan">Alur Kerja Git untuk Pengembangan</h2>
+<pre><code class="language-mermaid"><div class="mermaid">flowchart TD
+    A[Start] --> B[git init]
+    B --> C[Edit code]
+    C --> D[git add .]
+    D --> E[git commit -m #34;message#34;]
+    E --> F{Continue development?}
+    F -->|Yes| C
+    F -->|No| G[End]
+
+</div></code></pre>
+<h2 id="menghubungkan-dengan-repositori-remote-opsional">Menghubungkan dengan Repositori Remote (Opsional)</h2>
+<p>Jika Anda ingin menyimpan proyek di GitHub, GitLab, atau layanan serupa:</p>
+<ol>
+<li>Buat repositori baru di platform pilihan Anda</li>
+<li>Hubungkan repositori lokal dengan repositori remote:</li>
+</ol>
+<pre class="hljs"><code><div>git remote add origin https://github.com/username/mahasiswa-app.git
+</div></code></pre>
+<ol start="3">
+<li>Push commit pertama Anda:</li>
+</ol>
+<pre class="hljs"><code><div>git push -u origin master
+</div></code></pre>
+<h2 id="tips-penggunaan-git">Tips Penggunaan Git</h2>
+<ol>
+<li><strong>Commit secara teratur</strong> - Buat commit kecil dan sering dengan pesan yang jelas</li>
+<li><strong>Gunakan branch</strong> - Buat branch terpisah untuk fitur atau perbaikan baru</li>
+<li><strong>Cek status</strong> - Gunakan <code>git status</code> untuk melihat file yang telah diubah</li>
+<li><strong>Lihat riwayat</strong> - Gunakan <code>git log</code> untuk melihat riwayat commit</li>
+</ol>
+<h2 id="kesimpulan">Kesimpulan</h2>
+<p>Dengan menginisialisasi repositori Git dan membuat commit pertama, Anda telah menyiapkan pondasi penting untuk mengelola proyek Laravel Anda. Git akan membantu Anda melacak perubahan, berkolaborasi dengan tim, dan menjaga kode tetap terorganisir selama pengembangan.</p>
+<p>Pada pertemuan berikutnya, kita akan mulai mempelajari dasar-dasar Laravel untuk mengembangkan aplikasi manajemen data Mahasiswa.</p>
 
 </body>
 </html>

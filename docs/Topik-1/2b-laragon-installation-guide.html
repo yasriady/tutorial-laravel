@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>outline-laravel-training.md</title>
+<title>2b-laragon-installation-guide.md</title>
 <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
 
 <style>
@@ -365,138 +365,102 @@ code {
           : 'default'
     });
   </script>
-<h1 id="outline-pelatihan-pemrograman-laravel-untuk-pemula">Outline Pelatihan Pemrograman Laravel untuk Pemula</h1>
-<h2 id="ringkasan-pelatihan">Ringkasan Pelatihan</h2>
-<p>Pelatihan ini dirancang untuk memperkenalkan peserta ke dasar-dasar pengembangan aplikasi web menggunakan Laravel dengan fokus pada manajemen data Mahasiswa. Peserta akan belajar dari instalasi lingkungan pengembangan hingga pengembangan fitur CRUD lengkap.</p>
-<h2 id="alat-yang-digunakan">Alat yang Digunakan</h2>
+<h1 id="instalasi-dan-konfigurasi-laragon---tutorial-singkat">Instalasi dan Konfigurasi Laragon - Tutorial Singkat</h1>
+<h2 id="pengenalan">Pengenalan</h2>
+<p>Laragon adalah lingkungan pengembangan lokal berbasis Windows yang terintegrasi untuk PHP, Apache, Nginx, MySQL dan banyak tools lainnya. Laragon sangat populer untuk pengembangan Laravel karena kemudahan instalasi dan konfigurasinya.</p>
+<h2 id="langkah-langkah-instalasi">Langkah-langkah Instalasi</h2>
+<h3 id="1-unduh-laragon">1. Unduh Laragon</h3>
 <ul>
-<li>Laragon (sebagai lingkungan pengembangan lokal)</li>
-<li>Visual Studio Code (editor kode)</li>
-<li>Laravel Framework</li>
-<li>Git (untuk version control)</li>
-<li>Postman (untuk testing API)</li>
+<li>Download Laragon 6 dari repositori Github <a href="https://github.com/leokhoa/laragon/releases/download/6.0.0/laragon-wamp.exe">https://github.com/leokhoa/laragon/releases/download/6.0.0/laragon-wamp.exe</a></li>
 </ul>
-<h2 id="project-detail">Project Detail</h2>
+<h3 id="2-instalasi-dasar">2. Instalasi Dasar</h3>
 <ul>
-<li>Nama direktori project: mahasiswa-app</li>
-<li>Platform: Windows 10/11, Linux</li>
-<li>Url project: http://mahasiswa-app.test</li>
-<li>Jika menggunakan server lokal, Url: http://localhost/mahasiswa-app/public</li>
-</ul>
-<h2 id="struktur-pelatihan">Struktur Pelatihan</h2>
-<h3 id="pertemuan-1-pengenalan-dan-persiapan-2-jam">Pertemuan 1: Pengenalan dan Persiapan (2 jam)</h3>
+<li>Jalankan file installer yang sudah diunduh</li>
+<li>Pilih lokasi instalasi (disarankan: <code>C:\laragon</code>)</li>
+<li>Pilih opsi instalasi sesuai kebutuhan:
 <ul>
-<li><a href="Topik-1/1-laravel-introduction.html">Pengenalan tentang Laravel dan ekosistemnya</a></li>
-<li><a href="Topik-1/2b-laragon-installation-guide.html">Instalasi dan konfigurasi Laragon</a></li>
-<li><a href="Topik-1/3b-vscode-installation-tutorial.html">Instalasi dan konfigurasi Visual Studio Code</a></li>
-<li><a href="Topik-1/4-laravel-folder-structure.html">Pengenalan struktur folder Laravel</a></li>
-<li><a href="Topik-1/5-first-laravel-project.html">Pembuatan proyek Laravel pertama</a></li>
-<li><a href="Topik-1/6-introduction-to-git.html">Pengenalan Git untuk version control</a></li>
-<li><a href="Topik-1/7-git-repository-initialization.html">Praktik: Inisialisasi repositori Git dan commit pertama</a></li>
+<li>Buat menu Start</li>
+<li>Tambahkan ke PATH</li>
+<li>Auto start saat Windows startup</li>
 </ul>
-<h3 id="pertemuan-2-dasar-dasar-laravel-2-jam">Pertemuan 2: Dasar-Dasar Laravel (2 jam)</h3>
+</li>
+<li>Klik &quot;Next&quot; dan tunggu proses instalasi selesai</li>
+</ul>
+<h3 id="3-menjalankan-laragon">3. Menjalankan Laragon</h3>
 <ul>
-<li>Konfigurasi database di Laravel</li>
-<li>Pengenalan Artisan CLI</li>
-<li>Pengenalan Request Lifecycle di Laravel</li>
-<li>Routing di Laravel</li>
-<li>Membuat Controller pertama</li>
-<li>Membuat View pertama</li>
-<li><a href="Topik-2/7b-laravel-home-page-tutorial.html">Praktik: Membuat halaman home sederhana</a></li>
+<li>Buka aplikasi Laragon dari menu Start atau shortcut desktop</li>
+<li>Akan muncul panel utama Laragon dengan tombol &quot;Start All&quot;</li>
+<li>Klik &quot;Start All&quot; untuk menjalankan server web dan database</li>
 </ul>
-<h3 id="pertemuan-3-model-dan-database-2-jam">Pertemuan 3: Model dan Database (2 jam)</h3>
+<h3 id="4-verifikasi-instalasi">4. Verifikasi Instalasi</h3>
 <ul>
-<li>Pengenalan Model pada Laravel</li>
-<li>Membuat migrasi database untuk tabel Mahasiswa</li>
-<li>Implementasi model Mahasiswa</li>
-<li>Eloquent ORM dasar</li>
-<li>Seeder dan Factory untuk data dummy</li>
-<li>Praktik: Membuat model dan migrasi untuk Mahasiswa</li>
+<li>Buka browser dan akses <code>http://localhost</code></li>
+<li>Jika muncul halaman Laragon, instalasi berhasil</li>
+<li>Untuk memeriksa MySQL, buka Laragon → Menu → Database → HeidiSQL</li>
 </ul>
-<h3 id="pertemuan-4-error-handling-dan-debugging-2-jam">Pertemuan 4: Error Handling dan Debugging (2 jam)</h3>
+<h2 id="konfigurasi-laragon-untuk-laravel">Konfigurasi Laragon untuk Laravel</h2>
+<h3 id="1-pengaturan-php">1. Pengaturan PHP</h3>
 <ul>
-<li>Pengenalan error handling di Laravel</li>
-<li>Menggunakan logging untuk debugging</li>
-<li>Laravel Debugbar untuk monitoring queries</li>
-<li>Error reporting dan pemecahan masalah umum</li>
-<li>Try-catch dan exception handling</li>
-<li>Praktik: Debugging aplikasi dengan skenario error</li>
-</ul>
-<h3 id="pertemuan-5-crud---create-dan-read-2-jam">Pertemuan 5: CRUD - Create dan Read (2 jam)</h3>
+<li>Buka Laragon → Menu → PHP → Version → Pilih PHP 8.1 atau versi terbaru</li>
+<li>Buka Laragon → Menu → PHP → Extensions → Aktifkan ekstensi berikut:
 <ul>
-<li>Membuat form tambah data Mahasiswa</li>
-<li>Validasi input data</li>
-<li>Menampilkan daftar Mahasiswa</li>
-<li>Implementasi pagination</li>
-<li>Implementasi pencarian data Mahasiswa</li>
-<li>Praktik: Membuat halaman daftar dan form tambah Mahasiswa</li>
+<li>fileinfo</li>
+<li>mbstring</li>
+<li>openssl</li>
+<li>pdo_mysql</li>
+<li>curl</li>
+<li>gd</li>
+<li>zip</li>
 </ul>
-<h3 id="pertemuan-6-crud---update-dan-delete-2-jam">Pertemuan 6: CRUD - Update dan Delete (2 jam)</h3>
+</li>
+</ul>
+<h3 id="2-pengaturan-web-server">2. Pengaturan Web Server</h3>
 <ul>
-<li>Membuat form edit data Mahasiswa</li>
-<li>Implementasi update data</li>
-<li>Implementasi hapus data</li>
-<li>Konfirmasi hapus data</li>
-<li>Flash messages untuk notifikasi</li>
-<li>Praktik: Melengkapi CRUD dengan fitur edit dan hapus</li>
+<li>Buka Laragon → Menu → Apache → Version → Pilih Apache 2.4</li>
+<li>Untuk mengubah port (jika diperlukan): Menu → Preferences → Services &amp; Ports</li>
 </ul>
-<h3 id="pertemuan-7-authentication-dan-authorization-2-jam">Pertemuan 7: Authentication dan Authorization (2 jam)</h3>
+<h3 id="3-pengaturan-database">3. Pengaturan Database</h3>
 <ul>
-<li>Implementasi sistem login dan register</li>
-<li>Middleware di Laravel</li>
-<li>Pembatasan akses halaman</li>
-<li>Role dan permission sederhana</li>
-<li>Proteksi form dan data</li>
-<li>Praktik: Mengimplementasikan login dan proteksi halaman</li>
+<li>Buka Laragon → Menu → MySQL → Version → Pilih MySQL 8.0 (atau MariaDB)</li>
+<li>Password default untuk root kosong, bisa diubah melalui HeidiSQL</li>
 </ul>
-<h3 id="pertemuan-8-relationship-dan-queries-dasar-2-jam">Pertemuan 8: Relationship dan Queries Dasar (2 jam)</h3>
+<h3 id="4-mengaktifkan-pretty-url-hostname-otomatis">4. Mengaktifkan Pretty URL (Hostname Otomatis)</h3>
 <ul>
-<li>Relationship antar tabel (One-to-Many)</li>
-<li>Menghubungkan Mahasiswa dengan tabel Jurusan</li>
-<li>Query builder dasar</li>
-<li>Menampilkan data relasi</li>
-<li>Praktik: Membuat relasi Mahasiswa-Jurusan</li>
+<li>Buka Laragon → Menu → Preferences → General</li>
+<li>Aktifkan &quot;Auto create virtual hosts&quot;</li>
+<li>Atur format hostname (misalnya: <code>{name}.test</code>)</li>
+<li>Restart Laragon</li>
 </ul>
-<h3 id="pertemuan-9-advanced-relationship-dan-queries-2-jam">Pertemuan 9: Advanced Relationship dan Queries (2 jam)</h3>
+<h3 id="5-menginstall-composer">5. Menginstall Composer</h3>
 <ul>
-<li>Relationship lanjutan (Many-to-Many)</li>
-<li>Menghubungkan Mahasiswa dengan tabel Mata Kuliah</li>
-<li>Query builder lanjutan</li>
-<li>Eager loading untuk optimasi query</li>
-<li>Praktik: Membuat relasi Mahasiswa-Mata Kuliah</li>
+<li>Buka Laragon → Menu → Tools → Quick add → pilih &quot;Composer&quot;</li>
+<li>Tunggu proses instalasi selesai</li>
 </ul>
-<h3 id="pertemuan-10-laravel-ui-dan-ux-2-jam">Pertemuan 10: Laravel UI dan UX (2 jam)</h3>
+<h3 id="6-membuat-project-laravel-pertama">6. Membuat Project Laravel Pertama</h3>
 <ul>
-<li>Penggunaan Blade template</li>
-<li>Layout master dan komponen</li>
-<li>Integrasi CSS framework sederhana</li>
-<li>Form dengan validasi JavaScript</li>
-<li>Datatable untuk manajemen data Mahasiswa</li>
-<li>Praktik: Mempercantik tampilan aplikasi</li>
+<li>Klik kanan pada bagian kosong panel Laragon</li>
+<li>Pilih Quick Create → Laravel</li>
+<li>Masukkan nama project (misalnya: <code>mahasiswa-app</code>)</li>
+<li>Tunggu hingga proses pembuatan project selesai</li>
+<li>Akses project di browser: <code>http://mahasiswa-app.test</code></li>
 </ul>
-<h3 id="pertemuan-11-api-dan-json-response-2-jam">Pertemuan 11: API dan JSON Response (2 jam)</h3>
+<h2 id="troubleshooting-umum">Troubleshooting Umum</h2>
+<h3 id="port-yang-sudah-digunakan">Port yang Sudah Digunakan</h3>
 <ul>
-<li>Pengenalan RESTful API</li>
-<li>Membuat API endpoint untuk data Mahasiswa</li>
-<li>Resource dan Collection di Laravel</li>
-<li>Testing API dengan Postman</li>
-<li>Authentication API dengan token</li>
-<li>Praktik: Membuat API sederhana untuk data Mahasiswa</li>
+<li>Buka Laragon → Menu → Preferences → Services &amp; Ports</li>
+<li>Ubah port Apache/Nginx atau MySQL jika terjadi konflik</li>
 </ul>
-<h3 id="pertemuan-12-project-akhir-dan-deployment-2-jam">Pertemuan 12: Project Akhir dan Deployment (2 jam)</h3>
+<h3 id="permission-denied">Permission Denied</h3>
 <ul>
-<li>Penyempurnaan project aplikasi Mahasiswa</li>
-<li>Best practices pengembangan Laravel</li>
-<li>Persiapan deployment</li>
-<li>Review code dan optimasi performa</li>
-<li>Diskusi dan tanya jawab</li>
-<li>Praktik: Deployment aplikasi ke server sederhana</li>
+<li>Jalankan Laragon sebagai Administrator (klik kanan pada icon → Run as administrator)</li>
 </ul>
-<h2 id="total-jam-pelatihan">Total Jam Pelatihan</h2>
+<h3 id="database-connection-failed">Database Connection Failed</h3>
 <ul>
-<li>12 pertemuan x 2 jam = 24 jam</li>
+<li>Periksa service MySQL apakah sudah berjalan</li>
+<li>Periksa konfigurasi <code>.env</code> file di project Laravel</li>
 </ul>
-<p>Pelatihan ini menyediakan dasar yang kuat untuk pengembangan aplikasi web dengan Laravel, dengan fokus khusus pada pengelolaan data Mahasiswa sebagai contoh kasus nyata sepanjang kursus. Setiap pertemuan diakhiri dengan praktik untuk memastikan pemahaman peserta terhadap materi yang diajarkan.</p>
+<h2 id="kesimpulan">Kesimpulan</h2>
+<p>Laragon kini telah terinstal dan siap digunakan untuk pengembangan aplikasi Laravel. Anda dapat dengan mudah membuat, mengelola, dan mengakses project-project Laravel Anda dalam lingkungan pengembangan lokal yang terintegrasi.</p>
 
 </body>
 </html>

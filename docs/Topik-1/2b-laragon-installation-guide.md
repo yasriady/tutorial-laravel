@@ -6,9 +6,8 @@ Laragon adalah lingkungan pengembangan lokal berbasis Windows yang terintegrasi 
 ## Langkah-langkah Instalasi
 
 ### 1. Unduh Laragon
-- Kunjungi situs resmi Laragon: [https://laragon.org/download/](https://laragon.org/download/)
-- Pilih versi yang sesuai (disarankan Laragon Full)
-- Unduh installer (.exe)
+
+- Download Laragon 6 dari repositori Github [https://github.com/leokhoa/laragon/releases/download/6.0.0/laragon-wamp.exe](https://github.com/leokhoa/laragon/releases/download/6.0.0/laragon-wamp.exe)
 
 ### 2. Instalasi Dasar
 - Jalankan file installer yang sudah diunduh
@@ -66,21 +65,6 @@ Laragon adalah lingkungan pengembangan lokal berbasis Windows yang terintegrasi 
 - Masukkan nama project (misalnya: `mahasiswa-app`)
 - Tunggu hingga proses pembuatan project selesai
 - Akses project di browser: `http://mahasiswa-app.test`
-
-## Pengaturan Lanjutan (Opsional)
-
-### 1. Mengubah Versi PHP per Project
-- Buat file `.env.php` di root folder project
-- Isi dengan: `<?php return '8.1'; ?>` (sesuaikan dengan versi PHP yang diinginkan)
-
-### 2. Menambahkan Tools Tambahan
-- Klik kanan pada panel Laragon
-- Pilih Tools → Quick add
-- Pilih tool yang dibutuhkan (Node.js, Git, Visual Studio Code, dll)
-
-### 3. Mengatur Lingkungan Development
-- Buka Laragon → Menu → Preferences → Services
-- Aktifkan service yang diperlukan untuk startup otomatis
 
 ## Troubleshooting Umum
 

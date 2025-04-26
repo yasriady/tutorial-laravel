@@ -1,8 +1,8 @@
 Tutorial sub-topik:
 ------------------
-Baik mari kita lanjut menulis tutorial ke bagian berikut.
+Baik mari kita lanjutkan menulis.
 
-Berdasarkan outline yang sudah ada ini, pada topik mengenai "Pertemuan 7: Authentication dan Authorization", tolong buatkan langkah-langkah tutorial untuk sub-topik  "Proteksi form dan data". 
+Berdasarkan outline yang sudah ada ini, pada topik mengenai "Pertemuan 1: Pengenalan dan Persiapan", tolong buatkan artikel dan  tutorial untuk sub-topik  "Praktik: Inisialisasi repositori Git dan commit pertama". 
 
 Buatkan secara singkat menggunakan bahasa yang mudah dipahami oleh pengguna, dan dalam format markdown. 
 Jika diperlukan, maka:
@@ -24,10 +24,8 @@ Jika diperlukan, maka:
 
 ------------------------------------------------------------------------
 
-
-
-
 daffa.azzam => chrome
 pku.storage.1 => edge
 apiku.mailer => chrome
-itpku.net => chrome 
+itpku.net => chrome
+

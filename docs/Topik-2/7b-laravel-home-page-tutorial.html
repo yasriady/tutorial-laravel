@@ -1,0 +1,799 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>7b-laravel-home-page-tutorial.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="tutorial-membuat-halaman-home-sederhana-di-laravel">Tutorial: Membuat Halaman Home Sederhana di Laravel</h1>
+<p>Halaman home adalah halaman utama yang akan dilihat pengguna saat pertama kali mengakses aplikasi web Anda. Di tutorial ini, kita akan membuat halaman home sederhana namun menarik untuk aplikasi manajemen data Mahasiswa menggunakan Laravel.</p>
+<h2 id="prasyarat">Prasyarat</h2>
+<ul>
+<li>Laravel sudah terinstal melalui Laragon</li>
+<li>Project <code>mahasiswa-app</code> sudah dibuat</li>
+<li>Sudah memahami dasar routing dan view di Laravel</li>
+</ul>
+<h2 id="langkah-1-membuat-controller-untuk-halaman-home">Langkah 1: Membuat Controller untuk Halaman Home</h2>
+<p>Pertama, mari buat controller khusus untuk menangani halaman home:</p>
+<pre class="hljs"><code><div>php artisan make:controller HomeController
+</div></code></pre>
+<p>Perintah di atas akan membuat file <code>HomeController.php</code> di direktori <code>app/Http/Controllers/</code>.</p>
+<h2 id="langkah-2-menambahkan-method-index-pada-homecontroller">Langkah 2: Menambahkan Method Index pada HomeController</h2>
+<p>Buka file <code>HomeController.php</code> menggunakan VS Code dan tambahkan method <code>index()</code>:</p>
+<pre class="hljs"><code><div><span class="hljs-meta">&lt;?php</span>
+
+<span class="hljs-keyword">namespace</span> <span class="hljs-title">App</span>\<span class="hljs-title">Http</span>\<span class="hljs-title">Controllers</span>;
+
+<span class="hljs-keyword">use</span> <span class="hljs-title">Illuminate</span>\<span class="hljs-title">Http</span>\<span class="hljs-title">Request</span>;
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">HomeController</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Controller</span>
+</span>{
+    <span class="hljs-comment">/**
+     * Menampilkan halaman home
+     *
+     * <span class="hljs-doctag">@return</span> \Illuminate\Http\Response
+     */</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">index</span><span class="hljs-params">()</span>
+    </span>{
+        $appName = <span class="hljs-string">"Sistem Manajemen Data Mahasiswa"</span>;
+        $features = [
+            <span class="hljs-string">'Pengelolaan Data Mahasiswa'</span>,
+            <span class="hljs-string">'Pengelolaan Data Jurusan'</span>,
+            <span class="hljs-string">'Pencarian Data Mahasiswa'</span>,
+            <span class="hljs-string">'Laporan Akademik'</span>
+        ];
+        
+        <span class="hljs-keyword">return</span> view(<span class="hljs-string">'home'</span>, compact(<span class="hljs-string">'appName'</span>, <span class="hljs-string">'features'</span>));
+    }
+}
+</div></code></pre>
+<p>Controller ini akan mengirimkan data nama aplikasi dan daftar fitur ke view.</p>
+<h2 id="langkah-3-membuat-view-untuk-halaman-home">Langkah 3: Membuat View untuk Halaman Home</h2>
+<p>Selanjutnya, buat file <code>home.blade.php</code> di direktori <code>resources/views/</code>:</p>
+<pre class="hljs"><code><div>touch resources/views/home.blade.php
+</div></code></pre>
+<h2 id="langkah-4-mengisi-konten-view-home">Langkah 4: Mengisi Konten View Home</h2>
+<p>Buka file <code>home.blade.php</code> dan isi dengan kode berikut:</p>
+<pre class="hljs"><code><div><span class="hljs-meta">&lt;!DOCTYPE <span class="hljs-meta-keyword">html</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">html</span> <span class="hljs-attr">lang</span>=<span class="hljs-string">"id"</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">charset</span>=<span class="hljs-string">"UTF-8"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"viewport"</span> <span class="hljs-attr">content</span>=<span class="hljs-string">"width=device-width, initial-scale=1.0"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">title</span>&gt;</span>{{ $appName }}<span class="hljs-tag">&lt;/<span class="hljs-name">title</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span><span class="css">
+        <span class="hljs-selector-tag">body</span> {
+            <span class="hljs-attribute">font-family</span>: <span class="hljs-string">'Segoe UI'</span>, Tahoma, Geneva, Verdana, sans-serif;
+            <span class="hljs-attribute">line-height</span>: <span class="hljs-number">1.6</span>;
+            <span class="hljs-attribute">margin</span>: <span class="hljs-number">0</span>;
+            <span class="hljs-attribute">padding</span>: <span class="hljs-number">0</span>;
+            <span class="hljs-attribute">color</span>: <span class="hljs-number">#333</span>;
+            <span class="hljs-attribute">background-color</span>: <span class="hljs-number">#f8f9fa</span>;
+        }
+        <span class="hljs-selector-class">.hero</span> {
+            <span class="hljs-attribute">background-color</span>: <span class="hljs-number">#3490dc</span>;
+            <span class="hljs-attribute">color</span>: white;
+            <span class="hljs-attribute">padding</span>: <span class="hljs-number">60px</span> <span class="hljs-number">20px</span>;
+            <span class="hljs-attribute">text-align</span>: center;
+        }
+        <span class="hljs-selector-class">.hero</span> <span class="hljs-selector-tag">h1</span> {
+            <span class="hljs-attribute">font-size</span>: <span class="hljs-number">2.5rem</span>;
+            <span class="hljs-attribute">margin-bottom</span>: <span class="hljs-number">20px</span>;
+        }
+        <span class="hljs-selector-class">.hero</span> <span class="hljs-selector-tag">p</span> {
+            <span class="hljs-attribute">font-size</span>: <span class="hljs-number">1.2rem</span>;
+            <span class="hljs-attribute">max-width</span>: <span class="hljs-number">600px</span>;
+            <span class="hljs-attribute">margin</span>: <span class="hljs-number">0</span> auto;
+        }
+        <span class="hljs-selector-class">.container</span> {
+            <span class="hljs-attribute">max-width</span>: <span class="hljs-number">1100px</span>;
+            <span class="hljs-attribute">margin</span>: <span class="hljs-number">0</span> auto;
+            <span class="hljs-attribute">padding</span>: <span class="hljs-number">40px</span> <span class="hljs-number">20px</span>;
+        }
+        <span class="hljs-selector-class">.features</span> {
+            <span class="hljs-attribute">display</span>: grid;
+            <span class="hljs-attribute">grid-template-columns</span>: <span class="hljs-built_in">repeat</span>(auto-fit, minmax(<span class="hljs-number">250px</span>, <span class="hljs-number">1</span>fr));
+            <span class="hljs-attribute">gap</span>: <span class="hljs-number">30px</span>;
+            <span class="hljs-attribute">margin-top</span>: <span class="hljs-number">40px</span>;
+        }
+        <span class="hljs-selector-class">.feature-card</span> {
+            <span class="hljs-attribute">background-color</span>: white;
+            <span class="hljs-attribute">border-radius</span>: <span class="hljs-number">8px</span>;
+            <span class="hljs-attribute">padding</span>: <span class="hljs-number">25px</span>;
+            <span class="hljs-attribute">box-shadow</span>: <span class="hljs-number">0</span> <span class="hljs-number">3px</span> <span class="hljs-number">10px</span> <span class="hljs-built_in">rgba</span>(<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0.1</span>);
+            <span class="hljs-attribute">transition</span>: transform <span class="hljs-number">0.3s</span> ease;
+        }
+        <span class="hljs-selector-class">.feature-card</span><span class="hljs-selector-pseudo">:hover</span> {
+            <span class="hljs-attribute">transform</span>: <span class="hljs-built_in">translateY</span>(-<span class="hljs-number">5px</span>);
+        }
+        <span class="hljs-selector-class">.feature-card</span> <span class="hljs-selector-tag">h3</span> {
+            <span class="hljs-attribute">color</span>: <span class="hljs-number">#3490dc</span>;
+            <span class="hljs-attribute">margin-top</span>: <span class="hljs-number">0</span>;
+        }
+        <span class="hljs-selector-class">.cta</span> {
+            <span class="hljs-attribute">text-align</span>: center;
+            <span class="hljs-attribute">margin-top</span>: <span class="hljs-number">60px</span>;
+        }
+        <span class="hljs-selector-class">.btn</span> {
+            <span class="hljs-attribute">display</span>: inline-block;
+            <span class="hljs-attribute">background-color</span>: <span class="hljs-number">#3490dc</span>;
+            <span class="hljs-attribute">color</span>: white;
+            <span class="hljs-attribute">padding</span>: <span class="hljs-number">12px</span> <span class="hljs-number">25px</span>;
+            <span class="hljs-attribute">text-decoration</span>: none;
+            <span class="hljs-attribute">border-radius</span>: <span class="hljs-number">5px</span>;
+            <span class="hljs-attribute">font-weight</span>: bold;
+            <span class="hljs-attribute">transition</span>: background-color <span class="hljs-number">0.3s</span> ease;
+        }
+        <span class="hljs-selector-class">.btn</span><span class="hljs-selector-pseudo">:hover</span> {
+            <span class="hljs-attribute">background-color</span>: <span class="hljs-number">#2779bd</span>;
+        }
+        <span class="hljs-selector-class">.footer</span> {
+            <span class="hljs-attribute">background-color</span>: <span class="hljs-number">#343a40</span>;
+            <span class="hljs-attribute">color</span>: white;
+            <span class="hljs-attribute">text-align</span>: center;
+            <span class="hljs-attribute">padding</span>: <span class="hljs-number">20px</span>;
+            <span class="hljs-attribute">margin-top</span>: <span class="hljs-number">60px</span>;
+        }
+        <span class="hljs-selector-class">.nav</span> {
+            <span class="hljs-attribute">background-color</span>: <span class="hljs-number">#fff</span>;
+            <span class="hljs-attribute">box-shadow</span>: <span class="hljs-number">0</span> <span class="hljs-number">2px</span> <span class="hljs-number">5px</span> <span class="hljs-built_in">rgba</span>(<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0.1</span>);
+            <span class="hljs-attribute">padding</span>: <span class="hljs-number">15px</span> <span class="hljs-number">0</span>;
+        }
+        <span class="hljs-selector-class">.nav-container</span> {
+            <span class="hljs-attribute">display</span>: flex;
+            <span class="hljs-attribute">justify-content</span>: space-between;
+            <span class="hljs-attribute">align-items</span>: center;
+            <span class="hljs-attribute">max-width</span>: <span class="hljs-number">1100px</span>;
+            <span class="hljs-attribute">margin</span>: <span class="hljs-number">0</span> auto;
+            <span class="hljs-attribute">padding</span>: <span class="hljs-number">0</span> <span class="hljs-number">20px</span>;
+        }
+        <span class="hljs-selector-class">.logo</span> {
+            <span class="hljs-attribute">font-size</span>: <span class="hljs-number">1.5rem</span>;
+            <span class="hljs-attribute">font-weight</span>: bold;
+            <span class="hljs-attribute">color</span>: <span class="hljs-number">#3490dc</span>;
+            <span class="hljs-attribute">text-decoration</span>: none;
+        }
+        <span class="hljs-selector-class">.nav-links</span> <span class="hljs-selector-tag">a</span> {
+            <span class="hljs-attribute">color</span>: <span class="hljs-number">#333</span>;
+            <span class="hljs-attribute">text-decoration</span>: none;
+            <span class="hljs-attribute">margin-left</span>: <span class="hljs-number">20px</span>;
+            <span class="hljs-attribute">transition</span>: color <span class="hljs-number">0.3s</span> ease;
+        }
+        <span class="hljs-selector-class">.nav-links</span> <span class="hljs-selector-tag">a</span><span class="hljs-selector-pseudo">:hover</span> {
+            <span class="hljs-attribute">color</span>: <span class="hljs-number">#3490dc</span>;
+        }
+    </span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">nav</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"nav"</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"nav-container"</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"/"</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"logo"</span>&gt;</span>{{ $appName }}<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"nav-links"</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"/"</span>&gt;</span>Home<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"/mahasiswa"</span>&gt;</span>Mahasiswa<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"/jurusan"</span>&gt;</span>Jurusan<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"/about"</span>&gt;</span>Tentang<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
+            <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">nav</span>&gt;</span>
+
+    <span class="hljs-tag">&lt;<span class="hljs-name">section</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"hero"</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">h1</span>&gt;</span>Selamat Datang di {{ $appName }}<span class="hljs-tag">&lt;/<span class="hljs-name">h1</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Sistem informasi terpadu untuk pengelolaan data mahasiswa dengan mudah, cepat, dan efisien.<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">section</span>&gt;</span>
+
+    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"container"</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">h2</span>&gt;</span>Fitur Utama<span class="hljs-tag">&lt;/<span class="hljs-name">h2</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"features"</span>&gt;</span>
+            @foreach($features as $feature)
+                <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"feature-card"</span>&gt;</span>
+                    <span class="hljs-tag">&lt;<span class="hljs-name">h3</span>&gt;</span>{{ $feature }}<span class="hljs-tag">&lt;/<span class="hljs-name">h3</span>&gt;</span>
+                    <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam in dui mauris. Vivamus hendrerit arcu sed erat molestie vehicula.<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+                <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+            @endforeach
+        <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+
+        <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"cta"</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">h2</span>&gt;</span>Mulai Kelola Data Mahasiswa Sekarang<span class="hljs-tag">&lt;/<span class="hljs-name">h2</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Klik tombol di bawah untuk melihat daftar mahasiswa<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"/mahasiswa"</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"btn"</span>&gt;</span>Lihat Data Mahasiswa<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+
+    <span class="hljs-tag">&lt;<span class="hljs-name">footer</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"footer"</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span><span class="hljs-symbol">&amp;copy;</span> {{ date('Y') }} {{ $appName }}. All rights reserved.<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">footer</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span>
+</div></code></pre>
+<h2 id="langkah-5-menambahkan-route-untuk-halaman-home">Langkah 5: Menambahkan Route untuk Halaman Home</h2>
+<p>Buka file <code>routes/web.php</code> dan tambahkan route berikut:</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">use</span> <span class="hljs-title">App</span>\<span class="hljs-title">Http</span>\<span class="hljs-title">Controllers</span>\<span class="hljs-title">HomeController</span>;
+
+<span class="hljs-comment">// Route untuk halaman home</span>
+Route::get(<span class="hljs-string">'/'</span>, [HomeController::class, <span class="hljs-string">'index'</span>]);
+</div></code></pre>
+<h2 id="langkah-6-menguji-halaman-home">Langkah 6: Menguji Halaman Home</h2>
+<ol>
+<li>
+<p>Pastikan server Laravel berjalan:</p>
+<pre class="hljs"><code><div>php artisan serve
+</div></code></pre>
+<p>Atau gunakan Laragon yang sudah berjalan</p>
+</li>
+<li>
+<p>Buka browser dan akses:</p>
+<pre class="hljs"><code><div>http://mahasiswa-app.test
+</div></code></pre>
+<p>Atau jika menggunakan server lokal:</p>
+<pre class="hljs"><code><div>http://localhost/mahasiswa-app/public
+</div></code></pre>
+</li>
+</ol>
+<p>Anda akan melihat halaman home yang menarik dengan navigasi, banner hero, daftar fitur, dan call-to-action.</p>
+<h2 id="langkah-7-menyempurnakan-dengan-layout-master">Langkah 7: Menyempurnakan dengan Layout Master</h2>
+<p>Agar lebih mudah dikelola, mari pindahkan tampilan ke dalam layout master:</p>
+<ol>
+<li>
+<p>Buat direktori <code>layouts</code> di dalam <code>resources/views</code>:</p>
+<pre class="hljs"><code><div>mkdir -p resources/views/layouts
+</div></code></pre>
+</li>
+<li>
+<p>Buat file <code>app.blade.php</code> di direktori tersebut:</p>
+<pre class="hljs"><code><div>touch resources/views/layouts/app.blade.php
+</div></code></pre>
+</li>
+<li>
+<p>Isi <code>app.blade.php</code> dengan kode berikut:</p>
+</li>
+</ol>
+<pre class="hljs"><code><div><span class="hljs-meta">&lt;!DOCTYPE <span class="hljs-meta-keyword">html</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">html</span> <span class="hljs-attr">lang</span>=<span class="hljs-string">"id"</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">charset</span>=<span class="hljs-string">"UTF-8"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"viewport"</span> <span class="hljs-attr">content</span>=<span class="hljs-string">"width=device-width, initial-scale=1.0"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">title</span>&gt;</span>@yield('title', 'Aplikasi Mahasiswa')<span class="hljs-tag">&lt;/<span class="hljs-name">title</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span><span class="css">
+        <span class="hljs-selector-tag">body</span> {
+            <span class="hljs-attribute">font-family</span>: <span class="hljs-string">'Segoe UI'</span>, Tahoma, Geneva, Verdana, sans-serif;
+            <span class="hljs-attribute">line-height</span>: <span class="hljs-number">1.6</span>;
+            <span class="hljs-attribute">margin</span>: <span class="hljs-number">0</span>;
+            <span class="hljs-attribute">padding</span>: <span class="hljs-number">0</span>;
+            <span class="hljs-attribute">color</span>: <span class="hljs-number">#333</span>;
+            <span class="hljs-attribute">background-color</span>: <span class="hljs-number">#f8f9fa</span>;
+        }
+        <span class="hljs-selector-class">.hero</span> {
+            <span class="hljs-attribute">background-color</span>: <span class="hljs-number">#3490dc</span>;
+            <span class="hljs-attribute">color</span>: white;
+            <span class="hljs-attribute">padding</span>: <span class="hljs-number">60px</span> <span class="hljs-number">20px</span>;
+            <span class="hljs-attribute">text-align</span>: center;
+        }
+        <span class="hljs-selector-class">.hero</span> <span class="hljs-selector-tag">h1</span> {
+            <span class="hljs-attribute">font-size</span>: <span class="hljs-number">2.5rem</span>;
+            <span class="hljs-attribute">margin-bottom</span>: <span class="hljs-number">20px</span>;
+        }
+        <span class="hljs-selector-class">.hero</span> <span class="hljs-selector-tag">p</span> {
+            <span class="hljs-attribute">font-size</span>: <span class="hljs-number">1.2rem</span>;
+            <span class="hljs-attribute">max-width</span>: <span class="hljs-number">600px</span>;
+            <span class="hljs-attribute">margin</span>: <span class="hljs-number">0</span> auto;
+        }
+        <span class="hljs-selector-class">.container</span> {
+            <span class="hljs-attribute">max-width</span>: <span class="hljs-number">1100px</span>;
+            <span class="hljs-attribute">margin</span>: <span class="hljs-number">0</span> auto;
+            <span class="hljs-attribute">padding</span>: <span class="hljs-number">40px</span> <span class="hljs-number">20px</span>;
+        }
+        <span class="hljs-selector-class">.features</span> {
+            <span class="hljs-attribute">display</span>: grid;
+            <span class="hljs-attribute">grid-template-columns</span>: <span class="hljs-built_in">repeat</span>(auto-fit, minmax(<span class="hljs-number">250px</span>, <span class="hljs-number">1</span>fr));
+            <span class="hljs-attribute">gap</span>: <span class="hljs-number">30px</span>;
+            <span class="hljs-attribute">margin-top</span>: <span class="hljs-number">40px</span>;
+        }
+        <span class="hljs-selector-class">.feature-card</span> {
+            <span class="hljs-attribute">background-color</span>: white;
+            <span class="hljs-attribute">border-radius</span>: <span class="hljs-number">8px</span>;
+            <span class="hljs-attribute">padding</span>: <span class="hljs-number">25px</span>;
+            <span class="hljs-attribute">box-shadow</span>: <span class="hljs-number">0</span> <span class="hljs-number">3px</span> <span class="hljs-number">10px</span> <span class="hljs-built_in">rgba</span>(<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0.1</span>);
+            <span class="hljs-attribute">transition</span>: transform <span class="hljs-number">0.3s</span> ease;
+        }
+        <span class="hljs-selector-class">.feature-card</span><span class="hljs-selector-pseudo">:hover</span> {
+            <span class="hljs-attribute">transform</span>: <span class="hljs-built_in">translateY</span>(-<span class="hljs-number">5px</span>);
+        }
+        <span class="hljs-selector-class">.feature-card</span> <span class="hljs-selector-tag">h3</span> {
+            <span class="hljs-attribute">color</span>: <span class="hljs-number">#3490dc</span>;
+            <span class="hljs-attribute">margin-top</span>: <span class="hljs-number">0</span>;
+        }
+        <span class="hljs-selector-class">.cta</span> {
+            <span class="hljs-attribute">text-align</span>: center;
+            <span class="hljs-attribute">margin-top</span>: <span class="hljs-number">60px</span>;
+        }
+        <span class="hljs-selector-class">.btn</span> {
+            <span class="hljs-attribute">display</span>: inline-block;
+            <span class="hljs-attribute">background-color</span>: <span class="hljs-number">#3490dc</span>;
+            <span class="hljs-attribute">color</span>: white;
+            <span class="hljs-attribute">padding</span>: <span class="hljs-number">12px</span> <span class="hljs-number">25px</span>;
+            <span class="hljs-attribute">text-decoration</span>: none;
+            <span class="hljs-attribute">border-radius</span>: <span class="hljs-number">5px</span>;
+            <span class="hljs-attribute">font-weight</span>: bold;
+            <span class="hljs-attribute">transition</span>: background-color <span class="hljs-number">0.3s</span> ease;
+        }
+        <span class="hljs-selector-class">.btn</span><span class="hljs-selector-pseudo">:hover</span> {
+            <span class="hljs-attribute">background-color</span>: <span class="hljs-number">#2779bd</span>;
+        }
+        <span class="hljs-selector-class">.footer</span> {
+            <span class="hljs-attribute">background-color</span>: <span class="hljs-number">#343a40</span>;
+            <span class="hljs-attribute">color</span>: white;
+            <span class="hljs-attribute">text-align</span>: center;
+            <span class="hljs-attribute">padding</span>: <span class="hljs-number">20px</span>;
+            <span class="hljs-attribute">margin-top</span>: <span class="hljs-number">60px</span>;
+        }
+        <span class="hljs-selector-class">.nav</span> {
+            <span class="hljs-attribute">background-color</span>: <span class="hljs-number">#fff</span>;
+            <span class="hljs-attribute">box-shadow</span>: <span class="hljs-number">0</span> <span class="hljs-number">2px</span> <span class="hljs-number">5px</span> <span class="hljs-built_in">rgba</span>(<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0.1</span>);
+            <span class="hljs-attribute">padding</span>: <span class="hljs-number">15px</span> <span class="hljs-number">0</span>;
+        }
+        <span class="hljs-selector-class">.nav-container</span> {
+            <span class="hljs-attribute">display</span>: flex;
+            <span class="hljs-attribute">justify-content</span>: space-between;
+            <span class="hljs-attribute">align-items</span>: center;
+            <span class="hljs-attribute">max-width</span>: <span class="hljs-number">1100px</span>;
+            <span class="hljs-attribute">margin</span>: <span class="hljs-number">0</span> auto;
+            <span class="hljs-attribute">padding</span>: <span class="hljs-number">0</span> <span class="hljs-number">20px</span>;
+        }
+        <span class="hljs-selector-class">.logo</span> {
+            <span class="hljs-attribute">font-size</span>: <span class="hljs-number">1.5rem</span>;
+            <span class="hljs-attribute">font-weight</span>: bold;
+            <span class="hljs-attribute">color</span>: <span class="hljs-number">#3490dc</span>;
+            <span class="hljs-attribute">text-decoration</span>: none;
+        }
+        <span class="hljs-selector-class">.nav-links</span> <span class="hljs-selector-tag">a</span> {
+            <span class="hljs-attribute">color</span>: <span class="hljs-number">#333</span>;
+            <span class="hljs-attribute">text-decoration</span>: none;
+            <span class="hljs-attribute">margin-left</span>: <span class="hljs-number">20px</span>;
+            <span class="hljs-attribute">transition</span>: color <span class="hljs-number">0.3s</span> ease;
+        }
+        <span class="hljs-selector-class">.nav-links</span> <span class="hljs-selector-tag">a</span><span class="hljs-selector-pseudo">:hover</span> {
+            <span class="hljs-attribute">color</span>: <span class="hljs-number">#3490dc</span>;
+        }
+        
+        <span class="hljs-comment">/* Tambahkan style tambahan disini */</span>
+        <span class="hljs-keyword">@yield</span>('styles')
+    </span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">nav</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"nav"</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"nav-container"</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"/"</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"logo"</span>&gt;</span>@yield('appName', 'Aplikasi Mahasiswa')<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"nav-links"</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"/"</span>&gt;</span>Home<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"/mahasiswa"</span>&gt;</span>Mahasiswa<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"/jurusan"</span>&gt;</span>Jurusan<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"/about"</span>&gt;</span>Tentang<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
+            <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">nav</span>&gt;</span>
+
+    @yield('content')
+
+    <span class="hljs-tag">&lt;<span class="hljs-name">footer</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"footer"</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span><span class="hljs-symbol">&amp;copy;</span> {{ date('Y') }} @yield('appName', 'Aplikasi Mahasiswa'). All rights reserved.<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">footer</span>&gt;</span>
+    
+    @yield('scripts')
+<span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span>
+</div></code></pre>
+<ol start="4">
+<li>Update file <code>home.blade.php</code> untuk menggunakan layout:</li>
+</ol>
+<pre class="hljs"><code><div>@extends(<span class="hljs-string">'layouts.app'</span>)
+
+@section(<span class="hljs-string">'title'</span>, $appName)
+
+@section(<span class="hljs-string">'appName'</span>, $appName)
+
+@section(<span class="hljs-string">'content'</span>)
+    &lt;section <span class="hljs-class"><span class="hljs-keyword">class</span>="<span class="hljs-title">hero</span>"&gt;
+        &lt;<span class="hljs-title">h1</span>&gt;<span class="hljs-title">Selamat</span> <span class="hljs-title">Datang</span> <span class="hljs-title">di</span> </span>{{ $appName }}&lt;/h1&gt;
+        &lt;p&gt;Sistem informasi terpadu untuk pengelolaan data mahasiswa dengan mudah, cepat, dan efisien.&lt;/p&gt;
+    &lt;/section&gt;
+
+    &lt;div <span class="hljs-class"><span class="hljs-keyword">class</span>="<span class="hljs-title">container</span>"&gt;
+        &lt;<span class="hljs-title">h2</span>&gt;<span class="hljs-title">Fitur</span> <span class="hljs-title">Utama</span>&lt;/<span class="hljs-title">h2</span>&gt;
+        &lt;<span class="hljs-title">div</span> <span class="hljs-title">class</span>="<span class="hljs-title">features</span>"&gt;
+            @<span class="hljs-title">foreach</span>($<span class="hljs-title">features</span> <span class="hljs-title">as</span> $<span class="hljs-title">feature</span>)
+                &lt;<span class="hljs-title">div</span> <span class="hljs-title">class</span>="<span class="hljs-title">feature</span>-<span class="hljs-title">card</span>"&gt;
+                    &lt;<span class="hljs-title">h3</span>&gt;</span>{{ $feature }}&lt;/h3&gt;
+                    &lt;p&gt;Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam in dui mauris. Vivamus hendrerit arcu sed erat molestie vehicula.&lt;/p&gt;
+                &lt;/div&gt;
+            @<span class="hljs-keyword">endforeach</span>
+        &lt;/div&gt;
+
+        &lt;div <span class="hljs-class"><span class="hljs-keyword">class</span>="<span class="hljs-title">cta</span>"&gt;
+            &lt;<span class="hljs-title">h2</span>&gt;<span class="hljs-title">Mulai</span> <span class="hljs-title">Kelola</span> <span class="hljs-title">Data</span> <span class="hljs-title">Mahasiswa</span> <span class="hljs-title">Sekarang</span>&lt;/<span class="hljs-title">h2</span>&gt;
+            &lt;<span class="hljs-title">p</span>&gt;<span class="hljs-title">Klik</span> <span class="hljs-title">tombol</span> <span class="hljs-title">di</span> <span class="hljs-title">bawah</span> <span class="hljs-title">untuk</span> <span class="hljs-title">melihat</span> <span class="hljs-title">daftar</span> <span class="hljs-title">mahasiswa</span>&lt;/<span class="hljs-title">p</span>&gt;
+            &lt;<span class="hljs-title">a</span> <span class="hljs-title">href</span>="/<span class="hljs-title">mahasiswa</span>" <span class="hljs-title">class</span>="<span class="hljs-title">btn</span>"&gt;<span class="hljs-title">Lihat</span> <span class="hljs-title">Data</span> <span class="hljs-title">Mahasiswa</span>&lt;/<span class="hljs-title">a</span>&gt;
+        &lt;/<span class="hljs-title">div</span>&gt;
+    &lt;/<span class="hljs-title">div</span>&gt;
+@<span class="hljs-title">endsection</span>
+
+@<span class="hljs-title">section</span>('<span class="hljs-title">scripts</span>')
+&lt;<span class="hljs-title">script</span>&gt;
+    <span class="hljs-title">console</span>.<span class="hljs-title">log</span>('<span class="hljs-title">Halaman</span> <span class="hljs-title">home</span> <span class="hljs-title">berhasil</span> <span class="hljs-title">dimuat</span>');
+&lt;/<span class="hljs-title">script</span>&gt;
+@<span class="hljs-title">endsection</span>
+</span></div></code></pre>
+<h2 id="langkah-8-coba-halaman-dengan-layout-baru">Langkah 8: Coba Halaman dengan Layout Baru</h2>
+<p>Refresh browser Anda untuk melihat halaman home yang menggunakan layout master. Hasilnya akan terlihat sama, tetapi struktur kode sekarang lebih terorganisir dan dapat digunakan kembali untuk halaman-halaman lain.</p>
+<h2 id="kesimpulan">Kesimpulan</h2>
+<p>Selamat! Anda telah berhasil membuat halaman home yang sederhana namun menarik untuk aplikasi manajemen mahasiswa menggunakan Laravel. Anda telah belajar:</p>
+<ol>
+<li>Membuat controller khusus untuk halaman home</li>
+<li>Membuat view menarik dengan HTML dan CSS</li>
+<li>Mengirim data dari controller ke view</li>
+<li>Menggunakan Blade template untuk menampilkan data dinamis</li>
+<li>Membuat dan menggunakan layout master untuk konsistensi tampilan</li>
+</ol>
+<p>Halaman home yang baik akan membuat pengguna lebih tertarik untuk mengeksplorasi aplikasi Anda lebih lanjut. Pada tutorial selanjutnya, kita akan melanjutkan dengan membuat fitur CRUD untuk data mahasiswa.</p>
+
+</body>
+</html>

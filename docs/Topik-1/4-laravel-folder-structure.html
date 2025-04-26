@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>4-laravel-folder-structure.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="pengenalan-struktur-folder-laravel">Pengenalan Struktur Folder Laravel</h1>
+<p>Laravel memiliki struktur folder yang terorganisir dengan baik untuk memudahkan pengembangan aplikasi web. Memahami struktur folder ini sangat penting bagi setiap pengembang Laravel, terutama untuk pemula. Artikel ini akan membahas struktur folder dasar Laravel dan fungsi dari masing-masing folder.</p>
+<h2 id="gambaran-umum-struktur-folder-laravel">Gambaran Umum Struktur Folder Laravel</h2>
+<p>Setelah Anda menginstal proyek Laravel baru, Anda akan melihat struktur folder seperti berikut:</p>
+<pre class="hljs"><code><div>project-laravel/
+│
+├── app/
+├── bootstrap/
+├── config/
+├── database/
+├── public/
+├── resources/
+├── routes/
+├── storage/
+├── tests/
+├── vendor/
+│
+├── .env
+├── .env.example
+├── .gitattributes
+├── .gitignore
+├── artisan
+├── composer.json
+├── composer.lock
+├── package.json
+├── phpunit.xml
+└── README.md
+</div></code></pre>
+<p>Mari kita bahas setiap folder secara detail:</p>
+<h2 id="struktur-folder-utama">Struktur Folder Utama</h2>
+<pre><code class="language-mermaid"><div class="mermaid">graph TD
+    A[Laravel Project] --> B[app]
+    A --> C[bootstrap]
+    A --> D[config]
+    A --> E[database]
+    A --> F[public]
+    A --> G[resources]
+    A --> H[routes]
+    A --> I[storage]
+    A --> J[tests]
+    A --> K[vendor]
+</div></code></pre>
+<h3 id="1-folder-app">1. Folder <code>app/</code></h3>
+<p>Folder <code>app/</code> adalah jantung dari aplikasi Laravel Anda. Folder ini berisi kode inti aplikasi Anda.</p>
+<pre><code class="language-mermaid"><div class="mermaid">graph TD
+    A[app] --> B[Console]
+    A --> C[Exceptions]
+    A --> D[Http]
+    A --> E[Models]
+    A --> F[Providers]
+    
+    D --> G[Controllers]
+    D --> H[Middleware]
+    D --> I[Requests]
+</div></code></pre>
+<ul>
+<li><strong><code>app/Console/</code></strong>: Berisi semua perintah kustom Artisan.</li>
+<li><strong><code>app/Exceptions/</code></strong>: Berisi handler exception aplikasi dan pengecualian kustom.</li>
+<li><strong><code>app/Http/</code></strong>: Berisi controller, middleware, dan form request.
+<ul>
+<li><strong><code>app/Http/Controllers/</code></strong>: Berisi kelas controller yang menangani request HTTP.</li>
+<li><strong><code>app/Http/Middleware/</code></strong>: Berisi middleware yang menyaring HTTP request.</li>
+<li><strong><code>app/Http/Requests/</code></strong>: Berisi form request kustom untuk validasi.</li>
+</ul>
+</li>
+<li><strong><code>app/Models/</code></strong>: Berisi model Eloquent yang mewakili tabel database.</li>
+<li><strong><code>app/Providers/</code></strong>: Berisi semua service provider aplikasi.</li>
+</ul>
+<h3 id="2-folder-bootstrap">2. Folder <code>bootstrap/</code></h3>
+<p>Folder <code>bootstrap/</code> berisi file yang menginisialisasi framework dan mengkonfigurasi autoloading. Folder ini juga berisi folder <code>cache/</code> yang menyimpan file yang dihasilkan framework untuk optimasi performa.</p>
+<ul>
+<li><strong><code>bootstrap/app.php</code></strong>: File entri utama yang membuat instance aplikasi Laravel.</li>
+<li><strong><code>bootstrap/cache/</code></strong>: Menyimpan file cache framework seperti route dan service cached.</li>
+</ul>
+<h3 id="3-folder-config">3. Folder <code>config/</code></h3>
+<p>Folder <code>config/</code> berisi semua file konfigurasi aplikasi Laravel Anda. Setiap opsi konfigurasi didokumentasikan dengan baik, jadi silakan jelajahi file-file ini untuk membiasakan diri dengan opsi yang tersedia.</p>
+<ul>
+<li><strong><code>config/app.php</code></strong>: Konfigurasi aplikasi seperti timezone, locale, dan providers.</li>
+<li><strong><code>config/database.php</code></strong>: Konfigurasi koneksi database.</li>
+<li><strong><code>config/auth.php</code></strong>: Konfigurasi autentikasi.</li>
+<li>Dan masih banyak file konfigurasi lainnya.</li>
+</ul>
+<h3 id="4-folder-database">4. Folder <code>database/</code></h3>
+<p>Folder <code>database/</code> berisi migrasi database, model factories, dan seeders.</p>
+<pre><code class="language-mermaid"><div class="mermaid">graph TD
+    A[database] --> B[factories]
+    A --> C[migrations]
+    A --> D[seeders]
+</div></code></pre>
+<ul>
+<li><strong><code>database/factories/</code></strong>: Berisi factory definisi untuk semua model Anda.</li>
+<li><strong><code>database/migrations/</code></strong>: Berisi migrasi database yang menentukan struktur database aplikasi.</li>
+<li><strong><code>database/seeders/</code></strong>: Berisi seeder database yang mengisi database dengan data.</li>
+</ul>
+<h3 id="5-folder-public">5. Folder <code>public/</code></h3>
+<p>Folder <code>public/</code> berisi file index.php, yang merupakan titik masuk untuk semua permintaan yang masuk ke aplikasi Anda. Folder ini juga berisi aset seperti gambar, JavaScript, dan CSS.</p>
+<ul>
+<li><strong><code>public/index.php</code></strong>: File entri utama yang memuat Laravel.</li>
+<li><strong><code>public/css/</code></strong>, <strong><code>public/js/</code></strong>, <strong><code>public/images/</code></strong>: Folder untuk aset statis.</li>
+</ul>
+<h3 id="6-folder-resources">6. Folder <code>resources/</code></h3>
+<p>Folder <code>resources/</code> berisi view, file sumber daya mentah (LESS, SASS, JS), dan file bahasa.</p>
+<pre><code class="language-mermaid"><div class="mermaid">graph TD
+    A[resources] --> B[css]
+    A --> C[js]
+    A --> D[lang]
+    A --> E[views]
+</div></code></pre>
+<ul>
+<li><strong><code>resources/css/</code></strong>: Berisi file CSS atau preprocessor CSS mentah.</li>
+<li><strong><code>resources/js/</code></strong>: Berisi file JavaScript mentah.</li>
+<li><strong><code>resources/lang/</code></strong>: Berisi file bahasa untuk internasionalisasi.</li>
+<li><strong><code>resources/views/</code></strong>: Berisi file template Blade yang digunakan untuk menampilkan data.</li>
+</ul>
+<h3 id="7-folder-routes">7. Folder <code>routes/</code></h3>
+<p>Folder <code>routes/</code> berisi semua definisi rute untuk aplikasi Anda.</p>
+<ul>
+<li><strong><code>routes/web.php</code></strong>: Berisi rute yang terkait dengan antarmuka web.</li>
+<li><strong><code>routes/api.php</code></strong>: Berisi rute yang terkait dengan API.</li>
+<li><strong><code>routes/console.php</code></strong>: Berisi definisi perintah konsol kustom.</li>
+<li><strong><code>routes/channels.php</code></strong>: Berisi definisi saluran broadcasting.</li>
+</ul>
+<h3 id="8-folder-storage">8. Folder <code>storage/</code></h3>
+<p>Folder <code>storage/</code> berisi file yang dihasilkan aplikasi, seperti log, cache, dan file yang diunggah oleh pengguna.</p>
+<pre><code class="language-mermaid"><div class="mermaid">graph TD
+    A[storage] --> B[app]
+    A --> C[framework]
+    A --> D[logs]
+    
+    B --> E[public]
+    C --> F[cache]
+    C --> G[sessions]
+    C --> H[views]
+</div></code></pre>
+<ul>
+<li><strong><code>storage/app/</code></strong>: Berisi file yang dihasilkan aplikasi. File yang diunggah pengguna biasanya disimpan di <code>storage/app/public/</code>.</li>
+<li><strong><code>storage/framework/</code></strong>: Berisi file yang dihasilkan framework seperti cache, sesi, dan view yang dikompilasi.</li>
+<li><strong><code>storage/logs/</code></strong>: Berisi file log aplikasi.</li>
+</ul>
+<h3 id="9-folder-tests">9. Folder <code>tests/</code></h3>
+<p>Folder <code>tests/</code> berisi tes otomatis Anda. Laravel menyediakan contoh tes PHPUnit yang siap pakai.</p>
+<ul>
+<li><strong><code>tests/Feature/</code></strong>: Berisi tes fitur yang menguji seluruh sistem aplikasi.</li>
+<li><strong><code>tests/Unit/</code></strong>: Berisi tes unit yang menguji kelas individual.</li>
+</ul>
+<h3 id="10-folder-vendor">10. Folder <code>vendor/</code></h3>
+<p>Folder <code>vendor/</code> berisi dependensi Composer Anda. File-file dalam folder ini seharusnya tidak diedit secara langsung karena akan ditimpa saat memperbarui dependensi.</p>
+<h2 id="file-penting-di-root-folder">File Penting di Root Folder</h2>
+<p>Selain folder-folder di atas, ada beberapa file penting di root folder:</p>
+<ul>
+<li><strong><code>.env</code></strong>: File konfigurasi lingkungan yang berisi variabel lingkungan seperti kredensial database.</li>
+<li><strong><code>.env.example</code></strong>: Contoh file .env untuk referensi.</li>
+<li><strong><code>.gitignore</code></strong>: Menentukan file dan folder yang diabaikan oleh Git.</li>
+<li><strong><code>artisan</code></strong>: Skrip PHP yang menyediakan CLI (Command Line Interface) untuk Laravel.</li>
+<li><strong><code>composer.json</code></strong>: Mendefinisikan dependensi PHP project dan metadata lainnya.</li>
+<li><strong><code>composer.lock</code></strong>: Memastikan instalasi dependensi yang konsisten di semua lingkungan.</li>
+<li><strong><code>package.json</code></strong>: Mendefinisikan dependensi JavaScript/Node.js dan skrip.</li>
+</ul>
+<h2 id="alur-permintaan-http-dalam-laravel">Alur Permintaan HTTP dalam Laravel</h2>
+<pre><code class="language-mermaid"><div class="mermaid">flowchart LR
+    A[Browser] --> B[public/index.php]
+    B --> C[bootstrap/app.php]
+    C --> D[HTTP Kernel]
+    D --> E[Middleware]
+    E --> F[Routes]
+    F --> G[Controller]
+    G --> H[Model]
+    H --> I[Database]
+    H --> G
+    G --> J[View]
+    J --> K[Response]
+    K --> A
+</div></code></pre>
+<p>Alur permintaan HTTP dalam Laravel berawal dari <code>public/index.php</code> yang memuat framework, lalu melalui middleware, routing, dan akhirnya ke controller yang berinteraksi dengan model dan mengembalikan view.</p>
+<h2 id="tips-bekerja-dengan-struktur-folder-laravel">Tips Bekerja dengan Struktur Folder Laravel</h2>
+<ol>
+<li>
+<p><strong>Gunakan namespace yang benar</strong>: Laravel menggunakan PSR-4 autoloading. Pastikan namespace kelas Anda sesuai dengan lokasi filenya.</p>
+</li>
+<li>
+<p><strong>Pertahankan organisasi kode</strong>: Ikuti konvensi Laravel untuk penempatan file. Misalnya, simpan model di folder <code>app/Models/</code>.</p>
+</li>
+<li>
+<p><strong>Perhatikan keamanan</strong>: File sensitif seperti <code>.env</code> tidak boleh dicommit ke version control.</p>
+</li>
+<li>
+<p><strong>Gunakan artisan untuk membuat file</strong>: Lebih baik menggunakan perintah artisan untuk membuat file seperti controller, model, dan migration. Ini memastikan struktur dan namespace yang benar.</p>
+</li>
+<li>
+<p><strong>Jaga kebersihan</strong>: Bersihkan cache dan file sementara secara berkala dengan perintah artisan seperti <code>php artisan cache:clear</code>.</p>
+</li>
+</ol>
+<h2 id="kesimpulan">Kesimpulan</h2>
+<p>Memahami struktur folder Laravel sangat penting untuk pengembangan yang efisien. Struktur yang terorganisir dengan baik memudahkan pemeliharaan dan skalabilitas aplikasi. Saat Anda terus mengembangkan aplikasi Laravel, Anda akan semakin menghargai desain yang bersih dan intuitif dari framework ini.</p>
+<p>Pada pertemuan berikutnya, kita akan belajar cara membuat proyek Laravel pertama dan mulai mengeksplorasi fitur-fiturnya secara lebih mendalam.</p>
+
+</body>
+</html>

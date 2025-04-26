@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>3b-vscode-installation-tutorial.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="instalasi-dan-konfigurasi-visual-studio-code">Instalasi dan Konfigurasi Visual Studio Code</h1>
+<p>Visual Studio Code (VS Code) adalah editor kode sumber gratis dan open-source yang dikembangkan oleh Microsoft. Editor ini ringan namun powerful, dengan dukungan untuk banyak bahasa pemrograman dan fitur-fitur yang dapat membantu pengembangan aplikasi Laravel kita.</p>
+<h2 id="mengapa-menggunakan-vs-code-untuk-laravel">Mengapa Menggunakan VS Code untuk Laravel?</h2>
+<ul>
+<li>Ringan dan cepat dibandingkan IDE penuh seperti PHPStorm</li>
+<li>Mendukung ekstensi PHP dan Laravel secara baik</li>
+<li>Interface yang intuitif dan mudah disesuaikan</li>
+<li>Integrasi Git bawaan yang sangat baik</li>
+<li>Terminal terintegrasi untuk menjalankan perintah Artisan</li>
+<li>Gratis dan open-source</li>
+</ul>
+<h2 id="langkah-langkah-instalasi-vs-code">Langkah-langkah Instalasi VS Code</h2>
+<pre><code class="language-mermaid"><div class="mermaid">flowchart LR
+    A[Download VS Code] --> B[Jalankan Installer]
+    B --> C[Konfigurasi Awal]
+    C --> D[Instalasi Ekstensi]
+    D --> E[Konfigurasi Ekstensi]
+    E --> F[VS Code Siap Digunakan]
+</div></code></pre>
+<h3 id="1-download-visual-studio-code">1. Download Visual Studio Code</h3>
+<ol>
+<li>Kunjungi situs resmi VS Code: <a href="https://code.visualstudio.com/">https://code.visualstudio.com/</a></li>
+<li>Klik tombol &quot;Download&quot; untuk sistem operasi Anda (Windows, macOS, atau Linux)</li>
+<li>Tunggu proses download selesai</li>
+</ol>
+<h3 id="2-instalasi-vs-code">2. Instalasi VS Code</h3>
+<h4 id="untuk-windows">Untuk Windows:</h4>
+<ol>
+<li>Buka file installer yang sudah didownload (biasanya <code>VSCodeSetup-{versi}.exe</code>)</li>
+<li>Klik &quot;Next&quot; untuk melanjutkan proses instalasi</li>
+<li>Baca dan setujui lisensi penggunaan, kemudian klik &quot;Next&quot;</li>
+<li>Pilih lokasi instalasi (atau biarkan default) dan klik &quot;Next&quot;</li>
+<li>Pada bagian &quot;Select Additional Tasks&quot;, pastikan opsi berikut dicentang:
+<ul>
+<li>&quot;Create a desktop icon&quot;</li>
+<li>&quot;Add 'Open with Code' action to Windows Explorer file context menu&quot;</li>
+<li>&quot;Add 'Open with Code' action to Windows Explorer directory context menu&quot;</li>
+<li>&quot;Register Code as an editor for supported file types&quot;</li>
+<li>&quot;Add to PATH&quot;</li>
+</ul>
+</li>
+<li>Klik &quot;Next&quot; dan kemudian &quot;Install&quot;</li>
+<li>Tunggu proses instalasi selesai dan klik &quot;Finish&quot;</li>
+</ol>
+<h4 id="untuk-macos">Untuk macOS:</h4>
+<ol>
+<li>Buka file <code>.dmg</code> yang sudah didownload</li>
+<li>Seret (drag) ikon VS Code ke folder Applications</li>
+<li>Buka VS Code dari Launchpad atau folder Applications</li>
+</ol>
+<h4 id="untuk-linux-ubuntudebian">Untuk Linux (Ubuntu/Debian):</h4>
+<pre class="hljs"><code><div>sudo apt update
+sudo apt install software-properties-common apt-transport-https wget
+wget -q https://packages.microsoft.com/keys/microsoft.asc -O- | sudo apt-key add -
+sudo add-apt-repository <span class="hljs-string">"deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main"</span>
+sudo apt update
+sudo apt install code
+</div></code></pre>
+<h2 id="antarmuka-vs-code">Antarmuka VS Code</h2>
+<p><img src="https://code.visualstudio.com/assets/docs/getstarted/userinterface/hero.png" alt="VS Code Interface"></p>
+<p>Saat pertama kali membuka VS Code, Anda akan melihat antarmuka dengan beberapa bagian utama:</p>
+<ol>
+<li><strong>Activity Bar</strong> - Di sebelah kiri, untuk navigasi antar view utama</li>
+<li><strong>Side Bar</strong> - Menampilkan berbagai panel (Explorer, Search, Source Control, dll)</li>
+<li><strong>Editor</strong> - Area tengah untuk mengedit file</li>
+<li><strong>Panel</strong> - Area bawah untuk terminal, output, masalah (problems), dan debug</li>
+<li><strong>Status Bar</strong> - Di bagian bawah, menampilkan informasi project dan file</li>
+</ol>
+<h2 id="instalasi-ekstensi-untuk-laravel">Instalasi Ekstensi untuk Laravel</h2>
+<p>VS Code menjadi lebih powerful dengan ekstensi. Berikut ekstensi yang direkomendasikan untuk pengembangan Laravel:</p>
+<h3 id="langkah-instalasi-ekstensi">Langkah Instalasi Ekstensi:</h3>
+<ol>
+<li>Klik ikon Extensions di Activity Bar (atau tekan <code>Ctrl+Shift+X</code>)</li>
+<li>Cari ekstensi yang diinginkan di kotak pencarian</li>
+<li>Klik &quot;Install&quot; pada ekstensi yang ingin dipasang</li>
+</ol>
+<h3 id="ekstensi-wajib-untuk-laravel">Ekstensi Wajib untuk Laravel:</h3>
+<ol>
+<li>
+<p><strong>PHP Intelephense</strong></p>
+<ul>
+<li>Memberikan intellisense, linting, dan fitur lainnya untuk PHP</li>
+<li><a href="https://marketplace.visualstudio.com/items?itemName=bmewburn.vscode-intelephense-client">https://marketplace.visualstudio.com/items?itemName=bmewburn.vscode-intelephense-client</a></li>
+</ul>
+</li>
+<li>
+<p><strong>Laravel Blade Snippets</strong></p>
+<ul>
+<li>Snippet dan highlighting untuk template Blade Laravel</li>
+<li><a href="https://marketplace.visualstudio.com/items?itemName=onecentlin.laravel-blade">https://marketplace.visualstudio.com/items?itemName=onecentlin.laravel-blade</a></li>
+</ul>
+</li>
+<li>
+<p><strong>Laravel Snippets</strong></p>
+<ul>
+<li>Snippet kode untuk Laravel</li>
+<li><a href="https://marketplace.visualstudio.com/items?itemName=onecentlin.laravel5-snippets">https://marketplace.visualstudio.com/items?itemName=onecentlin.laravel5-snippets</a></li>
+</ul>
+</li>
+<li>
+<p><strong>Laravel Artisan</strong></p>
+<ul>
+<li>Menjalankan perintah Artisan dari VS Code</li>
+<li><a href="https://marketplace.visualstudio.com/items?itemName=ryannaddy.laravel-artisan">https://marketplace.visualstudio.com/items?itemName=ryannaddy.laravel-artisan</a></li>
+</ul>
+</li>
+<li>
+<p><strong>Laravel Extra Intellisense</strong></p>
+<ul>
+<li>Autocomplete untuk Laravel routes, views, dll</li>
+<li><a href="https://marketplace.visualstudio.com/items?itemName=amiralizadeh9480.laravel-extra-intellisense">https://marketplace.visualstudio.com/items?itemName=amiralizadeh9480.laravel-extra-intellisense</a></li>
+</ul>
+</li>
+</ol>
+<h3 id="ekstensi-tambahan-yang-berguna">Ekstensi Tambahan yang Berguna:</h3>
+<ol start="6">
+<li>
+<p><strong>DotENV</strong></p>
+<ul>
+<li>Highlighting untuk file .env Laravel</li>
+<li><a href="https://marketplace.visualstudio.com/items?itemName=mikestead.dotenv">https://marketplace.visualstudio.com/items?itemName=mikestead.dotenv</a></li>
+</ul>
+</li>
+<li>
+<p><strong>GitLens</strong></p>
+<ul>
+<li>Fitur Git yang lebih kaya</li>
+<li><a href="https://marketplace.visualstudio.com/items?itemName=eamodio.gitlens">https://marketplace.visualstudio.com/items?itemName=eamodio.gitlens</a></li>
+</ul>
+</li>
+<li>
+<p><strong>Material Icon Theme</strong></p>
+<ul>
+<li>Ikon-ikon yang lebih jelas untuk file dan folder</li>
+<li><a href="https://marketplace.visualstudio.com/items?itemName=PKief.material-icon-theme">https://marketplace.visualstudio.com/items?itemName=PKief.material-icon-theme</a></li>
+</ul>
+</li>
+<li>
+<p><strong>Prettier - Code formatter</strong></p>
+<ul>
+<li>Memformat kode secara otomatis</li>
+<li><a href="https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode">https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode</a></li>
+</ul>
+</li>
+</ol>
+<h2 id="konfigurasi-vs-code-untuk-laravel">Konfigurasi VS Code untuk Laravel</h2>
+<p>Setelah menginstal ekstensi, berikut adalah beberapa konfigurasi yang direkomendasikan untuk pengembangan Laravel:</p>
+<h3 id="1-konfigurasi-format-on-save">1. Konfigurasi Format On Save</h3>
+<ol>
+<li>Buka Settings dengan <code>Ctrl+,</code> (atau <code>Cmd+,</code> di macOS)</li>
+<li>Cari &quot;format on save&quot;</li>
+<li>Centang opsi &quot;Editor: Format On Save&quot;</li>
+</ol>
+<h3 id="2-konfigurasi-php-intelephense">2. Konfigurasi PHP Intelephense</h3>
+<ol>
+<li>Buka Settings</li>
+<li>Cari &quot;intelephense&quot;</li>
+<li>Sesuaikan pengaturan sesuai kebutuhan, misalnya:
+<ul>
+<li><code>intelephense.files.maxSize</code>: Atur ke nilai yang lebih tinggi jika project besar</li>
+<li><code>intelephense.environment.phpVersion</code>: Sesuaikan dengan versi PHP yang digunakan</li>
+</ul>
+</li>
+</ol>
+<h3 id="3-konfigurasi-terminal-terintegrasi">3. Konfigurasi Terminal Terintegrasi</h3>
+<p>VS Code memiliki terminal terintegrasi yang sangat berguna untuk menjalankan perintah Artisan Laravel:</p>
+<ol>
+<li>Buka terminal dengan <code>Ctrl+</code> (atau <code>Cmd+</code> di macOS)</li>
+<li>Pilih jenis shell yang diinginkan (PowerShell, CMD, atau Git Bash di Windows)</li>
+<li>Untuk mengonfigurasi shell default:
+<ul>
+<li>Buka Settings</li>
+<li>Cari &quot;terminal.integrated.defaultProfile&quot;</li>
+<li>Pilih shell default sesuai sistem operasi Anda</li>
+</ul>
+</li>
+</ol>
+<pre><code class="language-mermaid"><div class="mermaid">graph TD
+    A[VS Code] --> B[File Explorer]
+    A --> C[Source Control/Git]
+    A --> D[Extensions]
+    A --> E[Terminal]
+    A --> F[Debug]
+    
+    B --> G[Project Laravel]
+    C --> H[Git Commands]
+    D --> I[PHP Extensions]
+    D --> J[Laravel Extensions]
+    E --> K[Artisan Commands]
+    F --> L[PHP Debug]
+</div></code></pre>
+<h2 id="tips-menggunakan-vs-code-untuk-laravel">Tips Menggunakan VS Code untuk Laravel</h2>
+<ol>
+<li>
+<p><strong>Membuka Project Laravel</strong>:</p>
+<ul>
+<li>File &gt; Open Folder &gt; Pilih folder project Laravel</li>
+</ul>
+</li>
+<li>
+<p><strong>Menjalankan Artisan Command</strong>:</p>
+<ul>
+<li>Buka terminal terintegrasi (<code>Ctrl+</code> atau <code>Cmd+</code>)</li>
+<li>Ketik perintah Artisan, contoh: <code>php artisan serve</code></li>
+</ul>
+</li>
+<li>
+<p><strong>Navigasi Cepat</strong>:</p>
+<ul>
+<li><code>Ctrl+P</code> untuk mencari file</li>
+<li><code>Ctrl+Shift+P</code> untuk Command Palette</li>
+<li><code>Ctrl+G</code> untuk pergi ke baris tertentu</li>
+</ul>
+</li>
+<li>
+<p><strong>Multi-cursor Editing</strong>:</p>
+<ul>
+<li><code>Alt+Click</code> untuk menambahkan cursor</li>
+<li><code>Ctrl+D</code> untuk memilih instance berikutnya dari seleksi</li>
+</ul>
+</li>
+<li>
+<p><strong>Keyboard Shortcuts</strong>:</p>
+<ul>
+<li><code>Ctrl+/</code> untuk komentar/uncomment baris</li>
+<li><code>Alt+Up/Down</code> untuk memindahkan baris ke atas/bawah</li>
+<li><code>Ctrl+Space</code> untuk IntelliSense</li>
+</ul>
+</li>
+</ol>
+<h2 id="kesimpulan">Kesimpulan</h2>
+<p>Visual Studio Code adalah editor kode yang sangat baik untuk pengembangan Laravel. Dengan ekstensi dan konfigurasi yang tepat, VS Code dapat memberikan pengalaman pengembangan yang hampir setara dengan IDE khusus PHP yang berbayar, sambil tetap mempertahankan kecepatan dan fleksibilitasnya.</p>
+<p>Setelah menginstal dan mengonfigurasi VS Code, Anda siap untuk mengembangkan aplikasi Laravel dengan lebih efisien. Pada pertemuan berikutnya, kita akan belajar tentang struktur folder Laravel dan mulai membuat proyek Laravel pertama kita.</p>
+
+</body>
+</html>
