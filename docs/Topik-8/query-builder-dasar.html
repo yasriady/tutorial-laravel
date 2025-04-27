@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>query-builder-dasar.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="query-builder-dasar-di-laravel">Query Builder Dasar di Laravel</h1>
+<p>Query Builder adalah salah satu fitur Laravel yang memungkinkan kita untuk menulis dan menjalankan query database dengan cara yang lebih efisien dan ekspresif. Pada artikel ini, kita akan mempelajari penggunaan Query Builder dasar di Laravel untuk mengelola data dalam aplikasi Mahasiswa-Jurusan.</p>
+<h2 id="apa-itu-query-builder">Apa itu Query Builder?</h2>
+<p>Query Builder adalah interface berorientasi objek untuk membuat dan menjalankan query database. Dibandingkan dengan raw SQL, Query Builder menawarkan:</p>
+<ul>
+<li>Sintaks yang lebih mudah dibaca</li>
+<li>Keamanan dari SQL Injection</li>
+<li>Kompatibilitas lintas database</li>
+<li>Cara yang lebih ekspresif untuk membuat query kompleks</li>
+</ul>
+<pre><code class="language-mermaid"><div class="mermaid">flowchart TD
+    A[Mulai] --> B[DB::table]
+    B --> C[Menentukan Operasi]
+    C -->|Select Data| D[select, get]
+    C -->|Insert Data| E[insert]
+    C -->|Update Data| F[update]
+    C -->|Delete Data| G[delete]
+    D --> H[Menerapkan Kondisi]
+    E --> H
+    F --> H
+    G --> H
+    H -->|where| I[Menjalankan Query]
+    H -->|whereIn| I
+    H -->|orderBy| I
+    H -->|groupBy| I
+    I --> J[Hasil/Collection]
+    J --> K[Selesai]
+
+</div></code></pre>
+<h2 id="dasar-dasar-query-builder">Dasar-Dasar Query Builder</h2>
+<h3 id="memulai-query-builder">Memulai Query Builder</h3>
+<p>Untuk menggunakan Query Builder, kita mulai dengan facade <code>DB</code> dan metode <code>table()</code>:</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">use</span> <span class="hljs-title">Illuminate</span>\<span class="hljs-title">Support</span>\<span class="hljs-title">Facades</span>\<span class="hljs-title">DB</span>;
+
+<span class="hljs-comment">// Query dasar</span>
+$mahasiswas = DB::table(<span class="hljs-string">'mahasiswas'</span>)-&gt;get();
+</div></code></pre>
+<h3 id="operasi-select-dasar">Operasi Select Dasar</h3>
+<pre class="hljs"><code><div><span class="hljs-comment">// Mengambil semua data</span>
+$mahasiswas = DB::table(<span class="hljs-string">'mahasiswas'</span>)-&gt;get();
+
+<span class="hljs-comment">// Mengambil kolom tertentu</span>
+$names = DB::table(<span class="hljs-string">'mahasiswas'</span>)-&gt;select(<span class="hljs-string">'nama'</span>, <span class="hljs-string">'nim'</span>)-&gt;get();
+
+<span class="hljs-comment">// Mengambil satu baris</span>
+$mahasiswa = DB::table(<span class="hljs-string">'mahasiswas'</span>)-&gt;where(<span class="hljs-string">'id'</span>, <span class="hljs-number">1</span>)-&gt;first();
+
+<span class="hljs-comment">// Mengambil satu kolom dari satu baris</span>
+$nama = DB::table(<span class="hljs-string">'mahasiswas'</span>)-&gt;where(<span class="hljs-string">'id'</span>, <span class="hljs-number">1</span>)-&gt;value(<span class="hljs-string">'nama'</span>);
+
+<span class="hljs-comment">// Mengambil kolom sebagai kunci array</span>
+$nimPairs = DB::table(<span class="hljs-string">'mahasiswas'</span>)-&gt;pluck(<span class="hljs-string">'nama'</span>, <span class="hljs-string">'nim'</span>);
+</div></code></pre>
+<h3 id="menggunakan-where-conditions">Menggunakan Where Conditions</h3>
+<pre class="hljs"><code><div><span class="hljs-comment">// Where dasar</span>
+$tiMahasiswas = DB::table(<span class="hljs-string">'mahasiswas'</span>)
+                -&gt;where(<span class="hljs-string">'jurusan_id'</span>, <span class="hljs-number">1</span>)
+                -&gt;get();
+
+<span class="hljs-comment">// Multiple where (AND)</span>
+$filterMahasiswas = DB::table(<span class="hljs-string">'mahasiswas'</span>)
+                    -&gt;where(<span class="hljs-string">'jurusan_id'</span>, <span class="hljs-number">1</span>)
+                    -&gt;where(<span class="hljs-string">'alamat'</span>, <span class="hljs-string">'like'</span>, <span class="hljs-string">'%Jakarta%'</span>)
+                    -&gt;get();
+
+<span class="hljs-comment">// Where dengan operator</span>
+$seniorMahasiswas = DB::table(<span class="hljs-string">'mahasiswas'</span>)
+                    -&gt;where(<span class="hljs-string">'created_at'</span>, <span class="hljs-string">'&lt;'</span>, now()-&gt;subYears(<span class="hljs-number">2</span>))
+                    -&gt;get();
+
+<span class="hljs-comment">// orWhere</span>
+$tiOrSiMahasiswas = DB::table(<span class="hljs-string">'mahasiswas'</span>)
+                    -&gt;where(<span class="hljs-string">'jurusan_id'</span>, <span class="hljs-number">1</span>)
+                    -&gt;orWhere(<span class="hljs-string">'jurusan_id'</span>, <span class="hljs-number">2</span>)
+                    -&gt;get();
+
+<span class="hljs-comment">// whereIn</span>
+$selectedMahasiswas = DB::table(<span class="hljs-string">'mahasiswas'</span>)
+                      -&gt;whereIn(<span class="hljs-string">'id'</span>, [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>])
+                      -&gt;get();
+
+<span class="hljs-comment">// whereBetween</span>
+$midIdsMahasiswas = DB::table(<span class="hljs-string">'mahasiswas'</span>)
+                    -&gt;whereBetween(<span class="hljs-string">'id'</span>, [<span class="hljs-number">10</span>, <span class="hljs-number">20</span>])
+                    -&gt;get();
+
+<span class="hljs-comment">// whereNull / whereNotNull</span>
+$noAddressMahasiswas = DB::table(<span class="hljs-string">'mahasiswas'</span>)
+                       -&gt;whereNull(<span class="hljs-string">'alamat'</span>)
+                       -&gt;get();
+</div></code></pre>
+<h3 id="ordering-grouping-dan-limit">Ordering, Grouping, dan Limit</h3>
+<pre class="hljs"><code><div><span class="hljs-comment">// orderBy</span>
+$orderedMahasiswas = DB::table(<span class="hljs-string">'mahasiswas'</span>)
+                     -&gt;orderBy(<span class="hljs-string">'nama'</span>, <span class="hljs-string">'asc'</span>)
+                     -&gt;get();
+
+<span class="hljs-comment">// Multi-column ordering</span>
+$multiOrderMahasiswas = DB::table(<span class="hljs-string">'mahasiswas'</span>)
+                       -&gt;orderBy(<span class="hljs-string">'jurusan_id'</span>, <span class="hljs-string">'asc'</span>)
+                       -&gt;orderBy(<span class="hljs-string">'nama'</span>, <span class="hljs-string">'asc'</span>)
+                       -&gt;get();
+
+<span class="hljs-comment">// latest dan oldest (shorthand untuk orderBy created_at)</span>
+$newestMahasiswas = DB::table(<span class="hljs-string">'mahasiswas'</span>)-&gt;latest()-&gt;get();
+$oldestMahasiswas = DB::table(<span class="hljs-string">'mahasiswas'</span>)-&gt;oldest()-&gt;get();
+
+<span class="hljs-comment">// groupBy dengan having</span>
+$countByJurusan = DB::table(<span class="hljs-string">'mahasiswas'</span>)
+                  -&gt;select(<span class="hljs-string">'jurusan_id'</span>, DB::raw(<span class="hljs-string">'count(*) as total'</span>))
+                  -&gt;groupBy(<span class="hljs-string">'jurusan_id'</span>)
+                  -&gt;having(<span class="hljs-string">'total'</span>, <span class="hljs-string">'&gt;'</span>, <span class="hljs-number">10</span>)
+                  -&gt;get();
+
+<span class="hljs-comment">// limit dan offset</span>
+$paginatedMahasiswas = DB::table(<span class="hljs-string">'mahasiswas'</span>)
+                      -&gt;offset(<span class="hljs-number">10</span>)
+                      -&gt;limit(<span class="hljs-number">5</span>)
+                      -&gt;get();
+</div></code></pre>
+<h2 id="query-builder-untuk-join-tables">Query Builder untuk Join Tables</h2>
+<p>Mari kita gunakan Query Builder untuk menghubungkan tabel Mahasiswa dan Jurusan:</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// Inner Join</span>
+$mahasiswaJurusan = DB::table(<span class="hljs-string">'mahasiswas'</span>)
+                    -&gt;join(<span class="hljs-string">'jurusans'</span>, <span class="hljs-string">'mahasiswas.jurusan_id'</span>, <span class="hljs-string">'='</span>, <span class="hljs-string">'jurusans.id'</span>)
+                    -&gt;select(<span class="hljs-string">'mahasiswas.*'</span>, <span class="hljs-string">'jurusans.nama_jurusan'</span>, <span class="hljs-string">'jurusans.kode_jurusan'</span>)
+                    -&gt;get();
+
+<span class="hljs-comment">// Left Join</span>
+$allMahasiswaWithJurusan = DB::table(<span class="hljs-string">'mahasiswas'</span>)
+                          -&gt;leftJoin(<span class="hljs-string">'jurusans'</span>, <span class="hljs-string">'mahasiswas.jurusan_id'</span>, <span class="hljs-string">'='</span>, <span class="hljs-string">'jurusans.id'</span>)
+                          -&gt;select(<span class="hljs-string">'mahasiswas.*'</span>, <span class="hljs-string">'jurusans.nama_jurusan'</span>)
+                          -&gt;get();
+
+<span class="hljs-comment">// Join dengan where</span>
+$tiMahasiswasWithJurusan = DB::table(<span class="hljs-string">'mahasiswas'</span>)
+                          -&gt;join(<span class="hljs-string">'jurusans'</span>, <span class="hljs-string">'mahasiswas.jurusan_id'</span>, <span class="hljs-string">'='</span>, <span class="hljs-string">'jurusans.id'</span>)
+                          -&gt;select(<span class="hljs-string">'mahasiswas.*'</span>, <span class="hljs-string">'jurusans.nama_jurusan'</span>)
+                          -&gt;where(<span class="hljs-string">'jurusans.kode_jurusan'</span>, <span class="hljs-string">'TI'</span>)
+                          -&gt;get();
+</div></code></pre>
+<pre><code class="language-mermaid"><div class="mermaid">erDiagram
+    MAHASISWAS ||--o{ JURUSANS : "join"
+    MAHASISWAS {
+        id int
+        nama string
+        nim string
+        jurusan_id int
+        alamat string
+    }
+    JURUSANS {
+        id int
+        nama_jurusan string
+        kode_jurusan string
+    }
+
+    JOIN-RESULT {
+        id int
+        nama string
+        nim string
+        jurusan_id int
+        alamat string
+        nama_jurusan string
+        kode_jurusan string
+    }
+    MAHASISWAS ||--o{ JOIN-RESULT : produces
+    JURUSANS ||--o{ JOIN-RESULT : produces
+
+</div></code></pre>
+<h2 id="operasi-insert-update-dan-delete">Operasi Insert, Update, dan Delete</h2>
+<h3 id="insert">Insert</h3>
+<pre class="hljs"><code><div><span class="hljs-comment">// Insert satu baris</span>
+DB::table(<span class="hljs-string">'mahasiswas'</span>)-&gt;insert([
+    <span class="hljs-string">'nama'</span> =&gt; <span class="hljs-string">'Budi Santoso'</span>,
+    <span class="hljs-string">'nim'</span> =&gt; <span class="hljs-string">'12345678'</span>,
+    <span class="hljs-string">'jurusan_id'</span> =&gt; <span class="hljs-number">1</span>,
+    <span class="hljs-string">'alamat'</span> =&gt; <span class="hljs-string">'Jl. Contoh No. 123'</span>,
+    <span class="hljs-string">'created_at'</span> =&gt; now(),
+    <span class="hljs-string">'updated_at'</span> =&gt; now(),
+]);
+
+<span class="hljs-comment">// Insert multiple baris</span>
+DB::table(<span class="hljs-string">'mahasiswas'</span>)-&gt;insert([
+    [
+        <span class="hljs-string">'nama'</span> =&gt; <span class="hljs-string">'Ani Wijaya'</span>,
+        <span class="hljs-string">'nim'</span> =&gt; <span class="hljs-string">'87654321'</span>,
+        <span class="hljs-string">'jurusan_id'</span> =&gt; <span class="hljs-number">2</span>,
+        <span class="hljs-string">'alamat'</span> =&gt; <span class="hljs-string">'Jl. Contoh No. 456'</span>,
+        <span class="hljs-string">'created_at'</span> =&gt; now(),
+        <span class="hljs-string">'updated_at'</span> =&gt; now(),
+    ],
+    [
+        <span class="hljs-string">'nama'</span> =&gt; <span class="hljs-string">'Cici Permata'</span>,
+        <span class="hljs-string">'nim'</span> =&gt; <span class="hljs-string">'23456789'</span>,
+        <span class="hljs-string">'jurusan_id'</span> =&gt; <span class="hljs-number">1</span>,
+        <span class="hljs-string">'alamat'</span> =&gt; <span class="hljs-string">'Jl. Contoh No. 789'</span>,
+        <span class="hljs-string">'created_at'</span> =&gt; now(),
+        <span class="hljs-string">'updated_at'</span> =&gt; now(),
+    ],
+]);
+
+<span class="hljs-comment">// Insert dan dapatkan ID</span>
+$id = DB::table(<span class="hljs-string">'jurusans'</span>)-&gt;insertGetId([
+    <span class="hljs-string">'nama_jurusan'</span> =&gt; <span class="hljs-string">'Teknik Sipil'</span>,
+    <span class="hljs-string">'kode_jurusan'</span> =&gt; <span class="hljs-string">'TS'</span>,
+    <span class="hljs-string">'created_at'</span> =&gt; now(),
+    <span class="hljs-string">'updated_at'</span> =&gt; now(),
+]);
+</div></code></pre>
+<h3 id="update">Update</h3>
+<pre class="hljs"><code><div><span class="hljs-comment">// Update satu kolom</span>
+DB::table(<span class="hljs-string">'mahasiswas'</span>)
+    -&gt;where(<span class="hljs-string">'id'</span>, <span class="hljs-number">1</span>)
+    -&gt;update([<span class="hljs-string">'alamat'</span> =&gt; <span class="hljs-string">'Alamat baru'</span>]);
+
+<span class="hljs-comment">// Update multiple kolom</span>
+DB::table(<span class="hljs-string">'mahasiswas'</span>)
+    -&gt;where(<span class="hljs-string">'jurusan_id'</span>, <span class="hljs-number">1</span>)
+    -&gt;update([
+        <span class="hljs-string">'alamat'</span> =&gt; <span class="hljs-string">'Alamat kampus'</span>,
+        <span class="hljs-string">'updated_at'</span> =&gt; now()
+    ]);
+
+<span class="hljs-comment">// Increment / Decrement</span>
+DB::table(<span class="hljs-string">'jurusans'</span>)
+    -&gt;where(<span class="hljs-string">'id'</span>, <span class="hljs-number">1</span>)
+    -&gt;increment(<span class="hljs-string">'jumlah_mahasiswa'</span>); <span class="hljs-comment">// Asumsi ada kolom jumlah_mahasiswa</span>
+
+DB::table(<span class="hljs-string">'jurusans'</span>)
+    -&gt;where(<span class="hljs-string">'id'</span>, <span class="hljs-number">2</span>)
+    -&gt;decrement(<span class="hljs-string">'jumlah_mahasiswa'</span>, <span class="hljs-number">2</span>); <span class="hljs-comment">// Mengurangi 2</span>
+</div></code></pre>
+<h3 id="delete">Delete</h3>
+<pre class="hljs"><code><div><span class="hljs-comment">// Delete berdasarkan kondisi</span>
+DB::table(<span class="hljs-string">'mahasiswas'</span>)
+    -&gt;where(<span class="hljs-string">'id'</span>, <span class="hljs-number">1</span>)
+    -&gt;delete();
+
+<span class="hljs-comment">// Delete multiple baris</span>
+DB::table(<span class="hljs-string">'mahasiswas'</span>)
+    -&gt;whereIn(<span class="hljs-string">'id'</span>, [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>])
+    -&gt;delete();
+
+<span class="hljs-comment">// Truncate (hapus semua data)</span>
+DB::table(<span class="hljs-string">'mahasiswas'</span>)-&gt;truncate(); <span class="hljs-comment">// Hati-hati dengan ini!</span>
+</div></code></pre>
+<h2 id="aggregates-dan-raw-expressions">Aggregates dan Raw Expressions</h2>
+<pre class="hljs"><code><div><span class="hljs-comment">// Count</span>
+$jumlahMahasiswa = DB::table(<span class="hljs-string">'mahasiswas'</span>)-&gt;count();
+
+<span class="hljs-comment">// Sum, Avg, Min, Max</span>
+$avgId = DB::table(<span class="hljs-string">'mahasiswas'</span>)-&gt;avg(<span class="hljs-string">'id'</span>);
+$minId = DB::table(<span class="hljs-string">'mahasiswas'</span>)-&gt;min(<span class="hljs-string">'id'</span>);
+$maxId = DB::table(<span class="hljs-string">'mahasiswas'</span>)-&gt;max(<span class="hljs-string">'id'</span>);
+
+<span class="hljs-comment">// Exists / Doesn't Exist</span>
+$hasMahasiswa = DB::table(<span class="hljs-string">'mahasiswas'</span>)
+                -&gt;where(<span class="hljs-string">'jurusan_id'</span>, <span class="hljs-number">1</span>)
+                -&gt;exists();
+
+$noTiMahasiswa = DB::table(<span class="hljs-string">'mahasiswas'</span>)
+                -&gt;where(<span class="hljs-string">'jurusan_id'</span>, <span class="hljs-number">1</span>)
+                -&gt;doesntExist();
+
+<span class="hljs-comment">// Raw expressions</span>
+$mahasiswasWithJurusan = DB::table(<span class="hljs-string">'mahasiswas'</span>)
+                        -&gt;select(DB::raw(<span class="hljs-string">'mahasiswas.*, CONCAT(jurusans.kode_jurusan, " - ", jurusans.nama_jurusan) as info_jurusan'</span>))
+                        -&gt;join(<span class="hljs-string">'jurusans'</span>, <span class="hljs-string">'mahasiswas.jurusan_id'</span>, <span class="hljs-string">'='</span>, <span class="hljs-string">'jurusans.id'</span>)
+                        -&gt;get();
+</div></code></pre>
+<h2 id="menerapkan-query-builder-di-controller">Menerapkan Query Builder di Controller</h2>
+<p>Berikut contoh penggunaan Query Builder di Controller:</p>
+<pre class="hljs"><code><div><span class="hljs-meta">&lt;?php</span>
+
+<span class="hljs-keyword">namespace</span> <span class="hljs-title">App</span>\<span class="hljs-title">Http</span>\<span class="hljs-title">Controllers</span>;
+
+<span class="hljs-keyword">use</span> <span class="hljs-title">Illuminate</span>\<span class="hljs-title">Http</span>\<span class="hljs-title">Request</span>;
+<span class="hljs-keyword">use</span> <span class="hljs-title">Illuminate</span>\<span class="hljs-title">Support</span>\<span class="hljs-title">Facades</span>\<span class="hljs-title">DB</span>;
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MahasiswaController</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Controller</span>
+</span>{
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">index</span><span class="hljs-params">()</span>
+    </span>{
+        $mahasiswas = DB::table(<span class="hljs-string">'mahasiswas'</span>)
+                     -&gt;join(<span class="hljs-string">'jurusans'</span>, <span class="hljs-string">'mahasiswas.jurusan_id'</span>, <span class="hljs-string">'='</span>, <span class="hljs-string">'jurusans.id'</span>)
+                     -&gt;select(<span class="hljs-string">'mahasiswas.*'</span>, <span class="hljs-string">'jurusans.nama_jurusan'</span>)
+                     -&gt;paginate(<span class="hljs-number">10</span>);
+                     
+        <span class="hljs-keyword">return</span> view(<span class="hljs-string">'mahasiswas.index'</span>, compact(<span class="hljs-string">'mahasiswas'</span>));
+    }
+    
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">search</span><span class="hljs-params">(Request $request)</span>
+    </span>{
+        $keyword = $request-&gt;keyword;
+        $jurusan_id = $request-&gt;jurusan_id;
+        
+        $query = DB::table(<span class="hljs-string">'mahasiswas'</span>)
+               -&gt;join(<span class="hljs-string">'jurusans'</span>, <span class="hljs-string">'mahasiswas.jurusan_id'</span>, <span class="hljs-string">'='</span>, <span class="hljs-string">'jurusans.id'</span>)
+               -&gt;select(<span class="hljs-string">'mahasiswas.*'</span>, <span class="hljs-string">'jurusans.nama_jurusan'</span>);
+        
+        <span class="hljs-keyword">if</span> (!<span class="hljs-keyword">empty</span>($keyword)) {
+            $query-&gt;where(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">($q)</span> <span class="hljs-title">use</span> <span class="hljs-params">($keyword)</span> </span>{
+                $q-&gt;where(<span class="hljs-string">'mahasiswas.nama'</span>, <span class="hljs-string">'like'</span>, <span class="hljs-string">"%$keyword%"</span>)
+                  -&gt;orWhere(<span class="hljs-string">'mahasiswas.nim'</span>, <span class="hljs-string">'like'</span>, <span class="hljs-string">"%$keyword%"</span>);
+            });
+        }
+        
+        <span class="hljs-keyword">if</span> (!<span class="hljs-keyword">empty</span>($jurusan_id)) {
+            $query-&gt;where(<span class="hljs-string">'mahasiswas.jurusan_id'</span>, $jurusan_id);
+        }
+        
+        $mahasiswas = $query-&gt;orderBy(<span class="hljs-string">'mahasiswas.nama'</span>, <span class="hljs-string">'asc'</span>)-&gt;paginate(<span class="hljs-number">10</span>);
+        $jurusans = DB::table(<span class="hljs-string">'jurusans'</span>)-&gt;get();
+        
+        <span class="hljs-keyword">return</span> view(<span class="hljs-string">'mahasiswas.index'</span>, compact(<span class="hljs-string">'mahasiswas'</span>, <span class="hljs-string">'jurusans'</span>, <span class="hljs-string">'keyword'</span>, <span class="hljs-string">'jurusan_id'</span>));
+    }
+    
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">jurusanStats</span><span class="hljs-params">()</span>
+    </span>{
+        $stats = DB::table(<span class="hljs-string">'mahasiswas'</span>)
+               -&gt;select(<span class="hljs-string">'jurusans.nama_jurusan'</span>, DB::raw(<span class="hljs-string">'count(*) as total'</span>))
+               -&gt;join(<span class="hljs-string">'jurusans'</span>, <span class="hljs-string">'mahasiswas.jurusan_id'</span>, <span class="hljs-string">'='</span>, <span class="hljs-string">'jurusans.id'</span>)
+               -&gt;groupBy(<span class="hljs-string">'jurusans.nama_jurusan'</span>)
+               -&gt;orderBy(<span class="hljs-string">'total'</span>, <span class="hljs-string">'desc'</span>)
+               -&gt;get();
+               
+        <span class="hljs-keyword">return</span> view(<span class="hljs-string">'mahasiswas.stats'</span>, compact(<span class="hljs-string">'stats'</span>));
+    }
+}
+</div></code></pre>
+<h2 id="perbandingan-dengan-eloquent">Perbandingan dengan Eloquent</h2>
+<pre><code class="language-mermaid"><div class="mermaid">graph TD
+    A[Database Query] --> B{Pilih Metode}
+    B -->|Query Builder| C[DB::table]
+    B -->|Eloquent| D[Model::query]
+    
+    C --> E[Kelebihan Query Builder]
+    E --> E1[Performa lebih cepat]
+    E --> E2[Kontrol lebih besar]
+    E --> E3[Lebih cocok untuk query kompleks]
+    
+    D --> F[Kelebihan Eloquent]
+    F --> F1[ORM dengan relasi mudah]
+    F --> F2[Fitur seperti Mutator/Accessor]
+    F --> F3[Events dan Observable]
+    F --> F4[Lebih object-oriented]
+
+</div></code></pre>
+<p>Meskipun Eloquent (ORM Laravel) lebih direkomendasikan untuk kebanyakan kasus karena fitur-fiturnya yang powerful, Query Builder tetap penting untuk dipelajari karena:</p>
+<ol>
+<li>Performance yang lebih baik untuk query kompleks</li>
+<li>Kontrol yang lebih detail saat membuat query</li>
+<li>Kemampuan untuk menulis raw SQL jika diperlukan</li>
+<li>Beberapa kasus di mana Eloquent terlalu &quot;berat&quot; untuk digunakan</li>
+</ol>
+<h2 id="tips-query-builder">Tips Query Builder</h2>
+<ol>
+<li><strong>Gunakan Binding Parameter</strong>: Selalu gunakan parameter binding untuk menghindari SQL Injection:</li>
+</ol>
+<pre class="hljs"><code><div><span class="hljs-comment">// Jangan lakukan ini</span>
+$results = DB::table(<span class="hljs-string">'mahasiswas'</span>)
+          -&gt;whereRaw(<span class="hljs-string">"jurusan_id = $jurusanId"</span>)
+          -&gt;get();
+
+<span class="hljs-comment">// Lakukan ini</span>
+$results = DB::table(<span class="hljs-string">'mahasiswas'</span>)
+          -&gt;whereRaw(<span class="hljs-string">"jurusan_id = ?"</span>, [$jurusanId])
+          -&gt;get();
+</div></code></pre>
+<ol start="2">
+<li><strong>Pagination</strong>: Selalu gunakan pagination untuk dataset besar:</li>
+</ol>
+<pre class="hljs"><code><div>$mahasiswas = DB::table(<span class="hljs-string">'mahasiswas'</span>)-&gt;paginate(<span class="hljs-number">15</span>);
+</div></code></pre>
+<ol start="3">
+<li><strong>Transactions</strong>: Gunakan transactions untuk operasi yang membutuhkan atomic operations:</li>
+</ol>
+<pre class="hljs"><code><div>DB::transaction(<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">()</span> </span>{
+    DB::table(<span class="hljs-string">'mahasiswas'</span>)-&gt;where(<span class="hljs-string">'id'</span>, <span class="hljs-number">1</span>)-&gt;update([<span class="hljs-string">'status'</span> =&gt; <span class="hljs-string">'inactive'</span>]);
+    DB::table(<span class="hljs-string">'jurusans'</span>)-&gt;where(<span class="hljs-string">'id'</span>, <span class="hljs-number">1</span>)-&gt;decrement(<span class="hljs-string">'jumlah_mahasiswa'</span>);
+});
+</div></code></pre>
+<ol start="4">
+<li><strong>Chunk untuk Dataset Besar</strong>: Untuk mengolah dataset besar, gunakan chunk:</li>
+</ol>
+<pre class="hljs"><code><div>DB::table(<span class="hljs-string">'mahasiswas'</span>)-&gt;orderBy(<span class="hljs-string">'id'</span>)-&gt;chunk(<span class="hljs-number">100</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">($mahasiswas)</span> </span>{
+    <span class="hljs-keyword">foreach</span> ($mahasiswas <span class="hljs-keyword">as</span> $mahasiswa) {
+        <span class="hljs-comment">// Proses setiap mahasiswa</span>
+    }
+});
+</div></code></pre>
+<ol start="5">
+<li><strong>Debugging Queries</strong>: Debug query yang dijalankan:</li>
+</ol>
+<pre class="hljs"><code><div>DB::enableQueryLog();
+<span class="hljs-comment">// ... jalankan beberapa query</span>
+$queries = DB::getQueryLog();
+dd($queries); <span class="hljs-comment">// Dump queries untuk debugging</span>
+</div></code></pre>
+<h2 id="kesimpulan">Kesimpulan</h2>
+<p>Query Builder Laravel adalah tool yang powerful untuk berinteraksi dengan database dengan sintaks yang ekspresif dan mudah dibaca. Dengan memahami dasar-dasar Query Builder, kita dapat:</p>
+<ol>
+<li>Membuat query select, insert, update, dan delete dengan mudah</li>
+<li>Menggabungkan tabel dengan joins</li>
+<li>Mengelompokkan dan memfilter data</li>
+<li>Menggunakan agregasi dan fungsi lain</li>
+</ol>
+<p>Meskipun Eloquent menawarkan abstraksi yang lebih tinggi, Query Builder tetap menjadi pilihan yang solid untuk query yang membutuhkan performa dan fleksibilitas lebih tinggi.</p>
+<p>Pada pertemuan berikutnya, kita akan melanjutkan dengan mempelajari &quot;Menampilkan data relasi&quot; untuk melihat bagaimana menampilkan data hasil relasi Mahasiswa-Jurusan di aplikasi kita.</p>
+
+</body>
+</html>

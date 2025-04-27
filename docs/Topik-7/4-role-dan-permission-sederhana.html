@@ -1,0 +1,886 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>4-role-dan-permission-sederhana.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="role-dan-permission-sederhana-di-laravel">Role dan Permission Sederhana di Laravel</h1>
+<p>Sistem role dan permission memungkinkan kita untuk membuat manajemen hak akses yang lebih fleksibel dibanding hanya menggunakan role saja. Berikut langkah-langkah implementasi sistem role dan permission sederhana untuk aplikasi Mahasiswa Laravel.</p>
+<h2 id="1-persiapan-struktur-database">1. Persiapan Struktur Database</h2>
+<p>Pertama, kita perlu membuat beberapa tabel untuk mengelola role dan permission:</p>
+<pre class="hljs"><code><div><span class="hljs-comment"># Membuat model dan migrasi untuk Role</span>
+php artisan make:model Role -m
+
+<span class="hljs-comment"># Membuat model dan migrasi untuk Permission</span>
+php artisan make:model Permission -m
+
+<span class="hljs-comment"># Membuat tabel pivot untuk relasi banyak-ke-banyak</span>
+php artisan make:migration create_role_permission_table
+php artisan make:migration create_user_permission_table
+</div></code></pre>
+<h2 id="2-definisikan-struktur-tabel">2. Definisikan Struktur Tabel</h2>
+<h3 id="migrasi-role">Migrasi Role:</h3>
+<pre class="hljs"><code><div><span class="hljs-comment">// database/migrations/xxxx_xx_xx_create_roles_table.php</span>
+<span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">up</span><span class="hljs-params">()</span>
+</span>{
+    Schema::create(<span class="hljs-string">'roles'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(Blueprint $table)</span> </span>{
+        $table-&gt;id();
+        $table-&gt;string(<span class="hljs-string">'name'</span>)-&gt;unique();
+        $table-&gt;string(<span class="hljs-string">'slug'</span>)-&gt;unique();
+        $table-&gt;string(<span class="hljs-string">'description'</span>)-&gt;nullable();
+        $table-&gt;timestamps();
+    });
+}
+</div></code></pre>
+<h3 id="migrasi-permission">Migrasi Permission:</h3>
+<pre class="hljs"><code><div><span class="hljs-comment">// database/migrations/xxxx_xx_xx_create_permissions_table.php</span>
+<span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">up</span><span class="hljs-params">()</span>
+</span>{
+    Schema::create(<span class="hljs-string">'permissions'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(Blueprint $table)</span> </span>{
+        $table-&gt;id();
+        $table-&gt;string(<span class="hljs-string">'name'</span>)-&gt;unique();
+        $table-&gt;string(<span class="hljs-string">'slug'</span>)-&gt;unique();
+        $table-&gt;string(<span class="hljs-string">'description'</span>)-&gt;nullable();
+        $table-&gt;timestamps();
+    });
+}
+</div></code></pre>
+<h3 id="migrasi-tabel-pivot-role-permission">Migrasi Tabel Pivot Role-Permission:</h3>
+<pre class="hljs"><code><div><span class="hljs-comment">// database/migrations/xxxx_xx_xx_create_role_permission_table.php</span>
+<span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">up</span><span class="hljs-params">()</span>
+</span>{
+    Schema::create(<span class="hljs-string">'role_permission'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(Blueprint $table)</span> </span>{
+        $table-&gt;foreignId(<span class="hljs-string">'role_id'</span>)-&gt;constrained()-&gt;onDelete(<span class="hljs-string">'cascade'</span>);
+        $table-&gt;foreignId(<span class="hljs-string">'permission_id'</span>)-&gt;constrained()-&gt;onDelete(<span class="hljs-string">'cascade'</span>);
+        $table-&gt;primary([<span class="hljs-string">'role_id'</span>, <span class="hljs-string">'permission_id'</span>]);
+    });
+}
+</div></code></pre>
+<h3 id="migrasi-tabel-pivot-user-permission-untuk-permission-khusus-user">Migrasi Tabel Pivot User-Permission (untuk permission khusus user):</h3>
+<pre class="hljs"><code><div><span class="hljs-comment">// database/migrations/xxxx_xx_xx_create_user_permission_table.php</span>
+<span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">up</span><span class="hljs-params">()</span>
+</span>{
+    Schema::create(<span class="hljs-string">'user_permission'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(Blueprint $table)</span> </span>{
+        $table-&gt;foreignId(<span class="hljs-string">'user_id'</span>)-&gt;constrained()-&gt;onDelete(<span class="hljs-string">'cascade'</span>);
+        $table-&gt;foreignId(<span class="hljs-string">'permission_id'</span>)-&gt;constrained()-&gt;onDelete(<span class="hljs-string">'cascade'</span>);
+        $table-&gt;primary([<span class="hljs-string">'user_id'</span>, <span class="hljs-string">'permission_id'</span>]);
+    });
+}
+</div></code></pre>
+<h3 id="modifikasi-tabel-users-untuk-relasi-role">Modifikasi Tabel Users untuk Relasi Role:</h3>
+<pre class="hljs"><code><div><span class="hljs-comment">// database/migrations/xxxx_xx_xx_add_role_id_to_users_table.php</span>
+<span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">up</span><span class="hljs-params">()</span>
+</span>{
+    Schema::table(<span class="hljs-string">'users'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(Blueprint $table)</span> </span>{
+        $table-&gt;foreignId(<span class="hljs-string">'role_id'</span>)-&gt;nullable()-&gt;constrained()-&gt;onDelete(<span class="hljs-string">'set null'</span>);
+    });
+}
+</div></code></pre>
+<p>Jalankan semua migrasi:</p>
+<pre class="hljs"><code><div>php artisan migrate
+</div></code></pre>
+<h2 id="3-definisikan-model-dan-relasi">3. Definisikan Model dan Relasi</h2>
+<h3 id="model-role">Model Role:</h3>
+<pre class="hljs"><code><div><span class="hljs-comment">// app/Models/Role.php</span>
+<span class="hljs-meta">&lt;?php</span>
+
+<span class="hljs-keyword">namespace</span> <span class="hljs-title">App</span>\<span class="hljs-title">Models</span>;
+
+<span class="hljs-keyword">use</span> <span class="hljs-title">Illuminate</span>\<span class="hljs-title">Database</span>\<span class="hljs-title">Eloquent</span>\<span class="hljs-title">Model</span>;
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Role</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Model</span>
+</span>{
+    <span class="hljs-keyword">protected</span> $fillable = [<span class="hljs-string">'name'</span>, <span class="hljs-string">'slug'</span>, <span class="hljs-string">'description'</span>];
+    
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">permissions</span><span class="hljs-params">()</span>
+    </span>{
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">$this</span>-&gt;belongsToMany(Permission::class, <span class="hljs-string">'role_permission'</span>);
+    }
+    
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">users</span><span class="hljs-params">()</span>
+    </span>{
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">$this</span>-&gt;hasMany(User::class);
+    }
+}
+</div></code></pre>
+<h3 id="model-permission">Model Permission:</h3>
+<pre class="hljs"><code><div><span class="hljs-comment">// app/Models/Permission.php</span>
+<span class="hljs-meta">&lt;?php</span>
+
+<span class="hljs-keyword">namespace</span> <span class="hljs-title">App</span>\<span class="hljs-title">Models</span>;
+
+<span class="hljs-keyword">use</span> <span class="hljs-title">Illuminate</span>\<span class="hljs-title">Database</span>\<span class="hljs-title">Eloquent</span>\<span class="hljs-title">Model</span>;
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Permission</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Model</span>
+</span>{
+    <span class="hljs-keyword">protected</span> $fillable = [<span class="hljs-string">'name'</span>, <span class="hljs-string">'slug'</span>, <span class="hljs-string">'description'</span>];
+    
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">roles</span><span class="hljs-params">()</span>
+    </span>{
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">$this</span>-&gt;belongsToMany(Role::class, <span class="hljs-string">'role_permission'</span>);
+    }
+    
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">users</span><span class="hljs-params">()</span>
+    </span>{
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">$this</span>-&gt;belongsToMany(User::class, <span class="hljs-string">'user_permission'</span>);
+    }
+}
+</div></code></pre>
+<h3 id="model-user-modifikasi">Model User (modifikasi):</h3>
+<pre class="hljs"><code><div><span class="hljs-comment">// app/Models/User.php</span>
+<span class="hljs-meta">&lt;?php</span>
+
+<span class="hljs-keyword">namespace</span> <span class="hljs-title">App</span>\<span class="hljs-title">Models</span>;
+
+<span class="hljs-keyword">use</span> <span class="hljs-title">Illuminate</span>\<span class="hljs-title">Foundation</span>\<span class="hljs-title">Auth</span>\<span class="hljs-title">User</span> <span class="hljs-title">as</span> <span class="hljs-title">Authenticatable</span>;
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">User</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Authenticatable</span>
+</span>{
+    <span class="hljs-comment">// Existing code...</span>
+    
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">role</span><span class="hljs-params">()</span>
+    </span>{
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">$this</span>-&gt;belongsTo(Role::class);
+    }
+    
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">permissions</span><span class="hljs-params">()</span>
+    </span>{
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">$this</span>-&gt;belongsToMany(Permission::class, <span class="hljs-string">'user_permission'</span>);
+    }
+    
+    <span class="hljs-comment">// Metode helper untuk mengecek role</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">hasRole</span><span class="hljs-params">($role)</span>
+    </span>{
+        <span class="hljs-keyword">if</span> (is_string($role)) {
+            <span class="hljs-keyword">return</span> <span class="hljs-keyword">$this</span>-&gt;role &amp;&amp; <span class="hljs-keyword">$this</span>-&gt;role-&gt;slug === $role;
+        }
+        
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">false</span>;
+    }
+    
+    <span class="hljs-comment">// Metode helper untuk mengecek permission</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">hasPermission</span><span class="hljs-params">($permission)</span>
+    </span>{
+        <span class="hljs-comment">// Cek permission langsung pada user</span>
+        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">$this</span>-&gt;permissions-&gt;where(<span class="hljs-string">'slug'</span>, $permission)-&gt;count()) {
+            <span class="hljs-keyword">return</span> <span class="hljs-keyword">true</span>;
+        }
+        
+        <span class="hljs-comment">// Cek permission melalui role user</span>
+        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">$this</span>-&gt;role) {
+            <span class="hljs-keyword">return</span> <span class="hljs-keyword">$this</span>-&gt;role-&gt;permissions-&gt;where(<span class="hljs-string">'slug'</span>, $permission)-&gt;count() &gt; <span class="hljs-number">0</span>;
+        }
+        
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">false</span>;
+    }
+}
+</div></code></pre>
+<h2 id="4-buat-seeder-untuk-data-awal">4. Buat Seeder untuk Data Awal</h2>
+<pre class="hljs"><code><div>php artisan make:seeder RolesAndPermissionsSeeder
+</div></code></pre>
+<pre class="hljs"><code><div><span class="hljs-comment">// database/seeders/RolesAndPermissionsSeeder.php</span>
+<span class="hljs-meta">&lt;?php</span>
+
+<span class="hljs-keyword">namespace</span> <span class="hljs-title">Database</span>\<span class="hljs-title">Seeders</span>;
+
+<span class="hljs-keyword">use</span> <span class="hljs-title">Illuminate</span>\<span class="hljs-title">Database</span>\<span class="hljs-title">Seeder</span>;
+<span class="hljs-keyword">use</span> <span class="hljs-title">App</span>\<span class="hljs-title">Models</span>\<span class="hljs-title">Role</span>;
+<span class="hljs-keyword">use</span> <span class="hljs-title">App</span>\<span class="hljs-title">Models</span>\<span class="hljs-title">Permission</span>;
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">RolesAndPermissionsSeeder</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Seeder</span>
+</span>{
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">run</span><span class="hljs-params">()</span>
+    </span>{
+        <span class="hljs-comment">// Roles</span>
+        $roles = [
+            [<span class="hljs-string">'name'</span> =&gt; <span class="hljs-string">'Administrator'</span>, <span class="hljs-string">'slug'</span> =&gt; <span class="hljs-string">'admin'</span>, <span class="hljs-string">'description'</span> =&gt; <span class="hljs-string">'Full access to all features'</span>],
+            [<span class="hljs-string">'name'</span> =&gt; <span class="hljs-string">'Dosen'</span>, <span class="hljs-string">'slug'</span> =&gt; <span class="hljs-string">'dosen'</span>, <span class="hljs-string">'description'</span> =&gt; <span class="hljs-string">'Can manage courses and grades'</span>],
+            [<span class="hljs-string">'name'</span> =&gt; <span class="hljs-string">'Mahasiswa'</span>, <span class="hljs-string">'slug'</span> =&gt; <span class="hljs-string">'mahasiswa'</span>, <span class="hljs-string">'description'</span> =&gt; <span class="hljs-string">'Can view their own data'</span>]
+        ];
+        
+        <span class="hljs-keyword">foreach</span> ($roles <span class="hljs-keyword">as</span> $role) {
+            Role::create($role);
+        }
+        
+        <span class="hljs-comment">// Permissions</span>
+        $permissions = [
+            <span class="hljs-comment">// User Management</span>
+            [<span class="hljs-string">'name'</span> =&gt; <span class="hljs-string">'View Users'</span>, <span class="hljs-string">'slug'</span> =&gt; <span class="hljs-string">'view-users'</span>, <span class="hljs-string">'description'</span> =&gt; <span class="hljs-string">'Can view user list'</span>],
+            [<span class="hljs-string">'name'</span> =&gt; <span class="hljs-string">'Create Users'</span>, <span class="hljs-string">'slug'</span> =&gt; <span class="hljs-string">'create-users'</span>, <span class="hljs-string">'description'</span> =&gt; <span class="hljs-string">'Can create new users'</span>],
+            [<span class="hljs-string">'name'</span> =&gt; <span class="hljs-string">'Edit Users'</span>, <span class="hljs-string">'slug'</span> =&gt; <span class="hljs-string">'edit-users'</span>, <span class="hljs-string">'description'</span> =&gt; <span class="hljs-string">'Can edit existing users'</span>],
+            [<span class="hljs-string">'name'</span> =&gt; <span class="hljs-string">'Delete Users'</span>, <span class="hljs-string">'slug'</span> =&gt; <span class="hljs-string">'delete-users'</span>, <span class="hljs-string">'description'</span> =&gt; <span class="hljs-string">'Can delete users'</span>],
+            
+            <span class="hljs-comment">// Course Management</span>
+            [<span class="hljs-string">'name'</span> =&gt; <span class="hljs-string">'View Courses'</span>, <span class="hljs-string">'slug'</span> =&gt; <span class="hljs-string">'view-courses'</span>, <span class="hljs-string">'description'</span> =&gt; <span class="hljs-string">'Can view course list'</span>],
+            [<span class="hljs-string">'name'</span> =&gt; <span class="hljs-string">'Create Courses'</span>, <span class="hljs-string">'slug'</span> =&gt; <span class="hljs-string">'create-courses'</span>, <span class="hljs-string">'description'</span> =&gt; <span class="hljs-string">'Can create new courses'</span>],
+            [<span class="hljs-string">'name'</span> =&gt; <span class="hljs-string">'Edit Courses'</span>, <span class="hljs-string">'slug'</span> =&gt; <span class="hljs-string">'edit-courses'</span>, <span class="hljs-string">'description'</span> =&gt; <span class="hljs-string">'Can edit existing courses'</span>],
+            [<span class="hljs-string">'name'</span> =&gt; <span class="hljs-string">'Delete Courses'</span>, <span class="hljs-string">'slug'</span> =&gt; <span class="hljs-string">'delete-courses'</span>, <span class="hljs-string">'description'</span> =&gt; <span class="hljs-string">'Can delete courses'</span>],
+            
+            <span class="hljs-comment">// Grade Management</span>
+            [<span class="hljs-string">'name'</span> =&gt; <span class="hljs-string">'View Grades'</span>, <span class="hljs-string">'slug'</span> =&gt; <span class="hljs-string">'view-grades'</span>, <span class="hljs-string">'description'</span> =&gt; <span class="hljs-string">'Can view grades'</span>],
+            [<span class="hljs-string">'name'</span> =&gt; <span class="hljs-string">'Create Grades'</span>, <span class="hljs-string">'slug'</span> =&gt; <span class="hljs-string">'create-grades'</span>, <span class="hljs-string">'description'</span> =&gt; <span class="hljs-string">'Can create grades'</span>],
+            [<span class="hljs-string">'name'</span> =&gt; <span class="hljs-string">'Edit Grades'</span>, <span class="hljs-string">'slug'</span> =&gt; <span class="hljs-string">'edit-grades'</span>, <span class="hljs-string">'description'</span> =&gt; <span class="hljs-string">'Can edit grades'</span>],
+            [<span class="hljs-string">'name'</span> =&gt; <span class="hljs-string">'Delete Grades'</span>, <span class="hljs-string">'slug'</span> =&gt; <span class="hljs-string">'delete-grades'</span>, <span class="hljs-string">'description'</span> =&gt; <span class="hljs-string">'Can delete grades'</span>],
+        ];
+        
+        <span class="hljs-keyword">foreach</span> ($permissions <span class="hljs-keyword">as</span> $permission) {
+            Permission::create($permission);
+        }
+        
+        <span class="hljs-comment">// Assign permissions to roles</span>
+        $adminRole = Role::where(<span class="hljs-string">'slug'</span>, <span class="hljs-string">'admin'</span>)-&gt;first();
+        $dosenRole = Role::where(<span class="hljs-string">'slug'</span>, <span class="hljs-string">'dosen'</span>)-&gt;first();
+        $mahasiswaRole = Role::where(<span class="hljs-string">'slug'</span>, <span class="hljs-string">'mahasiswa'</span>)-&gt;first();
+        
+        <span class="hljs-comment">// Admin gets all permissions</span>
+        $adminRole-&gt;permissions()-&gt;attach(Permission::all());
+        
+        <span class="hljs-comment">// Dosen permissions</span>
+        $dosenRole-&gt;permissions()-&gt;attach(
+            Permission::whereIn(<span class="hljs-string">'slug'</span>, [
+                <span class="hljs-string">'view-courses'</span>, <span class="hljs-string">'view-grades'</span>, <span class="hljs-string">'create-grades'</span>, <span class="hljs-string">'edit-grades'</span>,
+            ])-&gt;get()
+        );
+        
+        <span class="hljs-comment">// Mahasiswa permissions</span>
+        $mahasiswaRole-&gt;permissions()-&gt;attach(
+            Permission::whereIn(<span class="hljs-string">'slug'</span>, [
+                <span class="hljs-string">'view-courses'</span>, <span class="hljs-string">'view-grades'</span>
+            ])-&gt;get()
+        );
+    }
+}
+</div></code></pre>
+<p>Jalankan seeder:</p>
+<pre class="hljs"><code><div>php artisan db:seed --class=RolesAndPermissionsSeeder
+</div></code></pre>
+<h2 id="5-buat-middleware-untuk-permission-check">5. Buat Middleware untuk Permission Check</h2>
+<pre class="hljs"><code><div>php artisan make:middleware CheckPermission
+</div></code></pre>
+<pre class="hljs"><code><div><span class="hljs-comment">// app/Http/Middleware/CheckPermission.php</span>
+<span class="hljs-meta">&lt;?php</span>
+
+<span class="hljs-keyword">namespace</span> <span class="hljs-title">App</span>\<span class="hljs-title">Http</span>\<span class="hljs-title">Middleware</span>;
+
+<span class="hljs-keyword">use</span> <span class="hljs-title">Closure</span>;
+<span class="hljs-keyword">use</span> <span class="hljs-title">Illuminate</span>\<span class="hljs-title">Http</span>\<span class="hljs-title">Request</span>;
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">CheckPermission</span>
+</span>{
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">handle</span><span class="hljs-params">(Request $request, Closure $next, $permission)</span>
+    </span>{
+        <span class="hljs-keyword">if</span> (!$request-&gt;user() || !$request-&gt;user()-&gt;hasPermission($permission)) {
+            <span class="hljs-keyword">return</span> redirect()
+                -&gt;route(<span class="hljs-string">'dashboard'</span>)
+                -&gt;with(<span class="hljs-string">'error'</span>, <span class="hljs-string">'Anda tidak memiliki izin untuk mengakses halaman ini.'</span>);
+        }
+
+        <span class="hljs-keyword">return</span> $next($request);
+    }
+}
+</div></code></pre>
+<p>Daftarkan middleware:</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// app/Http/Kernel.php</span>
+<span class="hljs-keyword">protected</span> $routeMiddleware = [
+    <span class="hljs-comment">// Existing middlewares...</span>
+    <span class="hljs-string">'permission'</span> =&gt; \App\Http\Middleware\CheckPermission::class,
+];
+</div></code></pre>
+<h2 id="6-implementasi-pada-routes">6. Implementasi pada Routes</h2>
+<pre class="hljs"><code><div><span class="hljs-comment">// routes/web.php</span>
+
+<span class="hljs-comment">// User management (Admin only)</span>
+Route::middleware([<span class="hljs-string">'auth'</span>, <span class="hljs-string">'permission:view-users'</span>])-&gt;group(<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">()</span> </span>{
+    Route::get(<span class="hljs-string">'/users'</span>, [UserController::class, <span class="hljs-string">'index'</span>])-&gt;name(<span class="hljs-string">'users.index'</span>);
+    
+    Route::middleware([<span class="hljs-string">'permission:create-users'</span>])-&gt;group(<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">()</span> </span>{
+        Route::get(<span class="hljs-string">'/users/create'</span>, [UserController::class, <span class="hljs-string">'create'</span>])-&gt;name(<span class="hljs-string">'users.create'</span>);
+        Route::post(<span class="hljs-string">'/users'</span>, [UserController::class, <span class="hljs-string">'store'</span>])-&gt;name(<span class="hljs-string">'users.store'</span>);
+    });
+    
+    Route::middleware([<span class="hljs-string">'permission:edit-users'</span>])-&gt;group(<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">()</span> </span>{
+        Route::get(<span class="hljs-string">'/users/{user}/edit'</span>, [UserController::class, <span class="hljs-string">'edit'</span>])-&gt;name(<span class="hljs-string">'users.edit'</span>);
+        Route::put(<span class="hljs-string">'/users/{user}'</span>, [UserController::class, <span class="hljs-string">'update'</span>])-&gt;name(<span class="hljs-string">'users.update'</span>);
+    });
+    
+    Route::delete(<span class="hljs-string">'/users/{user}'</span>, [UserController::class, <span class="hljs-string">'destroy'</span>])
+        -&gt;middleware(<span class="hljs-string">'permission:delete-users'</span>)
+        -&gt;name(<span class="hljs-string">'users.destroy'</span>);
+});
+
+<span class="hljs-comment">// Course management (Admin and Dosen)</span>
+Route::middleware([<span class="hljs-string">'auth'</span>, <span class="hljs-string">'permission:view-courses'</span>])-&gt;group(<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">()</span> </span>{
+    Route::get(<span class="hljs-string">'/courses'</span>, [CourseController::class, <span class="hljs-string">'index'</span>])-&gt;name(<span class="hljs-string">'courses.index'</span>);
+    
+    <span class="hljs-comment">// Other course routes with appropriate permissions...</span>
+});
+
+<span class="hljs-comment">// Grade management (Admin and Dosen for all, Mahasiswa for viewing)</span>
+Route::middleware([<span class="hljs-string">'auth'</span>, <span class="hljs-string">'permission:view-grades'</span>])-&gt;group(<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">()</span> </span>{
+    Route::get(<span class="hljs-string">'/grades'</span>, [GradeController::class, <span class="hljs-string">'index'</span>])-&gt;name(<span class="hljs-string">'grades.index'</span>);
+    
+    <span class="hljs-comment">// Other grade routes with appropriate permissions...</span>
+});
+</div></code></pre>
+<h2 id="7-implementasi-pada-blade-views">7. Implementasi pada Blade Views</h2>
+<pre class="hljs"><code><div>&lt;!-- resources/views/layouts/app.blade.php --&gt;
+&lt;nav&gt;
+    @auth
+        &lt;a href=<span class="hljs-string">"{{ route('dashboard') }}"</span>&gt;Dashboard&lt;/a&gt;
+        
+        @<span class="hljs-keyword">if</span>(auth()-&gt;user()-&gt;hasPermission(<span class="hljs-string">'view-users'</span>))
+            &lt;a href=<span class="hljs-string">"{{ route('users.index') }}"</span>&gt;Manage Users&lt;/a&gt;
+        @<span class="hljs-keyword">endif</span>
+        
+        @<span class="hljs-keyword">if</span>(auth()-&gt;user()-&gt;hasPermission(<span class="hljs-string">'view-courses'</span>))
+            &lt;a href=<span class="hljs-string">"{{ route('courses.index') }}"</span>&gt;Courses&lt;/a&gt;
+        @<span class="hljs-keyword">endif</span>
+        
+        @<span class="hljs-keyword">if</span>(auth()-&gt;user()-&gt;hasPermission(<span class="hljs-string">'view-grades'</span>))
+            &lt;a href=<span class="hljs-string">"{{ route('grades.index') }}"</span>&gt;Grades&lt;/a&gt;
+        @<span class="hljs-keyword">endif</span>
+    @endauth
+&lt;/nav&gt;
+
+&lt;!-- Dalam halaman manajemen users --&gt;
+@<span class="hljs-keyword">if</span>(auth()-&gt;user()-&gt;hasPermission(<span class="hljs-string">'create-users'</span>))
+    &lt;a href=<span class="hljs-string">"{{ route('users.create') }}"</span> <span class="hljs-class"><span class="hljs-keyword">class</span>="<span class="hljs-title">btn</span> <span class="hljs-title">btn</span>-<span class="hljs-title">primary</span>"&gt;<span class="hljs-title">Add</span> <span class="hljs-title">New</span> <span class="hljs-title">User</span>&lt;/<span class="hljs-title">a</span>&gt;
+@<span class="hljs-title">endif</span>
+
+&lt;!-- <span class="hljs-title">Dalam</span> <span class="hljs-title">daftar</span> <span class="hljs-title">users</span> --&gt;
+@<span class="hljs-title">foreach</span>($<span class="hljs-title">users</span> <span class="hljs-title">as</span> $<span class="hljs-title">user</span>)
+    &lt;<span class="hljs-title">tr</span>&gt;
+        &lt;<span class="hljs-title">td</span>&gt;</span>{{ $user-&gt;name }}&lt;/td&gt;
+        &lt;td&gt;
+            @<span class="hljs-keyword">if</span>(auth()-&gt;user()-&gt;hasPermission(<span class="hljs-string">'edit-users'</span>))
+                &lt;a href=<span class="hljs-string">"{{ route('users.edit', $user) }}"</span> <span class="hljs-class"><span class="hljs-keyword">class</span>="<span class="hljs-title">btn</span> <span class="hljs-title">btn</span>-<span class="hljs-title">sm</span> <span class="hljs-title">btn</span>-<span class="hljs-title">info</span>"&gt;<span class="hljs-title">Edit</span>&lt;/<span class="hljs-title">a</span>&gt;
+            @<span class="hljs-title">endif</span>
+            
+            @<span class="hljs-title">if</span>(<span class="hljs-title">auth</span>()-&gt;<span class="hljs-title">user</span>()-&gt;<span class="hljs-title">hasPermission</span>('<span class="hljs-title">delete</span>-<span class="hljs-title">users</span>'))
+                &lt;<span class="hljs-title">form</span> <span class="hljs-title">action</span>="</span>{{ route(<span class="hljs-string">'users.destroy'</span>, $user) }}<span class="hljs-string">" method="</span>POST<span class="hljs-string">" class="</span>d-inline<span class="hljs-string">"&gt;
+                    @csrf
+                    @method('DELETE')
+                    &lt;button type="</span>submit<span class="hljs-string">" class="</span>btn btn-sm btn-danger<span class="hljs-string">" 
+                            onclick="</span><span class="hljs-keyword">return</span> confirm(<span class="hljs-string">'Are you sure?'</span>)<span class="hljs-string">"&gt;Delete&lt;/button&gt;
+                &lt;/form&gt;
+            @endif
+        &lt;/td&gt;
+    &lt;/tr&gt;
+@endforeach
+</span></div></code></pre>
+<h2 id="8-buat-blade-directive-untuk-permission">8. Buat Blade Directive untuk Permission</h2>
+<pre class="hljs"><code><div><span class="hljs-comment">// app/Providers/AppServiceProvider.php</span>
+<span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">boot</span><span class="hljs-params">()</span>
+</span>{
+    Blade::if(<span class="hljs-string">'permission'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">($permission)</span> </span>{
+        <span class="hljs-keyword">return</span> auth()-&gt;check() &amp;&amp; auth()-&gt;user()-&gt;hasPermission($permission);
+    });
+}
+</div></code></pre>
+<p>Penggunaan:</p>
+<pre class="hljs"><code><div>@permission(<span class="hljs-string">'create-users'</span>)
+    &lt;a href=<span class="hljs-string">"{{ route('users.create') }}"</span> <span class="hljs-class"><span class="hljs-keyword">class</span>="<span class="hljs-title">btn</span> <span class="hljs-title">btn</span>-<span class="hljs-title">primary</span>"&gt;<span class="hljs-title">Add</span> <span class="hljs-title">New</span> <span class="hljs-title">User</span>&lt;/<span class="hljs-title">a</span>&gt;
+@<span class="hljs-title">endpermission</span>
+</span></div></code></pre>
+<h2 id="9-integrasikan-dengan-gates-dan-policies">9. Integrasikan dengan Gates dan Policies</h2>
+<pre class="hljs"><code><div><span class="hljs-comment">// app/Providers/AuthServiceProvider.php</span>
+<span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">boot</span><span class="hljs-params">()</span>
+</span>{
+    <span class="hljs-comment">// Gates</span>
+    Gate::define(<span class="hljs-string">'view-users'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">($user)</span> </span>{
+        <span class="hljs-keyword">return</span> $user-&gt;hasPermission(<span class="hljs-string">'view-users'</span>);
+    });
+    
+    Gate::define(<span class="hljs-string">'create-users'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">($user)</span> </span>{
+        <span class="hljs-keyword">return</span> $user-&gt;hasPermission(<span class="hljs-string">'create-users'</span>);
+    });
+    
+    <span class="hljs-comment">// Bisa dilanjutkan untuk permission lainnya</span>
+}
+</div></code></pre>
+<p>Kemudian gunakan di controller:</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// app/Http/Controllers/UserController.php</span>
+<span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">index</span><span class="hljs-params">()</span>
+</span>{
+    <span class="hljs-keyword">$this</span>-&gt;authorize(<span class="hljs-string">'view-users'</span>);
+    $users = User::all();
+    <span class="hljs-keyword">return</span> view(<span class="hljs-string">'users.index'</span>, compact(<span class="hljs-string">'users'</span>));
+}
+
+<span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">create</span><span class="hljs-params">()</span>
+</span>{
+    <span class="hljs-keyword">$this</span>-&gt;authorize(<span class="hljs-string">'create-users'</span>);
+    <span class="hljs-keyword">return</span> view(<span class="hljs-string">'users.create'</span>);
+}
+</div></code></pre>
+<pre><code class="language-mermaid"><div class="mermaid">flowchart TD
+    A[User mengakses URL] --> B{User sudah login?}
+    B -->|Tidak| C[Redirect ke halaman login]
+    B -->|Ya| D{Cek Role user}
+    
+    D --> E{Cek Permission}
+    E -->|Punya Permission| F[Akses diberikan]
+    E -->|Tidak punya Permission| G[Akses ditolak]
+    
+    F --> H[Render halaman/component]
+    G --> I[Tampilkan error/Redirect]
+    
+    subgraph "Check Permission Logic"
+        J[Cek permission langsung pada user] --> K{Ditemukan?}
+        K -->|Ya| L[Return true]
+        K -->|Tidak| M[Cek permission dari role user]
+        M --> N{Ditemukan?}
+        N -->|Ya| L
+        N -->|Tidak| O[Return false]
+    end
+
+</div></code></pre>
+<h2 id="diagram-proses-pemeriksaan-role-dan-permission">Diagram Proses Pemeriksaan Role dan Permission</h2>
+<pre><code class="language-mermaid"><div class="mermaid">sequenceDiagram
+    participant User
+    participant Route
+    participant PermissionMiddleware
+    participant Controller
+    participant UserModel
+    participant View
+    
+    User->>Route: Request URL
+    Route->>PermissionMiddleware: Cek permission
+    PermissionMiddleware->>UserModel: hasPermission(permission)
+    
+    Note over UserModel: Check direct user permission
+    UserModel->>UserModel: Cek tabel user_permission
+    
+    alt Permission ditemukan di user
+        UserModel-->>PermissionMiddleware: true
+    else Permission tidak ditemukan di user
+        Note over UserModel: Check role permission
+        UserModel->>UserModel: Cek permission di role user
+        
+        alt Permission ditemukan di role
+            UserModel-->>PermissionMiddleware: true
+        else Permission tidak ditemukan di role
+            UserModel-->>PermissionMiddleware: false
+            PermissionMiddleware-->>User: Redirect dengan pesan error
+        end
+    end
+    
+    PermissionMiddleware->>Controller: Next (lanjutkan request)
+    Controller->>View: Render view
+    View->>View: Tampilkan/sembunyikan elemen berdasarkan permission
+    View-->>User: Tampilkan halaman
+
+</div></code></pre>
+<h2 id="tips-implementasi-role-dan-permission">Tips Implementasi Role dan Permission</h2>
+<ol>
+<li><strong>Gunakan cache untuk performa yang lebih baik</strong> - Hindari query database berulang:</li>
+</ol>
+<pre class="hljs"><code><div><span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">hasPermission</span><span class="hljs-params">($permission)</span>
+</span>{
+    $cacheKey = <span class="hljs-string">"user_{$this-&gt;id}_has_permission_{$permission}"</span>;
+    
+    <span class="hljs-keyword">return</span> Cache::remember($cacheKey, <span class="hljs-number">60</span>*<span class="hljs-number">24</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">()</span> <span class="hljs-title">use</span> <span class="hljs-params">($permission)</span> </span>{
+        <span class="hljs-comment">// Cek normal permission seperti di atas</span>
+    });
+}
+</div></code></pre>
+<ol start="2">
+<li>
+<p><strong>Tambahkan Role dan Permission Management UI</strong> - Buat UI administrator untuk mengelola role dan permission.</p>
+</li>
+<li>
+<p><strong>Buat middleware untuk route resource secara keseluruhan</strong>:</p>
+</li>
+</ol>
+<pre class="hljs"><code><div>Route::resource(<span class="hljs-string">'users'</span>, UserController::class)-&gt;middleware(<span class="hljs-string">'auth'</span>)-&gt;middleware([
+    <span class="hljs-string">'index'</span> =&gt; <span class="hljs-string">'permission:view-users'</span>,
+    <span class="hljs-string">'create'</span> =&gt; <span class="hljs-string">'permission:create-users'</span>,
+    <span class="hljs-string">'store'</span> =&gt; <span class="hljs-string">'permission:create-users'</span>,
+    <span class="hljs-string">'show'</span> =&gt; <span class="hljs-string">'permission:view-users'</span>,
+    <span class="hljs-string">'edit'</span> =&gt; <span class="hljs-string">'permission:edit-users'</span>,
+    <span class="hljs-string">'update'</span> =&gt; <span class="hljs-string">'permission:edit-users'</span>,
+    <span class="hljs-string">'destroy'</span> =&gt; <span class="hljs-string">'permission:delete-users'</span>,
+]);
+</div></code></pre>
+<ol start="4">
+<li><strong>Buat permission dinamis untuk resource tertentu</strong>:</li>
+</ol>
+<pre class="hljs"><code><div><span class="hljs-comment">// Contoh: Dosen hanya boleh melihat/mengedit nilai mahasiswa di kelasnya</span>
+<span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">hasPermissionForClass</span><span class="hljs-params">($permission, $classId)</span> 
+</span>{
+    <span class="hljs-keyword">if</span> (<span class="hljs-keyword">$this</span>-&gt;hasRole(<span class="hljs-string">'admin'</span>)) {
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">true</span>;
+    }
+    
+    <span class="hljs-keyword">if</span> (<span class="hljs-keyword">$this</span>-&gt;hasRole(<span class="hljs-string">'dosen'</span>)) {
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">$this</span>-&gt;classes-&gt;contains($classId);
+    }
+    
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">false</span>;
+}
+</div></code></pre>
+<p>Dengan mengikuti tutorial ini, Anda telah berhasil mengimplementasikan sistem role dan permission yang fleksibel untuk aplikasi Laravel. Sistem ini akan memungkinkan pengelolaan hak akses yang lebih detail dibandingkan hanya menggunakan role saja.</p>
+
+</body>
+</html>

@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>form-dengan-validasi-javascript.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="form-dengan-validasi-javascript">Form dengan Validasi JavaScript</h1>
+<p>Validasi form tidak hanya dilakukan di sisi server (back-end) tetapi juga perlu diterapkan di sisi klien (front-end) untuk memberikan respons cepat kepada pengguna dan menghemat request ke server. Mari kita pelajari cara menambahkan validasi JavaScript pada form aplikasi mahasiswa.</p>
+<h2 id="keuntungan-validasi-javascript">Keuntungan Validasi JavaScript</h2>
+<ol>
+<li><strong>Respons cepat</strong> - Pengguna langsung mendapat feedback tanpa perlu menunggu respon server</li>
+<li><strong>Mengurangi beban server</strong> - Menolak data invalid sebelum dikirim ke server</li>
+<li><strong>Pengalaman pengguna lebih baik</strong> - Validasi real-time saat pengguna mengetik</li>
+<li><strong>Melengkapi validasi server</strong> - Lapisan keamanan tambahan (tetap harus validasi di server)</li>
+</ol>
+<h2 id="implementasi-validasi-javascript">Implementasi Validasi JavaScript</h2>
+<p>Kita akan menerapkan validasi JavaScript dengan tiga metode:</p>
+<ol>
+<li>Validasi HTML5 dasar</li>
+<li>Validasi dengan Bootstrap Validation</li>
+<li>Validasi dengan library jQuery Validation</li>
+</ol>
+<h3 id="1-validasi-html5-dasar">1. Validasi HTML5 Dasar</h3>
+<p>HTML5 menyediakan atribut validasi sederhana seperti <code>required</code>, <code>min</code>, <code>max</code>, <code>pattern</code>, dll.</p>
+<pre class="hljs"><code><div>{{-- resources/views/mahasiswa/create.blade.php --}}
+&lt;form action=<span class="hljs-string">"{{ route('mahasiswa.store') }}"</span> method=<span class="hljs-string">"POST"</span> novalidate&gt;
+    @csrf
+    
+    &lt;div <span class="hljs-class"><span class="hljs-keyword">class</span>="<span class="hljs-title">mb</span>-3"&gt;
+        &lt;<span class="hljs-title">label</span> <span class="hljs-title">for</span>="<span class="hljs-title">nim</span>" <span class="hljs-title">class</span>="<span class="hljs-title">form</span>-<span class="hljs-title">label</span>"&gt;<span class="hljs-title">NIM</span>&lt;/<span class="hljs-title">label</span>&gt;
+        &lt;<span class="hljs-title">input</span> <span class="hljs-title">type</span>="<span class="hljs-title">text</span>" <span class="hljs-title">class</span>="<span class="hljs-title">form</span>-<span class="hljs-title">control</span> @<span class="hljs-title">error</span>('<span class="hljs-title">nim</span>') <span class="hljs-title">is</span>-<span class="hljs-title">invalid</span> @<span class="hljs-title">enderror</span>" 
+               <span class="hljs-title">id</span>="<span class="hljs-title">nim</span>" <span class="hljs-title">name</span>="<span class="hljs-title">nim</span>" <span class="hljs-title">value</span>="</span>{{ old(<span class="hljs-string">'nim'</span>) }}<span class="hljs-string">" 
+               required pattern="</span>[<span class="hljs-number">0</span><span class="hljs-number">-9</span>]{<span class="hljs-number">8</span>}<span class="hljs-string">" title="</span>NIM harus <span class="hljs-number">8</span> digit angka<span class="hljs-string">"&gt;
+        &lt;div class="</span>invalid-feedback<span class="hljs-string">"&gt;
+            @error('nim') {{ $message }} @else NIM harus 8 digit angka @enderror
+        &lt;/div&gt;
+    &lt;/div&gt;
+    
+    &lt;div class="</span>mb<span class="hljs-number">-3</span><span class="hljs-string">"&gt;
+        &lt;label for="</span>nama<span class="hljs-string">" class="</span>form-label<span class="hljs-string">"&gt;Nama Lengkap&lt;/label&gt;
+        &lt;input type="</span>text<span class="hljs-string">" class="</span>form-control @error(<span class="hljs-string">'nama'</span>) is-invalid @enderror<span class="hljs-string">" 
+               id="</span>nama<span class="hljs-string">" name="</span>nama<span class="hljs-string">" value="</span>{{ old(<span class="hljs-string">'nama'</span>) }}<span class="hljs-string">" 
+               required minlength="</span><span class="hljs-number">3</span><span class="hljs-string">" maxlength="</span><span class="hljs-number">100</span><span class="hljs-string">"&gt;
+        &lt;div class="</span>invalid-feedback<span class="hljs-string">"&gt;
+            @error('nama') {{ $message }} @else Nama harus diisi (3-100 karakter) @enderror
+        &lt;/div&gt;
+    &lt;/div&gt;
+    
+    &lt;div class="</span>mb<span class="hljs-number">-3</span><span class="hljs-string">"&gt;
+        &lt;label for="</span>email<span class="hljs-string">" class="</span>form-label<span class="hljs-string">"&gt;Email&lt;/label&gt;
+        &lt;input type="</span>email<span class="hljs-string">" class="</span>form-control @error(<span class="hljs-string">'email'</span>) is-invalid @enderror<span class="hljs-string">" 
+               id="</span>email<span class="hljs-string">" name="</span>email<span class="hljs-string">" value="</span>{{ old(<span class="hljs-string">'email'</span>) }}<span class="hljs-string">" required&gt;
+        &lt;div class="</span>invalid-feedback<span class="hljs-string">"&gt;
+            @error('email') {{ $message }} @else Email harus valid @enderror
+        &lt;/div&gt;
+    &lt;/div&gt;
+    
+    &lt;!-- Form lainnya --&gt;
+    
+    &lt;button type="</span>submit<span class="hljs-string">" class="</span>btn btn-primary<span class="hljs-string">"&gt;Simpan&lt;/button&gt;
+&lt;/form&gt;
+</span></div></code></pre>
+<p>Tambahkan JavaScript untuk mengaktifkan validasi HTML5:</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// public/js/form-validation.js</span>
+(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+  <span class="hljs-string">'use strict'</span>;
+  
+  <span class="hljs-comment">// Ambil semua form yang perlu validasi</span>
+  <span class="hljs-keyword">var</span> forms = <span class="hljs-built_in">document</span>.querySelectorAll(<span class="hljs-string">'.needs-validation'</span>);
+  
+  <span class="hljs-comment">// Loop untuk mencegah submission</span>
+  <span class="hljs-built_in">Array</span>.prototype.slice.call(forms).forEach(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">form</span>) </span>{
+    form.addEventListener(<span class="hljs-string">'submit'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">event</span>) </span>{
+      <span class="hljs-keyword">if</span> (!form.checkValidity()) {
+        event.preventDefault();
+        event.stopPropagation();
+      }
+      
+      form.classList.add(<span class="hljs-string">'was-validated'</span>);
+    }, <span class="hljs-literal">false</span>);
+  });
+})();
+</div></code></pre>
+<h3 id="2-validasi-dengan-bootstrap-5">2. Validasi dengan Bootstrap 5</h3>
+<p>Bootstrap 5 memiliki fitur validasi form yang terintegrasi:</p>
+<pre class="hljs"><code><div>{{-- resources/views/mahasiswa/create.blade.php --}}
+@extends(<span class="hljs-string">'layouts.app'</span>)
+
+@section(<span class="hljs-string">'content'</span>)
+&lt;div <span class="hljs-class"><span class="hljs-keyword">class</span>="<span class="hljs-title">container</span>"&gt;
+    &lt;<span class="hljs-title">div</span> <span class="hljs-title">class</span>="<span class="hljs-title">row</span> <span class="hljs-title">justify</span>-<span class="hljs-title">content</span>-<span class="hljs-title">center</span>"&gt;
+        &lt;<span class="hljs-title">div</span> <span class="hljs-title">class</span>="<span class="hljs-title">col</span>-<span class="hljs-title">md</span>-8"&gt;
+            &lt;<span class="hljs-title">div</span> <span class="hljs-title">class</span>="<span class="hljs-title">card</span> <span class="hljs-title">shadow</span>"&gt;
+                &lt;<span class="hljs-title">div</span> <span class="hljs-title">class</span>="<span class="hljs-title">card</span>-<span class="hljs-title">header</span> <span class="hljs-title">bg</span>-<span class="hljs-title">primary</span> <span class="hljs-title">text</span>-<span class="hljs-title">white</span>"&gt;
+                    &lt;<span class="hljs-title">h5</span> <span class="hljs-title">class</span>="<span class="hljs-title">mb</span>-0"&gt;<span class="hljs-title">Tambah</span> <span class="hljs-title">Mahasiswa</span> <span class="hljs-title">Baru</span>&lt;/<span class="hljs-title">h5</span>&gt;
+                &lt;/<span class="hljs-title">div</span>&gt;
+                &lt;<span class="hljs-title">div</span> <span class="hljs-title">class</span>="<span class="hljs-title">card</span>-<span class="hljs-title">body</span>"&gt;
+                    &lt;<span class="hljs-title">form</span> <span class="hljs-title">action</span>="</span>{{ route(<span class="hljs-string">'mahasiswa.store'</span>) }}<span class="hljs-string">" method="</span>POST<span class="hljs-string">" class="</span>needs-validation<span class="hljs-string">" novalidate&gt;
+                        @csrf
+                        
+                        &lt;div class="</span>mb<span class="hljs-number">-3</span><span class="hljs-string">"&gt;
+                            &lt;label for="</span>nim<span class="hljs-string">" class="</span>form-label<span class="hljs-string">"&gt;NIM&lt;/label&gt;
+                            &lt;input type="</span>text<span class="hljs-string">" class="</span>form-control @error(<span class="hljs-string">'nim'</span>) is-invalid @enderror<span class="hljs-string">" 
+                                   id="</span>nim<span class="hljs-string">" name="</span>nim<span class="hljs-string">" value="</span>{{ old(<span class="hljs-string">'nim'</span>) }}<span class="hljs-string">" 
+                                   required pattern="</span>[<span class="hljs-number">0</span><span class="hljs-number">-9</span>]{<span class="hljs-number">8</span>}<span class="hljs-string">"&gt;
+                            &lt;div class="</span>invalid-feedback<span class="hljs-string">"&gt;
+                                @error('nim') {{ $message }} @else NIM harus 8 digit angka @enderror
+                            &lt;/div&gt;
+                        &lt;/div&gt;
+                        
+                        &lt;div class="</span>mb<span class="hljs-number">-3</span><span class="hljs-string">"&gt;
+                            &lt;label for="</span>nama<span class="hljs-string">" class="</span>form-label<span class="hljs-string">"&gt;Nama Lengkap&lt;/label&gt;
+                            &lt;input type="</span>text<span class="hljs-string">" class="</span>form-control @error(<span class="hljs-string">'nama'</span>) is-invalid @enderror<span class="hljs-string">" 
+                                   id="</span>nama<span class="hljs-string">" name="</span>nama<span class="hljs-string">" value="</span>{{ old(<span class="hljs-string">'nama'</span>) }}<span class="hljs-string">" 
+                                   required minlength="</span><span class="hljs-number">3</span><span class="hljs-string">" maxlength="</span><span class="hljs-number">100</span><span class="hljs-string">"&gt;
+                            &lt;div class="</span>invalid-feedback<span class="hljs-string">"&gt;
+                                @error('nama') {{ $message }} @else Nama harus diisi (3-100 karakter) @enderror
+                            &lt;/div&gt;
+                        &lt;/div&gt;
+                        
+                        &lt;div class="</span>mb<span class="hljs-number">-3</span><span class="hljs-string">"&gt;
+                            &lt;label for="</span>jurusan_id<span class="hljs-string">" class="</span>form-label<span class="hljs-string">"&gt;Jurusan&lt;/label&gt;
+                            &lt;select class="</span>form-select @error(<span class="hljs-string">'jurusan_id'</span>) is-invalid @enderror<span class="hljs-string">" 
+                                    id="</span>jurusan_id<span class="hljs-string">" name="</span>jurusan_id<span class="hljs-string">" required&gt;
+                                &lt;option value="</span><span class="hljs-string">"&gt;-- Pilih Jurusan --&lt;/option&gt;
+                                @foreach($jurusans as $jurusan)
+                                    &lt;option value="</span>{{ $jurusan-&gt;id }}<span class="hljs-string">" {{ old('jurusan_id') == $jurusan-&gt;id ? 'selected' : '' }}&gt;
+                                        {{ $jurusan-&gt;nama }}
+                                    &lt;/option&gt;
+                                @endforeach
+                            &lt;/select&gt;
+                            &lt;div class="</span>invalid-feedback<span class="hljs-string">"&gt;
+                                @error('jurusan_id') {{ $message }} @else Pilih jurusan terlebih dahulu @enderror
+                            &lt;/div&gt;
+                        &lt;/div&gt;
+                        
+                        &lt;div class="</span>mb<span class="hljs-number">-3</span><span class="hljs-string">"&gt;
+                            &lt;label for="</span>email<span class="hljs-string">" class="</span>form-label<span class="hljs-string">"&gt;Email&lt;/label&gt;
+                            &lt;input type="</span>email<span class="hljs-string">" class="</span>form-control @error(<span class="hljs-string">'email'</span>) is-invalid @enderror<span class="hljs-string">" 
+                                   id="</span>email<span class="hljs-string">" name="</span>email<span class="hljs-string">" value="</span>{{ old(<span class="hljs-string">'email'</span>) }}<span class="hljs-string">" required&gt;
+                            &lt;div class="</span>invalid-feedback<span class="hljs-string">"&gt;
+                                @error('email') {{ $message }} @else Format email tidak valid @enderror
+                            &lt;/div&gt;
+                        &lt;/div&gt;
+                        
+                        &lt;div class="</span>mb<span class="hljs-number">-3</span><span class="hljs-string">"&gt;
+                            &lt;label for="</span>tanggal_lahir<span class="hljs-string">" class="</span>form-label<span class="hljs-string">"&gt;Tanggal Lahir&lt;/label&gt;
+                            &lt;input type="</span>date<span class="hljs-string">" class="</span>form-control @error(<span class="hljs-string">'tanggal_lahir'</span>) is-invalid @enderror<span class="hljs-string">" 
+                                   id="</span>tanggal_lahir<span class="hljs-string">" name="</span>tanggal_lahir<span class="hljs-string">" value="</span>{{ old(<span class="hljs-string">'tanggal_lahir'</span>) }}<span class="hljs-string">" 
+                                   required max="</span>{{ date(<span class="hljs-string">'Y-m-d'</span>, strtotime(<span class="hljs-string">'-17 years'</span>)) }}<span class="hljs-string">"&gt;
+                            &lt;div class="</span>invalid-feedback<span class="hljs-string">"&gt;
+                                @error('tanggal_lahir') {{ $message }} @else Mahasiswa minimal berusia 17 tahun @enderror
+                            &lt;/div&gt;
+                        &lt;/div&gt;
+                        
+                        &lt;div class="</span>mb<span class="hljs-number">-3</span><span class="hljs-string">"&gt;
+                            &lt;label for="</span>alamat<span class="hljs-string">" class="</span>form-label<span class="hljs-string">"&gt;Alamat&lt;/label&gt;
+                            &lt;textarea class="</span>form-control @error(<span class="hljs-string">'alamat'</span>) is-invalid @enderror<span class="hljs-string">" 
+                                      id="</span>alamat<span class="hljs-string">" name="</span>alamat<span class="hljs-string">" rows="</span><span class="hljs-number">3</span><span class="hljs-string">" required minlength="</span><span class="hljs-number">10</span><span class="hljs-string">"&gt;{{ old('alamat') }}&lt;/textarea&gt;
+                            &lt;div class="</span>invalid-feedback<span class="hljs-string">"&gt;
+                                @error('alamat') {{ $message }} @else Alamat harus diisi (min. 10 karakter) @enderror
+                            &lt;/div&gt;
+                        &lt;/div&gt;
+                        
+                        &lt;div class="</span>mb<span class="hljs-number">-3</span><span class="hljs-string">"&gt;
+                            &lt;label class="</span>form-label d-block<span class="hljs-string">"&gt;Jenis Kelamin&lt;/label&gt;
+                            &lt;div class="</span>form-check form-check-inline<span class="hljs-string">"&gt;
+                                &lt;input class="</span>form-check-input @error(<span class="hljs-string">'jenis_kelamin'</span>) is-invalid @enderror<span class="hljs-string">" 
+                                       type="</span>radio<span class="hljs-string">" name="</span>jenis_kelamin<span class="hljs-string">" id="</span>jk_l<span class="hljs-string">" value="</span>L<span class="hljs-string">" 
+                                       {{ old('jenis_kelamin') == 'L' ? 'checked' : '' }} required&gt;
+                                &lt;label class="</span>form-check-label<span class="hljs-string">" for="</span>jk_l<span class="hljs-string">"&gt;Laki-laki&lt;/label&gt;
+                            &lt;/div&gt;
+                            &lt;div class="</span>form-check form-check-inline<span class="hljs-string">"&gt;
+                                &lt;input class="</span>form-check-input @error(<span class="hljs-string">'jenis_kelamin'</span>) is-invalid @enderror<span class="hljs-string">" 
+                                       type="</span>radio<span class="hljs-string">" name="</span>jenis_kelamin<span class="hljs-string">" id="</span>jk_p<span class="hljs-string">" value="</span>P<span class="hljs-string">" 
+                                       {{ old('jenis_kelamin') == 'P' ? 'checked' : '' }}&gt;
+                                &lt;label class="</span>form-check-label<span class="hljs-string">" for="</span>jk_p<span class="hljs-string">"&gt;Perempuan&lt;/label&gt;
+                            &lt;/div&gt;
+                            @error('jenis_kelamin')
+                                &lt;div class="</span>text-danger mt<span class="hljs-number">-1</span><span class="hljs-string">"&gt;{{ $message }}&lt;/div&gt;
+                            @else
+                                &lt;div class="</span>invalid-feedback d-block<span class="hljs-string">" id="</span>jk_feedback<span class="hljs-string">" style="</span>display: none;<span class="hljs-string">"&gt;
+                                    Pilih jenis kelamin
+                                &lt;/div&gt;
+                            @enderror
+                        &lt;/div&gt;
+                        
+                        &lt;div class="</span>d-grid gap<span class="hljs-number">-2</span> d-md-flex justify-content-md-end<span class="hljs-string">"&gt;
+                            &lt;a href="</span>{{ route(<span class="hljs-string">'mahasiswa.index'</span>) }}<span class="hljs-string">" class="</span>btn btn-secondary me-md<span class="hljs-number">-2</span><span class="hljs-string">"&gt;Batal&lt;/a&gt;
+                            &lt;button type="</span>submit<span class="hljs-string">" class="</span>btn btn-primary<span class="hljs-string">"&gt;Simpan&lt;/button&gt;
+                        &lt;/div&gt;
+                    &lt;/form&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+@endsection
+
+@section('scripts')
+&lt;script&gt;
+// Aktivasi validasi Bootstrap
+(function () {
+  'use strict'
+
+  // Ambil semua forms yang membutuhkan validasi
+  var forms = document.querySelectorAll('.needs-validation')
+
+  // Loop dan cegah submission
+  Array.prototype.slice.call(forms)
+    .forEach(function (form) {
+      form.addEventListener('submit', function (event) {
+        // Validasi radio button jenis kelamin
+        var radioButtons = form.querySelectorAll('input[name="</span>jenis_kelamin<span class="hljs-string">"]');
+        var radioSelected = false;
+        
+        for (var i = 0; i &lt; radioButtons.length; i++) {
+            if (radioButtons[i].checked) {
+                radioSelected = true;
+                break;
+            }
+        }
+        
+        if (!radioSelected) {
+            document.getElementById('jk_feedback').style.display = 'block';
+        } else {
+            document.getElementById('jk_feedback').style.display = 'none';
+        }
+        
+        if (!form.checkValidity() || !radioSelected) {
+          event.preventDefault()
+          event.stopPropagation()
+        }
+
+        form.classList.add('was-validated')
+      }, false)
+    })
+})()
+
+// Validasi NIM hanya angka
+document.getElementById('nim').addEventListener('input', function(e) {
+    this.value = this.value.replace(/[^0-9]/g, '');
+});
+
+// Validasi tanggal lahir
+document.getElementById('tanggal_lahir').addEventListener('change', function() {
+    const today = new Date();
+    const birthDate = new Date(this.value);
+    const age = today.getFullYear() - birthDate.getFullYear();
+    
+    if (age &lt; 17) {
+        this.setCustomValidity('Mahasiswa harus berusia minimal 17 tahun');
+    } else {
+        this.setCustomValidity('');
+    }
+});
+
+// Validasi email format
+document.getElementById('email').addEventListener('input', function() {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    
+    if (!emailRegex.test(this.value)) {
+        this.setCustomValidity('Format email tidak valid');
+    } else {
+        this.setCustomValidity('');
+    }
+});
+&lt;/script&gt;
+@endsection
+</span></div></code></pre>
+<h3 id="3-validasi-dengan-jquery-validation-plugin">3. Validasi dengan jQuery Validation Plugin</h3>
+<p>Untuk validasi yang lebih kuat, kita bisa menggunakan jQuery Validation Plugin:</p>
+<ol>
+<li><strong>Tambahkan jQuery dan plugin-nya</strong>:</li>
+</ol>
+<pre class="hljs"><code><div><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"https://code.jquery.com/jquery-3.6.0.min.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/additional-methods.min.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+</div></code></pre>
+<ol start="2">
+<li><strong>Implementasi validasi di view</strong>:</li>
+</ol>
+<pre class="hljs"><code><div>@section(<span class="hljs-string">'scripts'</span>)
+&lt;script&gt;
+$(document).ready(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> </span>{
+    <span class="hljs-comment">// Terjemahkan pesan error ke Bahasa Indonesia</span>
+    $.extend($.validator.messages, {
+        required: <span class="hljs-string">"Kolom ini wajib diisi"</span>,
+        email: <span class="hljs-string">"Masukkan alamat email yang valid"</span>,
+        minlength: $.validator.format(<span class="hljs-string">"Minimal {0} karakter"</span>),
+        maxlength: $.validator.format(<span class="hljs-string">"Maksimal {0} karakter"</span>),
+        digits: <span class="hljs-string">"Hanya angka yang diperbolehkan"</span>,
+        date: <span class="hljs-string">"Masukkan format tanggal yang valid"</span>
+    });
+    
+    <span class="hljs-comment">// Tambah metode validasi kustom untuk NIM</span>
+    $.validator.addMethod(<span class="hljs-string">"nimFormat"</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(value, element)</span> </span>{
+        <span class="hljs-keyword">return</span> this.optional(element) || /^[<span class="hljs-number">0</span><span class="hljs-number">-9</span>]{<span class="hljs-number">8</span>}$/.test(value);
+    }, <span class="hljs-string">"NIM harus 8 digit angka"</span>);
+    
+    <span class="hljs-comment">// Tambah metode validasi untuk usia minimum</span>
+    $.validator.addMethod(<span class="hljs-string">"minAge"</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(value, element, minAge)</span> </span>{
+        <span class="hljs-keyword">var</span> today = <span class="hljs-keyword">new</span> Date();
+        <span class="hljs-keyword">var</span> birthDate = <span class="hljs-keyword">new</span> Date(value);
+        <span class="hljs-keyword">var</span> age = today.getFullYear() - birthDate.getFullYear();
+        
+        <span class="hljs-keyword">if</span> (today.getMonth() &lt; birthDate.getMonth() || 
+            (today.getMonth() == birthDate.getMonth() &amp;&amp; today.getDate() &lt; birthDate.getDate())) {
+            age--;
+        }
+        
+        <span class="hljs-keyword">return</span> age &gt;= minAge;
+    }, <span class="hljs-string">"Mahasiswa harus berusia minimal 17 tahun"</span>);
+    
+    <span class="hljs-comment">// Inisialisasi validasi</span>
+    $(<span class="hljs-string">"#formMahasiswa"</span>).validate({
+        rules: {
+            nim: {
+                required: <span class="hljs-keyword">true</span>,
+                nimFormat: <span class="hljs-keyword">true</span>
+            },
+            nama: {
+                required: <span class="hljs-keyword">true</span>,
+                minlength: <span class="hljs-number">3</span>,
+                maxlength: <span class="hljs-number">100</span>
+            },
+            jurusan_id: {
+                required: <span class="hljs-keyword">true</span>
+            },
+            email: {
+                required: <span class="hljs-keyword">true</span>,
+                email: <span class="hljs-keyword">true</span>
+            },
+            tanggal_lahir: {
+                required: <span class="hljs-keyword">true</span>,
+                date: <span class="hljs-keyword">true</span>,
+                minAge: <span class="hljs-number">17</span>
+            },
+            alamat: {
+                required: <span class="hljs-keyword">true</span>,
+                minlength: <span class="hljs-number">10</span>
+            },
+            jenis_kelamin: {
+                required: <span class="hljs-keyword">true</span>
+            }
+        },
+        messages: {
+            nim: {
+                required: <span class="hljs-string">"NIM wajib diisi"</span>,
+                nimFormat: <span class="hljs-string">"NIM harus 8 digit angka"</span>
+            },
+            nama: {
+                required: <span class="hljs-string">"Nama wajib diisi"</span>,
+                minlength: <span class="hljs-string">"Nama minimal 3 karakter"</span>,
+                maxlength: <span class="hljs-string">"Nama maksimal 100 karakter"</span>
+            },
+            jurusan_id: {
+                required: <span class="hljs-string">"Jurusan wajib dipilih"</span>
+            },
+            email: {
+                required: <span class="hljs-string">"Email wajib diisi"</span>,
+                email: <span class="hljs-string">"Format email tidak valid"</span>
+            },
+            tanggal_lahir: {
+                required: <span class="hljs-string">"Tanggal lahir wajib diisi"</span>,
+                date: <span class="hljs-string">"Format tanggal tidak valid"</span>,
+                minAge: <span class="hljs-string">"Mahasiswa harus berusia minimal 17 tahun"</span>
+            },
+            alamat: {
+                required: <span class="hljs-string">"Alamat wajib diisi"</span>,
+                minlength: <span class="hljs-string">"Alamat minimal 10 karakter"</span>
+            },
+            jenis_kelamin: {
+                required: <span class="hljs-string">"Jenis kelamin wajib dipilih"</span>
+            }
+        },
+        errorElement: <span class="hljs-string">'div'</span>,
+        errorPlacement: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(error, element)</span> </span>{
+            error.addClass(<span class="hljs-string">'invalid-feedback'</span>);
+            
+            <span class="hljs-keyword">if</span> (element.prop(<span class="hljs-string">'type'</span>) === <span class="hljs-string">'radio'</span>) {
+                error.insertAfter(element.<span class="hljs-keyword">parent</span>().<span class="hljs-keyword">parent</span>());
+            } <span class="hljs-keyword">else</span> {
+                error.insertAfter(element);
+            }
+        },
+        highlight: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(element, errorClass, validClass)</span> </span>{
+            $(element).addClass(<span class="hljs-string">'is-invalid'</span>).removeClass(<span class="hljs-string">'is-valid'</span>);
+        },
+        unhighlight: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(element, errorClass, validClass)</span> </span>{
+            $(element).addClass(<span class="hljs-string">'is-valid'</span>).removeClass(<span class="hljs-string">'is-invalid'</span>);
+        },
+        submitHandler: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(form)</span> </span>{
+            <span class="hljs-comment">// Kirim form jika validasi sukses</span>
+            form.submit();
+        }
+    });
+    
+    <span class="hljs-comment">// Real-time validation untuk NIM</span>
+    $(<span class="hljs-string">"#nim"</span>).on(<span class="hljs-string">'keyup'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> </span>{
+        this.value = this.value.replace(/[^<span class="hljs-number">0</span><span class="hljs-number">-9</span>]/g, <span class="hljs-string">''</span>);
+    });
+});
+&lt;/script&gt;
+@endsection
+</div></code></pre>
+<ol start="3">
+<li><strong>Update form dengan ID</strong>:</li>
+</ol>
+<pre class="hljs"><code><div>&lt;form action=<span class="hljs-string">"{{ route('mahasiswa.store') }}"</span> method=<span class="hljs-string">"POST"</span> id=<span class="hljs-string">"formMahasiswa"</span>&gt;
+</div></code></pre>
+<h2 id="validasi-real-time-dengan-ajax">Validasi Real-time dengan AJAX</h2>
+<p>Untuk validasi tertentu seperti memeriksa NIM yang sudah terdaftar, kita bisa menggunakan AJAX:</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// Validasi NIM dengan AJAX</span>
+$(<span class="hljs-string">"#nim"</span>).on(<span class="hljs-string">'blur'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+    <span class="hljs-keyword">var</span> nim = $(<span class="hljs-keyword">this</span>).val();
+    <span class="hljs-keyword">if</span> (nim.length === <span class="hljs-number">8</span>) {
+        $.ajax({
+            <span class="hljs-attr">url</span>: <span class="hljs-string">"{{ route('check.nim') }}"</span>,
+            <span class="hljs-attr">type</span>: <span class="hljs-string">"POST"</span>,
+            <span class="hljs-attr">data</span>: {
+                <span class="hljs-string">"_token"</span>: <span class="hljs-string">"{{ csrf_token() }}"</span>,
+                <span class="hljs-string">"nim"</span>: nim,
+                <span class="hljs-string">"mahasiswa_id"</span>: <span class="hljs-string">"{{ isset($mahasiswa) ? $mahasiswa-&gt;id : '' }}"</span>
+            },
+            <span class="hljs-attr">success</span>: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">response</span>) </span>{
+                <span class="hljs-keyword">if</span> (response.exists) {
+                    $(<span class="hljs-string">"#nim"</span>).addClass(<span class="hljs-string">'is-invalid'</span>).removeClass(<span class="hljs-string">'is-valid'</span>);
+                    $(<span class="hljs-string">"#nim-error"</span>).text(<span class="hljs-string">"NIM sudah terdaftar"</span>).show();
+                } <span class="hljs-keyword">else</span> {
+                    $(<span class="hljs-string">"#nim"</span>).addClass(<span class="hljs-string">'is-valid'</span>).removeClass(<span class="hljs-string">'is-invalid'</span>);
+                    $(<span class="hljs-string">"#nim-error"</span>).hide();
+                }
+            }
+        });
+    }
+});
+</div></code></pre>
+<p>Buat route dan controller untuk melakukan pengecekan:</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// routes/web.php</span>
+Route::post(<span class="hljs-string">'/check-nim'</span>, [MahasiswaController::class, <span class="hljs-string">'checkNim'</span>])-&gt;name(<span class="hljs-string">'check.nim'</span>);
+
+<span class="hljs-comment">// MahasiswaController.php</span>
+<span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">checkNim</span><span class="hljs-params">(Request $request)</span>
+</span>{
+    $nim = $request-&gt;nim;
+    $mahasiswaId = $request-&gt;mahasiswa_id;
+    
+    $query = Mahasiswa::where(<span class="hljs-string">'nim'</span>, $nim);
+    
+    <span class="hljs-comment">// Jika sedang edit, exclude mahasiswa yang sedang diedit</span>
+    <span class="hljs-keyword">if</span> (!<span class="hljs-keyword">empty</span>($mahasiswaId)) {
+        $query-&gt;where(<span class="hljs-string">'id'</span>, <span class="hljs-string">'!='</span>, $mahasiswaId);
+    }
+    
+    $exists = $query-&gt;exists();
+    
+    <span class="hljs-keyword">return</span> response()-&gt;json([<span class="hljs-string">'exists'</span> =&gt; $exists]);
+}
+</div></code></pre>
+<h2 id="tips-tambahan-untuk-validasi-form">Tips Tambahan untuk Validasi Form</h2>
+<ol>
+<li>
+<p><strong>Balancing UX</strong>: Jangan terlalu agresif dengan validasi—biarkan pengguna menyelesaikan input sebelum memvalidasi</p>
+</li>
+<li>
+<p><strong>Visual Cues</strong>: Gunakan warna dan ikon untuk menunjukkan status validasi (hijau untuk valid, merah untuk error)</p>
+</li>
+<li>
+<p><strong>Pesan Error yang Jelas</strong>: Berikan petunjuk spesifik tentang apa yang salah dan bagaimana memperbaikinya</p>
+</li>
+<li>
+<p><strong>Performa</strong>: Validasi yang kompleks bisa memperlambat browser, jadi pastikan kode JavaScript efisien</p>
+</li>
+<li>
+<p><strong>Aksesibilitas</strong>: Pastikan pesan error dapat dibaca oleh screen reader untuk pengguna disabilitas</p>
+</li>
+<li>
+<p><strong>Fallback</strong>: Selalu lakukan validasi server-side sebagai backup jika JavaScript dinonaktifkan</p>
+</li>
+</ol>
+<p>Dengan menerapkan validasi JavaScript, form aplikasi mahasiswa Anda akan lebih user-friendly dan interaktif, sambil tetap mempertahankan validasi server-side untuk keamanan.</p>
+<p>Selanjutnya, kita akan membahas: <strong>Datatable untuk Manajemen Data Mahasiswa</strong></p>
+
+</body>
+</html>

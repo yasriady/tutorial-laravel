@@ -1,4 +1,4 @@
-# Tutorial: Pengenalan Model pada Laravel
+# Pengenalan Model pada Laravel
 
 Model adalah salah satu komponen utama dalam arsitektur MVC (Model-View-Controller) Laravel. Model berfungsi sebagai lapisan abstraksi untuk berinteraksi dengan database. Dalam tutorial ini, kita akan membahas cara membuat dan menggunakan model Laravel untuk aplikasi manajemen data mahasiswa.
 

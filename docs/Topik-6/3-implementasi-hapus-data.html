@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>3-implementasi-hapus-data.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="implementasi-hapus-data-dalam-laravel">Implementasi Hapus Data dalam Laravel</h1>
+<p>Berikut adalah langkah-langkah implementasi fitur hapus data untuk aplikasi mahasiswa:</p>
+<h2 id="1-membuat-route-untuk-delete">1. Membuat Route untuk Delete</h2>
+<p>Tambahkan route berikut di file <code>routes/web.php</code>:</p>
+<pre class="hljs"><code><div>Route::delete(<span class="hljs-string">'/mahasiswa/{id}'</span>, <span class="hljs-string">'MahasiswaController@destroy'</span>)-&gt;name(<span class="hljs-string">'mahasiswa.destroy'</span>);
+</div></code></pre>
+<h2 id="2-membuat-method-destroy-pada-controller">2. Membuat Method Destroy pada Controller</h2>
+<p>Buka <code>MahasiswaController.php</code> dan tambahkan method destroy:</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">destroy</span><span class="hljs-params">($id)</span>
+</span>{
+    <span class="hljs-comment">// Cari data yang akan dihapus</span>
+    $mahasiswa = Mahasiswa::findOrFail($id);
+    
+    <span class="hljs-comment">// Hapus data</span>
+    $mahasiswa-&gt;delete();
+    
+    <span class="hljs-comment">// Redirect dengan pesan sukses</span>
+    <span class="hljs-keyword">return</span> redirect()-&gt;route(<span class="hljs-string">'mahasiswa.index'</span>)
+                     -&gt;with(<span class="hljs-string">'success'</span>, <span class="hljs-string">'Data mahasiswa berhasil dihapus!'</span>);
+}
+</div></code></pre>
+<h2 id="3-menambahkan-tombol-hapus-di-halaman-index">3. Menambahkan Tombol Hapus di Halaman Index</h2>
+<p>Update file <code>resources/views/mahasiswa/index.blade.php</code> untuk menambahkan tombol hapus di samping tombol edit:</p>
+<pre class="hljs"><code><div><span class="hljs-comment">&lt;!-- Di dalam loop data mahasiswa --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">td</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"{{ route('mahasiswa.edit', $mhs-&gt;id) }}"</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"btn btn-sm btn-primary"</span>&gt;</span>Edit<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
+    
+    <span class="hljs-tag">&lt;<span class="hljs-name">form</span> <span class="hljs-attr">action</span>=<span class="hljs-string">"{{ route('mahasiswa.destroy', $mhs-&gt;id) }}"</span> <span class="hljs-attr">method</span>=<span class="hljs-string">"POST"</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"d-inline"</span>&gt;</span>
+        @csrf
+        @method('DELETE')
+        <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"submit"</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"btn btn-sm btn-danger"</span> 
+                <span class="hljs-attr">onclick</span>=<span class="hljs-string">"return confirm('Apakah Anda yakin ingin menghapus data ini?')"</span>&gt;</span>
+            Hapus
+        <span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">form</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">td</span>&gt;</span>
+</div></code></pre>
+<h2 id="4-menambahkan-konfirmasi-hapus-dengan-javascript">4. Menambahkan Konfirmasi Hapus dengan JavaScript</h2>
+<p>Untuk meningkatkan pengalaman pengguna, tambahkan konfirmasi sebelum menghapus data. Ada dua cara:</p>
+<h3 id="a-menggunakan-javascript-sederhana-seperti-contoh-di-atas">a. Menggunakan JavaScript Sederhana (seperti contoh di atas)</h3>
+<pre class="hljs"><code><div><span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"submit"</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"btn btn-sm btn-danger"</span> 
+        <span class="hljs-attr">onclick</span>=<span class="hljs-string">"return confirm('Apakah Anda yakin ingin menghapus data ini?')"</span>&gt;</span>
+    Hapus
+<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+</div></code></pre>
+<h3 id="b-menggunakan-modal-bootstrap-lebih-profesional">b. Menggunakan Modal Bootstrap (lebih profesional)</h3>
+<p>Tambahkan kode berikut di <code>index.blade.php</code>:</p>
+<pre class="hljs"><code><div><span class="hljs-comment">&lt;!-- Di dalam loop data mahasiswa --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">td</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"{{ route('mahasiswa.edit', $mhs-&gt;id) }}"</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"btn btn-sm btn-primary"</span>&gt;</span>Edit<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"button"</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"btn btn-sm btn-danger"</span> <span class="hljs-attr">data-toggle</span>=<span class="hljs-string">"modal"</span> 
+            <span class="hljs-attr">data-target</span>=<span class="hljs-string">"#deleteModal{{ $mhs-&gt;id }}"</span>&gt;</span>
+        Hapus
+    <span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+    
+    <span class="hljs-comment">&lt;!-- Modal Konfirmasi Hapus --&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"modal fade"</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"deleteModal{{ $mhs-&gt;id }}"</span> <span class="hljs-attr">tabindex</span>=<span class="hljs-string">"-1"</span> <span class="hljs-attr">role</span>=<span class="hljs-string">"dialog"</span> 
+         <span class="hljs-attr">aria-labelledby</span>=<span class="hljs-string">"deleteModalLabel"</span> <span class="hljs-attr">aria-hidden</span>=<span class="hljs-string">"true"</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"modal-dialog"</span> <span class="hljs-attr">role</span>=<span class="hljs-string">"document"</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"modal-content"</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"modal-header"</span>&gt;</span>
+                    <span class="hljs-tag">&lt;<span class="hljs-name">h5</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"modal-title"</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"deleteModalLabel"</span>&gt;</span>Konfirmasi Hapus<span class="hljs-tag">&lt;/<span class="hljs-name">h5</span>&gt;</span>
+                    <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"button"</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"close"</span> <span class="hljs-attr">data-dismiss</span>=<span class="hljs-string">"modal"</span> <span class="hljs-attr">aria-label</span>=<span class="hljs-string">"Close"</span>&gt;</span>
+                        <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">aria-hidden</span>=<span class="hljs-string">"true"</span>&gt;</span><span class="hljs-symbol">&amp;times;</span><span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
+                    <span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+                <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"modal-body"</span>&gt;</span>
+                    Apakah Anda yakin ingin menghapus data mahasiswa <span class="hljs-tag">&lt;<span class="hljs-name">strong</span>&gt;</span>{{ $mhs-&gt;nama }}<span class="hljs-tag">&lt;/<span class="hljs-name">strong</span>&gt;</span>?
+                <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"modal-footer"</span>&gt;</span>
+                    <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"button"</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"btn btn-secondary"</span> <span class="hljs-attr">data-dismiss</span>=<span class="hljs-string">"modal"</span>&gt;</span>Batal<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+                    <span class="hljs-tag">&lt;<span class="hljs-name">form</span> <span class="hljs-attr">action</span>=<span class="hljs-string">"{{ route('mahasiswa.destroy', $mhs-&gt;id) }}"</span> <span class="hljs-attr">method</span>=<span class="hljs-string">"POST"</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"d-inline"</span>&gt;</span>
+                        @csrf
+                        @method('DELETE')
+                        <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"submit"</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"btn btn-danger"</span>&gt;</span>Hapus<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+                    <span class="hljs-tag">&lt;/<span class="hljs-name">form</span>&gt;</span>
+                <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+            <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">td</span>&gt;</span>
+</div></code></pre>
+<h2 id="5-menambahkan-flash-message">5. Menambahkan Flash Message</h2>
+<p>Pastikan Anda memiliki komponen flash message di layout utama (<code>layouts/app.blade.php</code>):</p>
+<pre class="hljs"><code><div><span class="hljs-comment">&lt;!-- Tambahkan ini setelah navbar atau di awal konten utama --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"container mt-4"</span>&gt;</span>
+    @if(session('success'))
+        <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"alert alert-success alert-dismissible fade show"</span> <span class="hljs-attr">role</span>=<span class="hljs-string">"alert"</span>&gt;</span>
+            {{ session('success') }}
+            <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"button"</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"close"</span> <span class="hljs-attr">data-dismiss</span>=<span class="hljs-string">"alert"</span> <span class="hljs-attr">aria-label</span>=<span class="hljs-string">"Close"</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">aria-hidden</span>=<span class="hljs-string">"true"</span>&gt;</span><span class="hljs-symbol">&amp;times;</span><span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
+            <span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+    @endif
+    
+    @if(session('error'))
+        <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"alert alert-danger alert-dismissible fade show"</span> <span class="hljs-attr">role</span>=<span class="hljs-string">"alert"</span>&gt;</span>
+            {{ session('error') }}
+            <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"button"</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"close"</span> <span class="hljs-attr">data-dismiss</span>=<span class="hljs-string">"alert"</span> <span class="hljs-attr">aria-label</span>=<span class="hljs-string">"Close"</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">aria-hidden</span>=<span class="hljs-string">"true"</span>&gt;</span><span class="hljs-symbol">&amp;times;</span><span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
+            <span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+    @endif
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+</div></code></pre>
+<h2 id="6-alur-proses-hapus-data">6. Alur Proses Hapus Data</h2>
+<pre><code class="language-mermaid"><div class="mermaid">sequenceDiagram
+    participant U as User
+    participant V as View
+    participant C as Controller
+    participant M as Model
+    participant DB as Database
+    
+    U->>V: Klik tombol Hapus
+    V->>U: Tampilkan dialog konfirmasi
+    U->>V: Konfirmasi hapus
+    V->>C: Request DELETE /mahasiswa/{id}
+    C->>M: findOrFail(id)
+    M->>DB: SELECT * FROM mahasiswas WHERE id = ?
+    DB-->>M: Data mahasiswa
+    M-->>C: Objek mahasiswa
+    C->>M: delete()
+    M->>DB: DELETE FROM mahasiswas WHERE id = ?
+    DB-->>M: OK
+    M-->>C: Success
+    C-->>V: Redirect ke index dengan pesan sukses
+    V-->>U: Tampilkan daftar mahasiswa dengan pesan sukses
+
+</div></code></pre>
+<h2 id="7-implementasi-soft-delete-opsional">7. Implementasi Soft Delete (Opsional)</h2>
+<p>Laravel menyediakan fitur Soft Delete, di mana data tidak benar-benar dihapus dari database, tetapi hanya ditandai sebagai &quot;dihapus&quot;.</p>
+<h3 id="a-aktifkan-soft-delete-pada-model">a. Aktifkan Soft Delete pada Model:</h3>
+<pre class="hljs"><code><div><span class="hljs-comment">// Model: app/Models/Mahasiswa.php</span>
+<span class="hljs-keyword">namespace</span> <span class="hljs-title">App</span>\<span class="hljs-title">Models</span>;
+
+<span class="hljs-keyword">use</span> <span class="hljs-title">Illuminate</span>\<span class="hljs-title">Database</span>\<span class="hljs-title">Eloquent</span>\<span class="hljs-title">Model</span>;
+<span class="hljs-keyword">use</span> <span class="hljs-title">Illuminate</span>\<span class="hljs-title">Database</span>\<span class="hljs-title">Eloquent</span>\<span class="hljs-title">SoftDeletes</span>;
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Mahasiswa</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Model</span>
+</span>{
+    <span class="hljs-keyword">use</span> <span class="hljs-title">SoftDeletes</span>;
+    
+    <span class="hljs-comment">// Kode lainnya tetap sama</span>
+}
+</div></code></pre>
+<h3 id="b-tambahkan-kolom-deletedat-di-tabel">b. Tambahkan kolom <code>deleted_at</code> di tabel:</h3>
+<pre class="hljs"><code><div><span class="hljs-comment">// Buat migrasi baru</span>
+php artisan make:migration add_soft_delete_to_mahasiswas_table --table=mahasiswas
+
+<span class="hljs-comment">// Edit file migrasi yang baru dibuat</span>
+<span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">up</span><span class="hljs-params">()</span>
+</span>{
+    Schema::table(<span class="hljs-string">'mahasiswas'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(Blueprint $table)</span> </span>{
+        $table-&gt;softDeletes();
+    });
+}
+
+<span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">down</span><span class="hljs-params">()</span>
+</span>{
+    Schema::table(<span class="hljs-string">'mahasiswas'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(Blueprint $table)</span> </span>{
+        $table-&gt;dropSoftDeletes();
+    });
+}
+
+<span class="hljs-comment">// Jalankan migrasi</span>
+php artisan migrate
+</div></code></pre>
+<h2 id="8-tips-untuk-implementasi-hapus-data">8. Tips untuk Implementasi Hapus Data</h2>
+<ol>
+<li>Selalu gunakan metode HTTP <code>DELETE</code> untuk operasi penghapusan data</li>
+<li>Selalu tambahkan konfirmasi sebelum menghapus data untuk mencegah penghapusan tidak sengaja</li>
+<li>Pertimbangkan untuk menggunakan Soft Delete pada data yang sensitif atau memiliki relasi dengan data lain</li>
+<li>Jika data memiliki banyak relasi, pertimbangkan untuk menambahkan logika pengecekan sebelum menghapus</li>
+<li>Berikan feedback yang jelas kepada pengguna setelah operasi penghapusan selesai</li>
+<li>Untuk data-data yang saling berelasi, gunakan fitur <code>cascade</code> pada migrasi atau atur <code>onDelete</code> pada model</li>
+</ol>
+<p>Dengan mengikuti langkah-langkah di atas, implementasi fitur hapus data pada aplikasi manajemen mahasiswa Anda akan berfungsi dengan baik dan memiliki pengalaman pengguna yang aman.</p>
+
+</body>
+</html>

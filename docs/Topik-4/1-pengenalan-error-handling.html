@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>1-pengenalan-error-handling.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="pengenalan-error-handling-di-laravel">Pengenalan Error Handling di Laravel</h1>
+<p>Error handling merupakan bagian penting dalam pengembangan aplikasi web untuk memastikan bahwa aplikasi tetap berjalan dengan baik bahkan ketika terjadi kesalahan. Laravel menyediakan berbagai cara untuk menangani error dengan elegan. Mari kita pelajari cara menangani error di Laravel dengan langkah-langkah berikut.</p>
+<h2 id="diagram-alur-error-handling-di-laravel">Diagram Alur Error Handling di Laravel</h2>
+<pre><code class="language-mermaid"><div class="mermaid">flowchart TD
+    A[Error Terjadi] --> B{Exception Handler}
+    B --> C[Report Error]
+    B --> D[Render Response]
+    C --> E[Log Error]
+    C --> F[Notifikasi Error]
+    D --> G[Production: Error Page]
+    D --> H[Development: Debug Page]
+    G --> I[Custom Error Pages]
+    H --> J[Stack Trace & Debug Info]
+
+</div></code></pre>
+<h2 id="1-memahami-exception-handler-di-laravel">1. Memahami Exception Handler di Laravel</h2>
+<p>Laravel menggunakan kelas <code>App\Exceptions\Handler</code> untuk menangani semua exception yang terjadi dalam aplikasi. Kelas ini memiliki dua metode utama:</p>
+<ul>
+<li><code>report()</code>: Digunakan untuk mencatat (logging) atau mengirim notifikasi tentang exception</li>
+<li><code>render()</code>: Digunakan untuk mengubah exception menjadi HTTP response yang akan dikirim ke browser</li>
+</ul>
+<h2 id="2-konfigurasi-log-error">2. Konfigurasi Log Error</h2>
+<h3 id="langkah-1-periksa-konfigurasi-logging">Langkah 1: Periksa konfigurasi logging</h3>
+<p>Buka file <code>config/logging.php</code> untuk melihat konfigurasi logging di aplikasi Laravel Anda.</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">return</span> [
+    <span class="hljs-string">'default'</span> =&gt; env(<span class="hljs-string">'LOG_CHANNEL'</span>, <span class="hljs-string">'stack'</span>),
+    
+    <span class="hljs-string">'channels'</span> =&gt; [
+        <span class="hljs-string">'stack'</span> =&gt; [
+            <span class="hljs-string">'driver'</span> =&gt; <span class="hljs-string">'stack'</span>,
+            <span class="hljs-string">'channels'</span> =&gt; [<span class="hljs-string">'single'</span>],
+            <span class="hljs-string">'ignore_exceptions'</span> =&gt; <span class="hljs-keyword">false</span>,
+        ],
+        
+        <span class="hljs-string">'single'</span> =&gt; [
+            <span class="hljs-string">'driver'</span> =&gt; <span class="hljs-string">'single'</span>,
+            <span class="hljs-string">'path'</span> =&gt; storage_path(<span class="hljs-string">'logs/laravel.log'</span>),
+            <span class="hljs-string">'level'</span> =&gt; env(<span class="hljs-string">'LOG_LEVEL'</span>, <span class="hljs-string">'debug'</span>),
+        ],
+        <span class="hljs-comment">// Konfigurasi channel lainnya...</span>
+    ],
+];
+</div></code></pre>
+<h3 id="langkah-2-atur-level-logging-di-env">Langkah 2: Atur level logging di .env</h3>
+<pre class="hljs"><code><div>LOG_CHANNEL=stack
+LOG_LEVEL=debug
+</div></code></pre>
+<p>Level logging yang tersedia (dari paling detail ke paling sedikit):</p>
+<ul>
+<li>debug</li>
+<li>info</li>
+<li>notice</li>
+<li>warning</li>
+<li>error</li>
+<li>critical</li>
+<li>alert</li>
+<li>emergency</li>
+</ul>
+<h2 id="3-cara-mencatat-error-manual">3. Cara Mencatat Error Manual</h2>
+<h3 id="menggunakan-facade-log">Menggunakan facade Log</h3>
+<pre class="hljs"><code><div><span class="hljs-keyword">use</span> <span class="hljs-title">Illuminate</span>\<span class="hljs-title">Support</span>\<span class="hljs-title">Facades</span>\<span class="hljs-title">Log</span>;
+
+<span class="hljs-keyword">try</span> {
+    <span class="hljs-comment">// Kode yang mungkin menimbulkan error</span>
+    $result = <span class="hljs-number">10</span> / <span class="hljs-number">0</span>;
+} <span class="hljs-keyword">catch</span> (\<span class="hljs-keyword">Exception</span> $e) {
+    Log::error(<span class="hljs-string">'Terjadi error pembagian: '</span> . $e-&gt;getMessage());
+    <span class="hljs-comment">// Atau dengan konteks tambahan:</span>
+    Log::error(<span class="hljs-string">'Error pada aplikasi'</span>, [
+        <span class="hljs-string">'exception'</span> =&gt; $e-&gt;getMessage(),
+        <span class="hljs-string">'file'</span> =&gt; $e-&gt;getFile(),
+        <span class="hljs-string">'line'</span> =&gt; $e-&gt;getLine()
+    ]);
+}
+</div></code></pre>
+<h2 id="4-custom-exception-dan-handler">4. Custom Exception dan Handler</h2>
+<h3 id="langkah-1-buat-custom-exception">Langkah 1: Buat custom exception</h3>
+<pre class="hljs"><code><div><span class="hljs-comment">// app/Exceptions/MahasiswaNotFoundException.php</span>
+<span class="hljs-keyword">namespace</span> <span class="hljs-title">App</span>\<span class="hljs-title">Exceptions</span>;
+
+<span class="hljs-keyword">use</span> <span class="hljs-title">Exception</span>;
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MahasiswaNotFoundException</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Exception</span>
+</span>{
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">__construct</span><span class="hljs-params">($message = <span class="hljs-string">"Mahasiswa tidak ditemukan"</span>, $code = <span class="hljs-number">404</span>)</span>
+    </span>{
+        <span class="hljs-keyword">parent</span>::__construct($message, $code);
+    }
+}
+</div></code></pre>
+<h3 id="langkah-2-modifikasi-handler-untuk-menangani-custom-exception">Langkah 2: Modifikasi Handler untuk menangani custom exception</h3>
+<p>Edit file <code>app/Exceptions/Handler.php</code>:</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">namespace</span> <span class="hljs-title">App</span>\<span class="hljs-title">Exceptions</span>;
+
+<span class="hljs-keyword">use</span> <span class="hljs-title">Illuminate</span>\<span class="hljs-title">Foundation</span>\<span class="hljs-title">Exceptions</span>\<span class="hljs-title">Handler</span> <span class="hljs-title">as</span> <span class="hljs-title">ExceptionHandler</span>;
+<span class="hljs-keyword">use</span> <span class="hljs-title">App</span>\<span class="hljs-title">Exceptions</span>\<span class="hljs-title">MahasiswaNotFoundException</span>;
+<span class="hljs-keyword">use</span> <span class="hljs-title">Throwable</span>;
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Handler</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">ExceptionHandler</span>
+</span>{
+    <span class="hljs-comment">// ...existing code...</span>
+    
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">register</span><span class="hljs-params">()</span>
+    </span>{
+        <span class="hljs-keyword">$this</span>-&gt;reportable(<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(Throwable $e)</span> </span>{
+            <span class="hljs-comment">//</span>
+        });
+        
+        <span class="hljs-comment">// Tambahkan handler khusus untuk MahasiswaNotFoundException</span>
+        <span class="hljs-keyword">$this</span>-&gt;renderable(<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(MahasiswaNotFoundException $e, $request)</span> </span>{
+            <span class="hljs-keyword">if</span> ($request-&gt;expectsJson()) {
+                <span class="hljs-keyword">return</span> response()-&gt;json([<span class="hljs-string">'message'</span> =&gt; $e-&gt;getMessage()], $e-&gt;getCode());
+            }
+            
+            <span class="hljs-keyword">return</span> response()-&gt;view(<span class="hljs-string">'errors.mahasiswa-not-found'</span>, [], $e-&gt;getCode());
+        });
+    }
+}
+</div></code></pre>
+<h2 id="5-membuat-custom-error-pages">5. Membuat Custom Error Pages</h2>
+<h3 id="langkah-1-buat-view-untuk-error">Langkah 1: Buat view untuk error</h3>
+<p>Buat folder <code>resources/views/errors</code> dan tambahkan file error custom:</p>
+<pre class="hljs"><code><div>// resources/views/errors/404.blade.php
+@extends('layouts.app')
+
+@section('content')
+    &lt;div class=&quot;error-page&quot;&gt;
+        &lt;h2 class=&quot;headline text-warning&quot;&gt;404&lt;/h2&gt;
+        &lt;div class=&quot;error-content&quot;&gt;
+            &lt;h3&gt;&lt;i class=&quot;fas fa-exclamation-triangle text-warning&quot;&gt;&lt;/i&gt; Oops! Halaman tidak ditemukan.&lt;/h3&gt;
+            &lt;p&gt;
+                Kami tidak dapat menemukan halaman yang Anda cari.
+                Sementara itu, Anda dapat &lt;a href=&quot;{{ route('home') }}&quot;&gt;kembali ke dashboard&lt;/a&gt;.
+            &lt;/p&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+@endsection
+</div></code></pre>
+<h3 id="langkah-2-buat-error-page-untuk-custom-exception">Langkah 2: Buat error page untuk custom exception</h3>
+<pre class="hljs"><code><div>// resources/views/errors/mahasiswa-not-found.blade.php
+@extends('layouts.app')
+
+@section('content')
+    &lt;div class=&quot;error-page&quot;&gt;
+        &lt;h2 class=&quot;headline text-warning&quot;&gt;404&lt;/h2&gt;
+        &lt;div class=&quot;error-content&quot;&gt;
+            &lt;h3&gt;&lt;i class=&quot;fas fa-exclamation-triangle text-warning&quot;&gt;&lt;/i&gt; Mahasiswa tidak ditemukan!&lt;/h3&gt;
+            &lt;p&gt;
+                Data mahasiswa yang Anda cari tidak tersedia dalam database.
+                Silakan &lt;a href=&quot;{{ route('mahasiswa.index') }}&quot;&gt;kembali ke daftar mahasiswa&lt;/a&gt;.
+            &lt;/p&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+@endsection
+</div></code></pre>
+<h2 id="6-menerapkan-try-catch-untuk-menangani-error">6. Menerapkan Try-Catch untuk Menangani Error</h2>
+<h3 id="contoh-penggunaan-dalam-controller">Contoh penggunaan dalam controller:</h3>
+<pre class="hljs"><code><div><span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">show</span><span class="hljs-params">($id)</span>
+</span>{
+    <span class="hljs-keyword">try</span> {
+        $mahasiswa = Mahasiswa::findOrFail($id);
+        <span class="hljs-keyword">return</span> view(<span class="hljs-string">'mahasiswa.show'</span>, compact(<span class="hljs-string">'mahasiswa'</span>));
+    } <span class="hljs-keyword">catch</span> (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+        <span class="hljs-comment">// Tangani error ketika model tidak ditemukan</span>
+        <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> MahasiswaNotFoundException(<span class="hljs-string">"Mahasiswa dengan ID $id tidak ditemukan"</span>);
+    } <span class="hljs-keyword">catch</span> (\<span class="hljs-keyword">Exception</span> $e) {
+        <span class="hljs-comment">// Tangani semua jenis error lainnya</span>
+        Log::error(<span class="hljs-string">'Error pada show mahasiswa: '</span> . $e-&gt;getMessage());
+        <span class="hljs-keyword">return</span> redirect()-&gt;route(<span class="hljs-string">'mahasiswa.index'</span>)
+            -&gt;with(<span class="hljs-string">'error'</span>, <span class="hljs-string">'Terjadi kesalahan saat menampilkan data mahasiswa'</span>);
+    }
+}
+</div></code></pre>
+<h2 id="7-menggunakan-abort-helper">7. Menggunakan Abort Helper</h2>
+<p>Laravel menyediakan helper <code>abort()</code> untuk langsung memunculkan HTTP exception:</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">show</span><span class="hljs-params">($id)</span>
+</span>{
+    $mahasiswa = Mahasiswa::find($id);
+    
+    <span class="hljs-keyword">if</span> (!$mahasiswa) {
+        abort(<span class="hljs-number">404</span>, <span class="hljs-string">'Mahasiswa tidak ditemukan'</span>);
+    }
+    
+    <span class="hljs-keyword">return</span> view(<span class="hljs-string">'mahasiswa.show'</span>, compact(<span class="hljs-string">'mahasiswa'</span>));
+}
+</div></code></pre>
+<h2 id="8-debug-menggunakan-dd-dan-dump">8. Debug Menggunakan dd() dan dump()</h2>
+<p>Untuk debugging cepat, Laravel menyediakan helper:</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// Dump and die - menampilkan data dan menghentikan eksekusi</span>
+dd($mahasiswa);
+
+<span class="hljs-comment">// Dump - menampilkan data tapi melanjutkan eksekusi</span>
+dump($mahasiswa);
+</div></code></pre>
+<h2 id="9-menangani-error-validasi-form">9. Menangani Error Validasi Form</h2>
+<pre class="hljs"><code><div><span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">store</span><span class="hljs-params">(Request $request)</span>
+</span>{
+    <span class="hljs-keyword">try</span> {
+        $validated = $request-&gt;validate([
+            <span class="hljs-string">'nim'</span> =&gt; <span class="hljs-string">'required|unique:mahasiswa,nim'</span>,
+            <span class="hljs-string">'nama'</span> =&gt; <span class="hljs-string">'required|string|max:100'</span>,
+            <span class="hljs-string">'email'</span> =&gt; <span class="hljs-string">'required|email|unique:mahasiswa,email'</span>,
+        ]);
+        
+        Mahasiswa::create($validated);
+        
+        <span class="hljs-keyword">return</span> redirect()-&gt;route(<span class="hljs-string">'mahasiswa.index'</span>)
+            -&gt;with(<span class="hljs-string">'success'</span>, <span class="hljs-string">'Data mahasiswa berhasil ditambahkan'</span>);
+    } <span class="hljs-keyword">catch</span> (\Illuminate\Validation\ValidationException $e) {
+        <span class="hljs-comment">// Laravel sudah otomatis menangani exception ini dengan redirect kembali</span>
+        <span class="hljs-comment">// dengan error message, jadi kita tidak perlu menambahkan kode di sini</span>
+        <span class="hljs-keyword">throw</span> $e;
+    } <span class="hljs-keyword">catch</span> (\<span class="hljs-keyword">Exception</span> $e) {
+        Log::error(<span class="hljs-string">'Error saat menyimpan mahasiswa: '</span> . $e-&gt;getMessage());
+        <span class="hljs-keyword">return</span> redirect()-&gt;back()
+            -&gt;with(<span class="hljs-string">'error'</span>, <span class="hljs-string">'Terjadi kesalahan saat menyimpan data'</span>)
+            -&gt;withInput();
+    }
+}
+</div></code></pre>
+<h2 id="praktik-latihan-error-handling">Praktik: Latihan Error Handling</h2>
+<ol>
+<li>Buatlah sebuah custom exception bernama <code>JurusanNotFoundException</code></li>
+<li>Modifikasi Handler.php untuk menangani exception tersebut</li>
+<li>Implementasikan try-catch pada controller Mahasiswa untuk menangani kasus ketika jurusan tidak ditemukan</li>
+<li>Buat custom error page untuk exception tersebut</li>
+</ol>
+<h2 id="kesimpulan">Kesimpulan</h2>
+<p>Error handling yang baik merupakan aspek penting dalam pengembangan aplikasi Laravel. Dengan mengimplementasikan teknik-teknik di atas, aplikasi Anda akan lebih robust dan memberikan pengalaman pengguna yang lebih baik saat terjadi kesalahan.</p>
+<p>Ingat untuk selalu:</p>
+<ul>
+<li>Log error untuk memudahkan debugging</li>
+<li>Tangani error dengan try-catch untuk kontrol yang lebih baik</li>
+<li>Buat custom error pages agar tampilan tetap profesional jika terjadi error</li>
+<li>Jangan menampilkan detail teknis error kepada pengguna di lingkungan production</li>
+</ul>
+<p>Dengan penanganan error yang baik, aplikasi mahasiswa-app Anda akan lebih handal dan profesional.</p>
+
+</body>
+</html>

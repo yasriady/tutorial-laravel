@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>menampilkan-data-relasi.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="menampilkan-data-relasi-di-laravel">Menampilkan Data Relasi di Laravel</h1>
+<p>Setelah kita memahami dan mengimplementasikan relasi antara Mahasiswa dan Jurusan, langkah selanjutnya adalah menampilkan data relasi tersebut dengan efektif. Pada artikel ini, kita akan belajar cara menampilkan data relasi One-to-Many antara Mahasiswa dan Jurusan di aplikasi Laravel kita.</p>
+<h2 id="alur-proses-menampilkan-data-relasi">Alur Proses Menampilkan Data Relasi</h2>
+<pre><code class="language-mermaid"><div class="mermaid">flowchart TD
+    A[Controller mengambil data dengan relasi] --> B[Load data ke view]
+    B --> C{Jenis Tampilan}
+    C --> D[Daftar Mahasiswa dengan Jurusan]
+    C --> E[Detail Mahasiswa dengan Jurusan]
+    C --> F[Daftar Jurusan dengan Mahasiswa]
+    C --> G[Detail Jurusan dengan Mahasiswa]
+    D --> H[Render View]
+    E --> H
+    F --> H
+    G --> H
+
+</div></code></pre>
+<h2 id="1-mengambil-data-dengan-relasi-di-controller">1. Mengambil Data dengan Relasi di Controller</h2>
+<h3 id="cara-eloquent">Cara Eloquent</h3>
+<pre class="hljs"><code><div><span class="hljs-comment">// MahasiswaController.php</span>
+
+<span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">index</span><span class="hljs-params">()</span>
+</span>{
+    <span class="hljs-comment">// Eager loading relasi jurusan dengan Eloquent</span>
+    $mahasiswas = Mahasiswa::with(<span class="hljs-string">'jurusan'</span>)-&gt;latest()-&gt;paginate(<span class="hljs-number">10</span>);
+    <span class="hljs-keyword">return</span> view(<span class="hljs-string">'mahasiswas.index'</span>, compact(<span class="hljs-string">'mahasiswas'</span>));
+}
+
+<span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">show</span><span class="hljs-params">($id)</span>
+</span>{
+    <span class="hljs-comment">// Load satu mahasiswa dengan relasinya</span>
+    $mahasiswa = Mahasiswa::with(<span class="hljs-string">'jurusan'</span>)-&gt;findOrFail($id);
+    <span class="hljs-keyword">return</span> view(<span class="hljs-string">'mahasiswas.show'</span>, compact(<span class="hljs-string">'mahasiswa'</span>));
+}
+</div></code></pre>
+<h3 id="cara-query-builder">Cara Query Builder</h3>
+<pre class="hljs"><code><div><span class="hljs-comment">// MahasiswaController.php menggunakan Query Builder</span>
+
+<span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">index</span><span class="hljs-params">()</span>
+</span>{
+    <span class="hljs-comment">// Join tabel dengan Query Builder</span>
+    $mahasiswas = DB::table(<span class="hljs-string">'mahasiswas'</span>)
+                -&gt;join(<span class="hljs-string">'jurusans'</span>, <span class="hljs-string">'mahasiswas.jurusan_id'</span>, <span class="hljs-string">'='</span>, <span class="hljs-string">'jurusans.id'</span>)
+                -&gt;select(<span class="hljs-string">'mahasiswas.*'</span>, <span class="hljs-string">'jurusans.nama_jurusan'</span>, <span class="hljs-string">'jurusans.kode_jurusan'</span>)
+                -&gt;latest(<span class="hljs-string">'mahasiswas.created_at'</span>)
+                -&gt;paginate(<span class="hljs-number">10</span>);
+                
+    <span class="hljs-keyword">return</span> view(<span class="hljs-string">'mahasiswas.index'</span>, compact(<span class="hljs-string">'mahasiswas'</span>));
+}
+</div></code></pre>
+<h3 id="jurusancontroller-untuk-menampilkan-mahasiswa-per-jurusan">JurusanController untuk Menampilkan Mahasiswa per Jurusan</h3>
+<pre class="hljs"><code><div><span class="hljs-comment">// JurusanController.php</span>
+
+<span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">show</span><span class="hljs-params">($id)</span>
+</span>{
+    <span class="hljs-comment">// Dapatkan jurusan dengan mahasiswanya (dengan pagination)</span>
+    $jurusan = Jurusan::findOrFail($id);
+    $mahasiswas = $jurusan-&gt;mahasiswas()-&gt;paginate(<span class="hljs-number">10</span>);
+    
+    <span class="hljs-keyword">return</span> view(<span class="hljs-string">'jurusans.show'</span>, compact(<span class="hljs-string">'jurusan'</span>, <span class="hljs-string">'mahasiswas'</span>));
+}
+</div></code></pre>
+<h2 id="2-tampilan-untuk-daftar-mahasiswa-dengan-data-jurusan">2. Tampilan untuk Daftar Mahasiswa dengan Data Jurusan</h2>
+<pre class="hljs"><code><div>{{-- resources/views/mahasiswas/index.blade.php --}}
+
+&lt;div class=&quot;container&quot;&gt;
+    &lt;h1&gt;Daftar Mahasiswa&lt;/h1&gt;
+    
+    &lt;table class=&quot;table table-striped&quot;&gt;
+        &lt;thead&gt;
+            &lt;tr&gt;
+                &lt;th&gt;NIM&lt;/th&gt;
+                &lt;th&gt;Nama&lt;/th&gt;
+                &lt;th&gt;Jurusan&lt;/th&gt;
+                &lt;th&gt;Alamat&lt;/th&gt;
+                &lt;th&gt;Aksi&lt;/th&gt;
+            &lt;/tr&gt;
+        &lt;/thead&gt;
+        &lt;tbody&gt;
+            @forelse($mahasiswas as $mahasiswa)
+            &lt;tr&gt;
+                &lt;td&gt;{{ $mahasiswa-&gt;nim }}&lt;/td&gt;
+                &lt;td&gt;{{ $mahasiswa-&gt;nama }}&lt;/td&gt;
+                &lt;td&gt;
+                    @if(isset($mahasiswa-&gt;jurusan))
+                        {{-- Jika menggunakan Eloquent --}}
+                        {{ $mahasiswa-&gt;jurusan-&gt;kode_jurusan }} - {{ $mahasiswa-&gt;jurusan-&gt;nama_jurusan }}
+                    @elseif(isset($mahasiswa-&gt;nama_jurusan))
+                        {{-- Jika menggunakan Query Builder --}}
+                        {{ $mahasiswa-&gt;kode_jurusan }} - {{ $mahasiswa-&gt;nama_jurusan }}
+                    @else
+                        &lt;span class=&quot;text-muted&quot;&gt;Tidak ada jurusan&lt;/span&gt;
+                    @endif
+                &lt;/td&gt;
+                &lt;td&gt;{{ $mahasiswa-&gt;alamat }}&lt;/td&gt;
+                &lt;td&gt;
+                    &lt;a href=&quot;{{ route('mahasiswas.show', $mahasiswa-&gt;id) }}&quot; class=&quot;btn btn-sm btn-info&quot;&gt;Detail&lt;/a&gt;
+                    &lt;a href=&quot;{{ route('mahasiswas.edit', $mahasiswa-&gt;id) }}&quot; class=&quot;btn btn-sm btn-primary&quot;&gt;Edit&lt;/a&gt;
+                    &lt;form action=&quot;{{ route('mahasiswas.destroy', $mahasiswa-&gt;id) }}&quot; method=&quot;POST&quot; class=&quot;d-inline&quot;&gt;
+                        @csrf
+                        @method('DELETE')
+                        &lt;button type=&quot;submit&quot; class=&quot;btn btn-sm btn-danger&quot; onclick=&quot;return confirm('Yakin ingin menghapus?')&quot;&gt;Hapus&lt;/button&gt;
+                    &lt;/form&gt;
+                &lt;/td&gt;
+            &lt;/tr&gt;
+            @empty
+            &lt;tr&gt;
+                &lt;td colspan=&quot;5&quot; class=&quot;text-center&quot;&gt;Tidak ada data mahasiswa&lt;/td&gt;
+            &lt;/tr&gt;
+            @endforelse
+        &lt;/tbody&gt;
+    &lt;/table&gt;
+    
+    {{ $mahasiswas-&gt;links() }}
+&lt;/div&gt;
+</div></code></pre>
+<h2 id="3-tampilan-detail-mahasiswa-dengan-data-jurusan">3. Tampilan Detail Mahasiswa dengan Data Jurusan</h2>
+<pre class="hljs"><code><div>{{-- resources/views/mahasiswas/show.blade.php --}}
+
+&lt;div class=&quot;container&quot;&gt;
+    &lt;h1&gt;Detail Mahasiswa&lt;/h1&gt;
+    
+    &lt;div class=&quot;card&quot;&gt;
+        &lt;div class=&quot;card-header&quot;&gt;
+            {{ $mahasiswa-&gt;nama }} ({{ $mahasiswa-&gt;nim }})
+        &lt;/div&gt;
+        &lt;div class=&quot;card-body&quot;&gt;
+            &lt;h5 class=&quot;card-title&quot;&gt;Informasi Mahasiswa&lt;/h5&gt;
+            &lt;table class=&quot;table&quot;&gt;
+                &lt;tr&gt;
+                    &lt;th&gt;Nama Lengkap&lt;/th&gt;
+                    &lt;td&gt;{{ $mahasiswa-&gt;nama }}&lt;/td&gt;
+                &lt;/tr&gt;
+                &lt;tr&gt;
+                    &lt;th&gt;NIM&lt;/th&gt;
+                    &lt;td&gt;{{ $mahasiswa-&gt;nim }}&lt;/td&gt;
+                &lt;/tr&gt;
+                &lt;tr&gt;
+                    &lt;th&gt;Jurusan&lt;/th&gt;
+                    &lt;td&gt;
+                        @if($mahasiswa-&gt;jurusan)
+                            &lt;a href=&quot;{{ route('jurusans.show', $mahasiswa-&gt;jurusan-&gt;id) }}&quot;&gt;
+                                {{ $mahasiswa-&gt;jurusan-&gt;kode_jurusan }} - {{ $mahasiswa-&gt;jurusan-&gt;nama_jurusan }}
+                            &lt;/a&gt;
+                        @else
+                            &lt;span class=&quot;text-muted&quot;&gt;Tidak ada jurusan&lt;/span&gt;
+                        @endif
+                    &lt;/td&gt;
+                &lt;/tr&gt;
+                &lt;tr&gt;
+                    &lt;th&gt;Alamat&lt;/th&gt;
+                    &lt;td&gt;{{ $mahasiswa-&gt;alamat ?? 'Tidak ada alamat' }}&lt;/td&gt;
+                &lt;/tr&gt;
+                &lt;tr&gt;
+                    &lt;th&gt;Terdaftar pada&lt;/th&gt;
+                    &lt;td&gt;{{ $mahasiswa-&gt;created_at-&gt;format('d F Y') }}&lt;/td&gt;
+                &lt;/tr&gt;
+            &lt;/table&gt;
+        &lt;/div&gt;
+        &lt;div class=&quot;card-footer&quot;&gt;
+            &lt;a href=&quot;{{ route('mahasiswas.index') }}&quot; class=&quot;btn btn-secondary&quot;&gt;Kembali&lt;/a&gt;
+            &lt;a href=&quot;{{ route('mahasiswas.edit', $mahasiswa-&gt;id) }}&quot; class=&quot;btn btn-primary&quot;&gt;Edit&lt;/a&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+</div></code></pre>
+<h2 id="4-menampilkan-daftar-jurusan-dengan-jumlah-mahasiswa">4. Menampilkan Daftar Jurusan dengan Jumlah Mahasiswa</h2>
+<pre class="hljs"><code><div>{{-- resources/views/jurusans/index.blade.php --}}
+
+&lt;div class=&quot;container&quot;&gt;
+    &lt;h1&gt;Daftar Jurusan&lt;/h1&gt;
+    
+    &lt;table class=&quot;table table-striped&quot;&gt;
+        &lt;thead&gt;
+            &lt;tr&gt;
+                &lt;th&gt;Kode&lt;/th&gt;
+                &lt;th&gt;Nama Jurusan&lt;/th&gt;
+                &lt;th&gt;Jumlah Mahasiswa&lt;/th&gt;
+                &lt;th&gt;Aksi&lt;/th&gt;
+            &lt;/tr&gt;
+        &lt;/thead&gt;
+        &lt;tbody&gt;
+            @foreach($jurusans as $jurusan)
+            &lt;tr&gt;
+                &lt;td&gt;{{ $jurusan-&gt;kode_jurusan }}&lt;/td&gt;
+                &lt;td&gt;{{ $jurusan-&gt;nama_jurusan }}&lt;/td&gt;
+                &lt;td&gt;{{ $jurusan-&gt;mahasiswas_count }}&lt;/td&gt;
+                &lt;td&gt;
+                    &lt;a href=&quot;{{ route('jurusans.show', $jurusan-&gt;id) }}&quot; class=&quot;btn btn-sm btn-info&quot;&gt;Lihat Mahasiswa&lt;/a&gt;
+                    &lt;a href=&quot;{{ route('jurusans.edit', $jurusan-&gt;id) }}&quot; class=&quot;btn btn-sm btn-primary&quot;&gt;Edit&lt;/a&gt;
+                &lt;/td&gt;
+            &lt;/tr&gt;
+            @endforeach
+        &lt;/tbody&gt;
+    &lt;/table&gt;
+&lt;/div&gt;
+</div></code></pre>
+<p>Untuk mendapatkan jumlah mahasiswa, di controller:</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">index</span><span class="hljs-params">()</span>
+</span>{
+    <span class="hljs-comment">// Dengan eager loading dan menggunakan withCount</span>
+    $jurusans = Jurusan::withCount(<span class="hljs-string">'mahasiswas'</span>)-&gt;get();
+    <span class="hljs-keyword">return</span> view(<span class="hljs-string">'jurusans.index'</span>, compact(<span class="hljs-string">'jurusans'</span>));
+}
+</div></code></pre>
+<h2 id="5-menampilkan-detail-jurusan-dengan-daftar-mahasiswanya">5. Menampilkan Detail Jurusan dengan Daftar Mahasiswanya</h2>
+<pre class="hljs"><code><div>{{-- resources/views/jurusans/show.blade.php --}}
+
+&lt;div class=&quot;container&quot;&gt;
+    &lt;h1&gt;{{ $jurusan-&gt;nama_jurusan }} ({{ $jurusan-&gt;kode_jurusan }})&lt;/h1&gt;
+    &lt;p&gt;{{ $jurusan-&gt;deskripsi }}&lt;/p&gt;
+    
+    &lt;h3&gt;Daftar Mahasiswa&lt;/h3&gt;
+    @if($mahasiswas-&gt;count() &gt; 0)
+        &lt;table class=&quot;table table-striped&quot;&gt;
+            &lt;thead&gt;
+                &lt;tr&gt;
+                    &lt;th&gt;NIM&lt;/th&gt;
+                    &lt;th&gt;Nama&lt;/th&gt;
+                    &lt;th&gt;Alamat&lt;/th&gt;
+                    &lt;th&gt;Aksi&lt;/th&gt;
+                &lt;/tr&gt;
+            &lt;/thead&gt;
+            &lt;tbody&gt;
+                @foreach($mahasiswas as $mahasiswa)
+                &lt;tr&gt;
+                    &lt;td&gt;{{ $mahasiswa-&gt;nim }}&lt;/td&gt;
+                    &lt;td&gt;{{ $mahasiswa-&gt;nama }}&lt;/td&gt;
+                    &lt;td&gt;{{ $mahasiswa-&gt;alamat }}&lt;/td&gt;
+                    &lt;td&gt;
+                        &lt;a href=&quot;{{ route('mahasiswas.show', $mahasiswa-&gt;id) }}&quot; class=&quot;btn btn-sm btn-info&quot;&gt;Detail&lt;/a&gt;
+                    &lt;/td&gt;
+                &lt;/tr&gt;
+                @endforeach
+            &lt;/tbody&gt;
+        &lt;/table&gt;
+        
+        {{ $mahasiswas-&gt;links() }}
+    @else
+        &lt;div class=&quot;alert alert-info&quot;&gt;
+            Belum ada mahasiswa di jurusan ini.
+        &lt;/div&gt;
+    @endif
+    
+    &lt;div class=&quot;mt-3&quot;&gt;
+        &lt;a href=&quot;{{ route('jurusans.index') }}&quot; class=&quot;btn btn-secondary&quot;&gt;Kembali&lt;/a&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+</div></code></pre>
+<h2 id="6-implementasi-filter-dan-pencarian-dengan-relasi">6. Implementasi Filter dan Pencarian dengan Relasi</h2>
+<p>Mari tambahkan fitur filter dan pencarian pada daftar mahasiswa:</p>
+<pre class="hljs"><code><div>{{-- resources/views/mahasiswas/index.blade.php (dengan form filter) --}}
+
+&lt;div class=&quot;container&quot;&gt;
+    &lt;h1&gt;Daftar Mahasiswa&lt;/h1&gt;
+    
+    &lt;div class=&quot;card mb-4&quot;&gt;
+        &lt;div class=&quot;card-header&quot;&gt;Filter Mahasiswa&lt;/div&gt;
+        &lt;div class=&quot;card-body&quot;&gt;
+            &lt;form action=&quot;{{ route('mahasiswas.index') }}&quot; method=&quot;GET&quot; class=&quot;row g-3&quot;&gt;
+                &lt;div class=&quot;col-md-4&quot;&gt;
+                    &lt;label for=&quot;search&quot; class=&quot;form-label&quot;&gt;Cari&lt;/label&gt;
+                    &lt;input type=&quot;text&quot; class=&quot;form-control&quot; id=&quot;search&quot; name=&quot;search&quot; value=&quot;{{ request('search') }}&quot; placeholder=&quot;Nama atau NIM...&quot;&gt;
+                &lt;/div&gt;
+                &lt;div class=&quot;col-md-4&quot;&gt;
+                    &lt;label for=&quot;jurusan_id&quot; class=&quot;form-label&quot;&gt;Jurusan&lt;/label&gt;
+                    &lt;select class=&quot;form-control&quot; id=&quot;jurusan_id&quot; name=&quot;jurusan_id&quot;&gt;
+                        &lt;option value=&quot;&quot;&gt;Semua Jurusan&lt;/option&gt;
+                        @foreach($jurusans as $jurusan)
+                            &lt;option value=&quot;{{ $jurusan-&gt;id }}&quot; {{ request('jurusan_id') == $jurusan-&gt;id ? 'selected' : '' }}&gt;
+                                {{ $jurusan-&gt;kode_jurusan }} - {{ $jurusan-&gt;nama_jurusan }}
+                            &lt;/option&gt;
+                        @endforeach
+                    &lt;/select&gt;
+                &lt;/div&gt;
+                &lt;div class=&quot;col-md-4 d-flex align-items-end&quot;&gt;
+                    &lt;button type=&quot;submit&quot; class=&quot;btn btn-primary me-2&quot;&gt;Filter&lt;/button&gt;
+                    &lt;a href=&quot;{{ route('mahasiswas.index') }}&quot; class=&quot;btn btn-secondary&quot;&gt;Reset&lt;/a&gt;
+                &lt;/div&gt;
+            &lt;/form&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+    
+    {{-- Tabel mahasiswa seperti sebelumnya --}}
+&lt;/div&gt;
+</div></code></pre>
+<p>Dan di controller:</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">index</span><span class="hljs-params">(Request $request)</span>
+</span>{
+    $query = Mahasiswa::with(<span class="hljs-string">'jurusan'</span>);
+    
+    <span class="hljs-comment">// Filter berdasarkan pencarian</span>
+    <span class="hljs-keyword">if</span> ($request-&gt;has(<span class="hljs-string">'search'</span>) &amp;&amp; $request-&gt;search != <span class="hljs-string">''</span>) {
+        $search = $request-&gt;search;
+        $query-&gt;where(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">($q)</span> <span class="hljs-title">use</span> <span class="hljs-params">($search)</span> </span>{
+            $q-&gt;where(<span class="hljs-string">'nama'</span>, <span class="hljs-string">'like'</span>, <span class="hljs-string">"%{$search}%"</span>)
+              -&gt;orWhere(<span class="hljs-string">'nim'</span>, <span class="hljs-string">'like'</span>, <span class="hljs-string">"%{$search}%"</span>);
+        });
+    }
+    
+    <span class="hljs-comment">// Filter berdasarkan jurusan</span>
+    <span class="hljs-keyword">if</span> ($request-&gt;has(<span class="hljs-string">'jurusan_id'</span>) &amp;&amp; $request-&gt;jurusan_id != <span class="hljs-string">''</span>) {
+        $query-&gt;where(<span class="hljs-string">'jurusan_id'</span>, $request-&gt;jurusan_id);
+    }
+    
+    $mahasiswas = $query-&gt;latest()-&gt;paginate(<span class="hljs-number">10</span>);
+    $jurusans = Jurusan::all();
+    
+    <span class="hljs-keyword">return</span> view(<span class="hljs-string">'mahasiswas.index'</span>, compact(<span class="hljs-string">'mahasiswas'</span>, <span class="hljs-string">'jurusans'</span>));
+}
+</div></code></pre>
+<h2 id="7-menampilkan-statistik-dan-grafik">7. Menampilkan Statistik dan Grafik</h2>
+<p>Kita juga bisa menampilkan statistik sederhana tentang distribusi mahasiswa per jurusan:</p>
+<pre class="hljs"><code><div>{{-- resources/views/statistik/index.blade.php --}}
+
+&lt;div class=&quot;container&quot;&gt;
+    &lt;h1&gt;Statistik Mahasiswa per Jurusan&lt;/h1&gt;
+    
+    &lt;div class=&quot;row&quot;&gt;
+        &lt;div class=&quot;col-md-8&quot;&gt;
+            &lt;div class=&quot;card&quot;&gt;
+                &lt;div class=&quot;card-header&quot;&gt;Jumlah Mahasiswa per Jurusan&lt;/div&gt;
+                &lt;div class=&quot;card-body&quot;&gt;
+                    &lt;table class=&quot;table table-striped&quot;&gt;
+                        &lt;thead&gt;
+                            &lt;tr&gt;
+                                &lt;th&gt;Jurusan&lt;/th&gt;
+                                &lt;th&gt;Jumlah Mahasiswa&lt;/th&gt;
+                                &lt;th&gt;Persentase&lt;/th&gt;
+                            &lt;/tr&gt;
+                        &lt;/thead&gt;
+                        &lt;tbody&gt;
+                            @php $totalMahasiswa = $stats-&gt;sum('jumlah'); @endphp
+                            
+                            @foreach($stats as $stat)
+                            &lt;tr&gt;
+                                &lt;td&gt;{{ $stat-&gt;nama_jurusan }}&lt;/td&gt;
+                                &lt;td&gt;{{ $stat-&gt;jumlah }}&lt;/td&gt;
+                                &lt;td&gt;
+                                    {{ number_format(($stat-&gt;jumlah / $totalMahasiswa) * 100, 1) }}%
+                                    &lt;div class=&quot;progress&quot;&gt;
+                                        &lt;div class=&quot;progress-bar&quot; role=&quot;progressbar&quot; style=&quot;width: {{ ($stat-&gt;jumlah / $totalMahasiswa) * 100 }}%&quot; aria-valuenow=&quot;{{ $stat-&gt;jumlah }}&quot; aria-valuemin=&quot;0&quot; aria-valuemax=&quot;{{ $totalMahasiswa }}&quot;&gt;&lt;/div&gt;
+                                    &lt;/div&gt;
+                                &lt;/td&gt;
+                            &lt;/tr&gt;
+                            @endforeach
+                        &lt;/tbody&gt;
+                        &lt;tfoot&gt;
+                            &lt;tr&gt;
+                                &lt;th&gt;Total&lt;/th&gt;
+                                &lt;th&gt;{{ $totalMahasiswa }}&lt;/th&gt;
+                                &lt;th&gt;100%&lt;/th&gt;
+                            &lt;/tr&gt;
+                        &lt;/tfoot&gt;
+                    &lt;/table&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+</div></code></pre>
+<p>Dan controller untuk statistik:</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">statistik</span><span class="hljs-params">()</span>
+</span>{
+    $stats = DB::table(<span class="hljs-string">'jurusans'</span>)
+             -&gt;leftJoin(<span class="hljs-string">'mahasiswas'</span>, <span class="hljs-string">'jurusans.id'</span>, <span class="hljs-string">'='</span>, <span class="hljs-string">'mahasiswas.jurusan_id'</span>)
+             -&gt;select(<span class="hljs-string">'jurusans.nama_jurusan'</span>, DB::raw(<span class="hljs-string">'COUNT(mahasiswas.id) as jumlah'</span>))
+             -&gt;groupBy(<span class="hljs-string">'jurusans.nama_jurusan'</span>)
+             -&gt;orderBy(<span class="hljs-string">'jumlah'</span>, <span class="hljs-string">'desc'</span>)
+             -&gt;get();
+             
+    <span class="hljs-keyword">return</span> view(<span class="hljs-string">'statistik.index'</span>, compact(<span class="hljs-string">'stats'</span>));
+}
+</div></code></pre>
+<pre><code class="language-mermaid"><div class="mermaid">sequenceDiagram
+    participant Browser
+    participant Controller
+    participant Model
+    participant Database
+    
+    Browser->>Controller: Request GET /mahasiswas
+    Controller->>Model: Mahasiswa::with('jurusan')->get()
+    Model->>Database: SELECT * FROM mahasiswas
+    Database->>Model: Return mahasiswas data
+    Model->>Database: SELECT * FROM jurusans WHERE id IN (...)
+    Database->>Model: Return jurusans data
+    Model->>Controller: Return mahasiswas with jurusan
+    Controller->>Browser: Render view with data
+    
+    Note over Browser,Database: Eager Loading mencegah N+1 Query Problem
+
+</div></code></pre>
+<h2 id="menggunakan-eager-loading-vs-lazy-loading">Menggunakan Eager Loading vs Lazy Loading</h2>
+<p>Ketika menampilkan data relasi, ada dua pendekatan utama:</p>
+<h3 id="1-eager-loading">1. Eager Loading</h3>
+<p>Eager loading melakukan preload relasi dalam satu query tambahan. Ini sangat berguna untuk mencegah &quot;N+1 Query Problem&quot; - masalah di mana untuk setiap baris utama, kita harus menjalankan query tambahan untuk relasinya.</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// Eager Loading - Hanya 2 query terlepas dari jumlah data</span>
+$mahasiswas = Mahasiswa::with(<span class="hljs-string">'jurusan'</span>)-&gt;get();
+</div></code></pre>
+<h3 id="2-lazy-loading">2. Lazy Loading</h3>
+<p>Lazy Loading mengambil data relasi saat pertama kali diakses. Ini bisa menyebabkan masalah N+1 query jika tidak dikelola dengan baik.</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// Lazy Loading - Akan menghasilkan N+1 queries</span>
+$mahasiswas = Mahasiswa::all();
+<span class="hljs-keyword">foreach</span> ($mahasiswas <span class="hljs-keyword">as</span> $mahasiswa) {
+    <span class="hljs-keyword">echo</span> $mahasiswa-&gt;jurusan-&gt;nama_jurusan; <span class="hljs-comment">// Ini memicu query baru setiap kali</span>
+}
+</div></code></pre>
+<h2 id="tips-dan-praktik-terbaik">Tips dan Praktik Terbaik</h2>
+<ol>
+<li>
+<p><strong>Selalu Gunakan Eager Loading</strong>: Untuk daftar dengan relasi, selalu gunakan <code>with()</code> untuk eager loading.</p>
+</li>
+<li>
+<p><strong>Batasi Data yang Diambil</strong>: Gunakan select untuk memilih hanya kolom yang diperlukan.</p>
+<pre class="hljs"><code><div>$mahasiswas = Mahasiswa::with(<span class="hljs-string">'jurusan:id,nama_jurusan,kode_jurusan'</span>)-&gt;select(<span class="hljs-string">'id'</span>, <span class="hljs-string">'nama'</span>, <span class="hljs-string">'nim'</span>, <span class="hljs-string">'jurusan_id'</span>)-&gt;get();
+</div></code></pre>
+</li>
+<li>
+<p><strong>Pagination</strong>: Selalu gunakan pagination untuk daftar besar.</p>
+</li>
+<li>
+<p><strong>Conditional Loading</strong>: Gunakan <code>whenLoaded</code> untuk menghindari error jika relasi tidak di-load.</p>
+<pre class="hljs"><code><div>{{ $mahasiswa-&gt;whenLoaded('jurusan', function($jurusan) {
+    return $jurusan-&gt;nama_jurusan;
+}, 'Tidak ada jurusan') }}
+</div></code></pre>
+</li>
+<li>
+<p><strong>Nested Relationship</strong>: Untuk relasi bertingkat, gunakan dot notation.</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// Contoh: Jika Jurusan memiliki relasi dengan Fakultas</span>
+$mahasiswas = Mahasiswa::with(<span class="hljs-string">'jurusan.fakultas'</span>)-&gt;get();
+</div></code></pre>
+</li>
+<li>
+<p><strong>Gunakan Load Method</strong>: Untuk mengambil relasi setelah model diambil.</p>
+<pre class="hljs"><code><div>$mahasiswa = Mahasiswa::find(<span class="hljs-number">1</span>);
+$mahasiswa-&gt;load(<span class="hljs-string">'jurusan'</span>);
+</div></code></pre>
+</li>
+</ol>
+<h2 id="kesimpulan">Kesimpulan</h2>
+<p>Menampilkan data relasi di Laravel adalah proses yang cukup sederhana berkat fitur Eloquent yang kuat. Dengan memahami bagaimana menggunakan eager loading dengan tepat, kita dapat membangun aplikasi yang tidak hanya fungsional tetapi juga efisien dalam hal performa database.</p>
+<p>Dalam aplikasi Mahasiswa-Jurusan kita, kita telah berhasil menampilkan:</p>
+<ol>
+<li>Daftar mahasiswa dengan informasi jurusan</li>
+<li>Detail mahasiswa dengan data jurusan</li>
+<li>Daftar jurusan dengan jumlah mahasiswa</li>
+<li>Detail jurusan dengan daftar mahasiswanya</li>
+<li>Statistik distribusi mahasiswa per jurusan</li>
+</ol>
+<p>Pendekatan ini dapat dengan mudah diperluas untuk menampilkan relasi lebih kompleks seperti Many-to-Many, yang akan kita pelajari pada pertemuan berikutnya.</p>
+
+</body>
+</html>

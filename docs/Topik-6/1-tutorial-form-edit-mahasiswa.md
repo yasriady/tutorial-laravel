@@ -1,4 +1,4 @@
-# Tutorial: Membuat Form Edit Data Mahasiswa di Laravel
+# Membuat Form Edit Data Mahasiswa di Laravel
 
 Pada bagian ini, kita akan melanjutkan pengembangan aplikasi manajemen data mahasiswa dengan membuat fungsi edit data. Setelah sebelumnya kita membuat form untuk menambah data, kini kita akan membuat form untuk mengubah data mahasiswa yang sudah ada.
 

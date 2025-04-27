@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>2-menggunakan-logging-untuk-debugging.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="tutorial-menggunakan-logging-untuk-debugging-di-laravel">Tutorial: Menggunakan Logging untuk Debugging di Laravel</h1>
+<p>Logging adalah salah satu teknik penting dalam debugging aplikasi Laravel. Dengan logging, kita dapat merekam informasi, peringatan, dan error yang terjadi dalam aplikasi untuk memudahkan proses debugging. Mari pelajari cara menggunakan fitur logging di Laravel untuk membantu proses debugging aplikasi mahasiswa kita.</p>
+<h2 id="konsep-dasar-logging-di-laravel">Konsep Dasar Logging di Laravel</h2>
+<pre><code class="language-mermaid"><div class="mermaid">flowchart LR
+    A[Kode Aplikasi]-->|Log pesan|B[Logger]
+    B-->|Tulis log ke|C[Channel]
+    C-->|Simpan ke|D[Storage]
+    D-->|Baca oleh|E[Developer]
+    
+    subgraph "Jenis Channel"
+    F[single]
+    G[daily]
+    H[slack]
+    I[stack]
+    end
+    
+    subgraph "Level Log"
+    J[emergency]
+    K[alert]
+    L[critical]
+    M[error]
+    N[warning]
+    O[notice]
+    P[info]
+    Q[debug]
+    end
+
+</div></code></pre>
+<h2 id="langkah-1-memahami-konfigurasi-logging">Langkah 1: Memahami Konfigurasi Logging</h2>
+<p>Laravel sudah menyediakan konfigurasi logging yang siap pakai. File konfigurasi ini terletak di <code>config/logging.php</code>. Di file ini, Anda dapat melihat berbagai channel logging yang tersedia:</p>
+<ul>
+<li><code>stack</code>: Menggabungkan beberapa channel lain</li>
+<li><code>single</code>: Log tunggal ke file</li>
+<li><code>daily</code>: Log yang dirotasi setiap hari</li>
+<li><code>slack</code>: Mengirim log ke Slack</li>
+<li><code>stderr</code>: Log ke standard error</li>
+<li><code>syslog</code>: Log ke syslog</li>
+<li><code>errorlog</code>: Log menggunakan error_log() PHP</li>
+<li><code>null</code>: Log dibuang (tidak disimpan)</li>
+</ul>
+<h2 id="langkah-2-menggunakan-fungsi-logging-dasar">Langkah 2: Menggunakan Fungsi Logging Dasar</h2>
+<p>Laravel menyediakan fungsi <code>Log</code> yang mudah digunakan untuk menulis log:</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// Import Log facade di bagian atas file</span>
+<span class="hljs-keyword">use</span> <span class="hljs-title">Illuminate</span>\<span class="hljs-title">Support</span>\<span class="hljs-title">Facades</span>\<span class="hljs-title">Log</span>;
+
+<span class="hljs-comment">// Di controller atau model</span>
+<span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">store</span><span class="hljs-params">(Request $request)</span>
+</span>{
+    <span class="hljs-comment">// Tambahkan log untuk debugging</span>
+    Log::info(<span class="hljs-string">'Memproses data mahasiswa baru'</span>);
+    
+    <span class="hljs-keyword">try</span> {
+        $mahasiswa = Mahasiswa::create([
+            <span class="hljs-string">'nim'</span> =&gt; $request-&gt;nim,
+            <span class="hljs-string">'nama'</span> =&gt; $request-&gt;nama,
+            <span class="hljs-string">'email'</span> =&gt; $request-&gt;email,
+            <span class="hljs-comment">// data lainnya</span>
+        ]);
+        
+        Log::info(<span class="hljs-string">'Mahasiswa berhasil disimpan'</span>, [<span class="hljs-string">'id'</span> =&gt; $mahasiswa-&gt;id]);
+        
+        <span class="hljs-keyword">return</span> redirect()-&gt;route(<span class="hljs-string">'mahasiswa.index'</span>)
+            -&gt;with(<span class="hljs-string">'success'</span>, <span class="hljs-string">'Data mahasiswa berhasil disimpan'</span>);
+    } <span class="hljs-keyword">catch</span> (\<span class="hljs-keyword">Exception</span> $e) {
+        Log::error(<span class="hljs-string">'Gagal menyimpan data mahasiswa'</span>, [
+            <span class="hljs-string">'error'</span> =&gt; $e-&gt;getMessage(),
+            <span class="hljs-string">'data'</span> =&gt; $request-&gt;all()
+        ]);
+        
+        <span class="hljs-keyword">return</span> back()-&gt;withInput()-&gt;withErrors([<span class="hljs-string">'error'</span> =&gt; <span class="hljs-string">'Terjadi kesalahan saat menyimpan data'</span>]);
+    }
+}
+</div></code></pre>
+<h2 id="langkah-3-menggunakan-level-log-yang-berbeda">Langkah 3: Menggunakan Level Log yang Berbeda</h2>
+<p>Laravel menyediakan berbagai level log yang sesuai dengan standar RFC 5424:</p>
+<pre class="hljs"><code><div>Log::emergency($message, $context);  <span class="hljs-comment">// Level 0: Sistem tidak dapat digunakan</span>
+Log::alert($message, $context);      <span class="hljs-comment">// Level 1: Perlu tindakan segera</span>
+Log::critical($message, $context);   <span class="hljs-comment">// Level 2: Kondisi kritis</span>
+Log::error($message, $context);      <span class="hljs-comment">// Level 3: Error runtime</span>
+Log::warning($message, $context);    <span class="hljs-comment">// Level 4: Peringatan tapi tidak error</span>
+Log::notice($message, $context);     <span class="hljs-comment">// Level 5: Peristiwa normal tapi penting</span>
+Log::info($message, $context);       <span class="hljs-comment">// Level 6: Informasi umum</span>
+Log::debug($message, $context);      <span class="hljs-comment">// Level 7: Informasi debugging detail</span>
+</div></code></pre>
+<p>Contoh penggunaan level log untuk kasus berbeda:</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// Saat validasi gagal</span>
+Log::warning(<span class="hljs-string">'Validasi gagal'</span>, [<span class="hljs-string">'data'</span> =&gt; $request-&gt;all(), <span class="hljs-string">'errors'</span> =&gt; $validator-&gt;errors()]);
+
+<span class="hljs-comment">// Saat user login</span>
+Log::info(<span class="hljs-string">'User login'</span>, [<span class="hljs-string">'user_id'</span> =&gt; $user-&gt;id, <span class="hljs-string">'email'</span> =&gt; $user-&gt;email]);
+
+<span class="hljs-comment">// Saat ada exception</span>
+Log::error(<span class="hljs-string">'Database error'</span>, [<span class="hljs-string">'exception'</span> =&gt; $e-&gt;getMessage(), <span class="hljs-string">'trace'</span> =&gt; $e-&gt;getTraceAsString()]);
+</div></code></pre>
+<h2 id="langkah-4-meneruskan-konteks-ke-log">Langkah 4: Meneruskan Konteks ke Log</h2>
+<p>Menambahkan konteks ke log sangat membantu debugging:</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// Log dengan konteks array</span>
+Log::info(<span class="hljs-string">'Mencari mahasiswa dengan NIM'</span>, [<span class="hljs-string">'nim'</span> =&gt; $nim]);
+
+<span class="hljs-comment">// Mencatat object eloquent</span>
+$mahasiswa = Mahasiswa::find(<span class="hljs-number">1</span>);
+Log::info(<span class="hljs-string">'Mahasiswa ditemukan'</span>, $mahasiswa-&gt;toArray());
+
+<span class="hljs-comment">// Mencatat request data</span>
+Log::debug(<span class="hljs-string">'Request data'</span>, [<span class="hljs-string">'form_data'</span> =&gt; $request-&gt;all()]);
+</div></code></pre>
+<h2 id="langkah-5-menggunakan-channel-log-tertentu">Langkah 5: Menggunakan Channel Log Tertentu</h2>
+<p>Anda dapat menentukan channel mana yang ingin digunakan:</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// Menggunakan channel 'single'</span>
+Log::channel(<span class="hljs-string">'single'</span>)-&gt;info(<span class="hljs-string">'Log ini ke file tunggal'</span>);
+
+<span class="hljs-comment">// Menggunakan channel 'daily'</span>
+Log::channel(<span class="hljs-string">'daily'</span>)-&gt;error(<span class="hljs-string">'Log harian untuk error'</span>);
+
+<span class="hljs-comment">// Menggunakan channel stack yang dikonfigurasi</span>
+Log::stack([<span class="hljs-string">'single'</span>, <span class="hljs-string">'slack'</span>])-&gt;critical(<span class="hljs-string">'Error kritis akan dikirim ke file dan Slack'</span>);
+</div></code></pre>
+<h2 id="langkah-6-membuat-custom-channel-log">Langkah 6: Membuat Custom Channel Log</h2>
+<p>Tambahkan konfigurasi channel baru di <code>config/logging.php</code>:</p>
+<pre class="hljs"><code><div><span class="hljs-string">'channels'</span> =&gt; [
+    <span class="hljs-comment">// Channel yang sudah ada...</span>
+    
+    <span class="hljs-string">'mahasiswa'</span> =&gt; [
+        <span class="hljs-string">'driver'</span> =&gt; <span class="hljs-string">'daily'</span>,
+        <span class="hljs-string">'path'</span> =&gt; storage_path(<span class="hljs-string">'logs/mahasiswa.log'</span>),
+        <span class="hljs-string">'level'</span> =&gt; <span class="hljs-string">'debug'</span>,
+        <span class="hljs-string">'days'</span> =&gt; <span class="hljs-number">14</span>,
+    ],
+],
+</div></code></pre>
+<p>Kemudian gunakan channel tersebut:</p>
+<pre class="hljs"><code><div>Log::channel(<span class="hljs-string">'mahasiswa'</span>)-&gt;info(<span class="hljs-string">'Operasi pada modul mahasiswa'</span>, [<span class="hljs-string">'action'</span> =&gt; <span class="hljs-string">'store'</span>]);
+</div></code></pre>
+<h2 id="langkah-7-debugging-dalam-skenario-praktis">Langkah 7: Debugging Dalam Skenario Praktis</h2>
+<h3 id="skenario-1-debugging-proses-crud-mahasiswa">Skenario 1: Debugging Proses CRUD Mahasiswa</h3>
+<pre class="hljs"><code><div><span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">update</span><span class="hljs-params">(Request $request, $id)</span>
+</span>{
+    Log::channel(<span class="hljs-string">'mahasiswa'</span>)-&gt;info(<span class="hljs-string">'Mulai proses update mahasiswa'</span>, [<span class="hljs-string">'id'</span> =&gt; $id]);
+    
+    <span class="hljs-keyword">try</span> {
+        $mahasiswa = Mahasiswa::findOrFail($id);
+        Log::debug(<span class="hljs-string">'Data mahasiswa sebelum update'</span>, $mahasiswa-&gt;toArray());
+        
+        $mahasiswa-&gt;update($request-&gt;all());
+        Log::debug(<span class="hljs-string">'Data mahasiswa setelah update'</span>, $mahasiswa-&gt;fresh()-&gt;toArray());
+        
+        Log::info(<span class="hljs-string">'Mahasiswa berhasil diupdate'</span>, [<span class="hljs-string">'id'</span> =&gt; $id]);
+        <span class="hljs-keyword">return</span> redirect()-&gt;route(<span class="hljs-string">'mahasiswa.index'</span>)-&gt;with(<span class="hljs-string">'success'</span>, <span class="hljs-string">'Data berhasil diperbarui'</span>);
+    } <span class="hljs-keyword">catch</span> (\<span class="hljs-keyword">Exception</span> $e) {
+        Log::error(<span class="hljs-string">'Error saat update mahasiswa'</span>, [
+            <span class="hljs-string">'id'</span> =&gt; $id,
+            <span class="hljs-string">'data'</span> =&gt; $request-&gt;all(),
+            <span class="hljs-string">'error'</span> =&gt; $e-&gt;getMessage(),
+            <span class="hljs-string">'trace'</span> =&gt; $e-&gt;getTraceAsString()
+        ]);
+        
+        <span class="hljs-keyword">return</span> back()-&gt;withInput()-&gt;withErrors([<span class="hljs-string">'error'</span> =&gt; <span class="hljs-string">'Terjadi kesalahan'</span>]);
+    }
+}
+</div></code></pre>
+<h3 id="skenario-2-debugging-query-database">Skenario 2: Debugging Query Database</h3>
+<pre class="hljs"><code><div><span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">search</span><span class="hljs-params">(Request $request)</span>
+</span>{
+    $keyword = $request-&gt;get(<span class="hljs-string">'keyword'</span>);
+    Log::info(<span class="hljs-string">'Mencari mahasiswa'</span>, [<span class="hljs-string">'keyword'</span> =&gt; $keyword]);
+    
+    <span class="hljs-comment">// Aktifkan query logging untuk debugging</span>
+    DB::enableQueryLog();
+    
+    $mahasiswas = Mahasiswa::where(<span class="hljs-string">'nama'</span>, <span class="hljs-string">'like'</span>, <span class="hljs-string">"%$keyword%"</span>)
+                    -&gt;orWhere(<span class="hljs-string">'nim'</span>, <span class="hljs-string">'like'</span>, <span class="hljs-string">"%$keyword%"</span>)
+                    -&gt;paginate(<span class="hljs-number">10</span>);
+    
+    <span class="hljs-comment">// Log hasil query untuk debugging</span>
+    Log::debug(<span class="hljs-string">'Query pencarian'</span>, [
+        <span class="hljs-string">'queries'</span> =&gt; DB::getQueryLog(),
+        <span class="hljs-string">'result_count'</span> =&gt; $mahasiswas-&gt;count()
+    ]);
+    
+    <span class="hljs-keyword">return</span> view(<span class="hljs-string">'mahasiswa.index'</span>, compact(<span class="hljs-string">'mahasiswas'</span>));
+}
+</div></code></pre>
+<h2 id="langkah-8-membaca-file-log">Langkah 8: Membaca File Log</h2>
+<p>File log Laravel disimpan di direktori <code>storage/logs/</code>. Cara mengaksesnya:</p>
+<ol>
+<li>
+<p>Melalui terminal:</p>
+<pre class="hljs"><code><div><span class="hljs-comment"># Melihat isi log</span>
+tail -f storage/logs/laravel.log
+
+<span class="hljs-comment"># Mencari kata kunci tertentu di log</span>
+grep <span class="hljs-string">"error"</span> storage/logs/laravel.log
+</div></code></pre>
+</li>
+<li>
+<p>Melalui code editor:</p>
+<ul>
+<li>Buka file <code>storage/logs/laravel.log</code> di editor seperti VSCode atau PhpStorm</li>
+<li>Gunakan fitur pencarian untuk menemukan entry log tertentu</li>
+</ul>
+</li>
+</ol>
+<h2 id="langkah-9-implementasi-helper-function-untuk-logging">Langkah 9: Implementasi Helper Function untuk Logging</h2>
+<p>Untuk standarisasi logging, buatlah helper function:</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// Di app/Helpers/LogHelper.php (buat file ini)</span>
+<span class="hljs-meta">&lt;?php</span>
+
+<span class="hljs-keyword">namespace</span> <span class="hljs-title">App</span>\<span class="hljs-title">Helpers</span>;
+
+<span class="hljs-keyword">use</span> <span class="hljs-title">Illuminate</span>\<span class="hljs-title">Support</span>\<span class="hljs-title">Facades</span>\<span class="hljs-title">Log</span>;
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">LogHelper</span>
+</span>{
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">mahasiswaLog</span><span class="hljs-params">($level, $message, $data = [])</span>
+    </span>{
+        $context = array_merge($data, [
+            <span class="hljs-string">'user_id'</span> =&gt; auth()-&gt;id() ?? <span class="hljs-string">'guest'</span>,
+            <span class="hljs-string">'timestamp'</span> =&gt; now()-&gt;toDateTimeString(),
+        ]);
+        
+        Log::channel(<span class="hljs-string">'mahasiswa'</span>)-&gt;{$level}($message, $context);
+    }
+}
+</div></code></pre>
+<p>Kemudian gunakan di controller:</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">use</span> <span class="hljs-title">App</span>\<span class="hljs-title">Helpers</span>\<span class="hljs-title">LogHelper</span>;
+
+<span class="hljs-comment">// Di controller</span>
+LogHelper::mahasiswaLog(<span class="hljs-string">'info'</span>, <span class="hljs-string">'Menampilkan detail mahasiswa'</span>, [<span class="hljs-string">'id'</span> =&gt; $id]);
+</div></code></pre>
+<h2 id="tips-menggunakan-logging-secara-efektif">Tips Menggunakan Logging Secara Efektif</h2>
+<ol>
+<li>
+<p><strong>Log dengan Konteks yang Cukup</strong>: Selalu sertakan informasi yang relevan untuk membantu debugging</p>
+<pre class="hljs"><code><div>Log::error(<span class="hljs-string">'Validasi gagal'</span>, [<span class="hljs-string">'errors'</span> =&gt; $validator-&gt;errors()-&gt;toArray()]);
+</div></code></pre>
+</li>
+<li>
+<p><strong>Gunakan Level Log dengan Tepat</strong>: Level debug untuk detail, info untuk informasi umum, error untuk kesalahan</p>
+</li>
+<li>
+<p><strong>Jangan Log Data Sensitif</strong>: Hindari mencatat password, token keamanan, dll</p>
+<pre class="hljs"><code><div>Log::info(<span class="hljs-string">'User register'</span>, [
+    <span class="hljs-string">'email'</span> =&gt; $user-&gt;email,
+    <span class="hljs-comment">// Jangan log password!</span>
+]);
+</div></code></pre>
+</li>
+<li>
+<p><strong>Gunakan Try-Catch untuk Error Logging</strong>: Tangkap error dan log detail untuk debugging</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">try</span> {
+    <span class="hljs-comment">// kode yang mungkin error</span>
+} <span class="hljs-keyword">catch</span> (\<span class="hljs-keyword">Exception</span> $e) {
+    Log::error(<span class="hljs-string">'Error saat proses data'</span>, [
+        <span class="hljs-string">'message'</span> =&gt; $e-&gt;getMessage(),
+        <span class="hljs-string">'file'</span> =&gt; $e-&gt;getFile(),
+        <span class="hljs-string">'line'</span> =&gt; $e-&gt;getLine()
+    ]);
+}
+</div></code></pre>
+</li>
+<li>
+<p><strong>Aktifkan Query Log Hanya Saat Diperlukan</strong>: Query logging dapat memengaruhi performa</p>
+<pre class="hljs"><code><div>DB::enableQueryLog(); <span class="hljs-comment">// Aktifkan</span>
+<span class="hljs-comment">// Query database</span>
+Log::debug(<span class="hljs-string">'Queries'</span>, [<span class="hljs-string">'queries'</span> =&gt; DB::getQueryLog()]);
+DB::disableQueryLog(); <span class="hljs-comment">// Nonaktifkan setelah selesai</span>
+</div></code></pre>
+</li>
+</ol>
+<h2 id="kesimpulan">Kesimpulan</h2>
+<p>Logging adalah alat debugging yang sangat penting dalam pengembangan aplikasi Laravel. Dengan menggunakan logging secara efektif, Anda dapat:</p>
+<ol>
+<li>Melacak alur eksekusi program</li>
+<li>Mengidentifikasi sumber error dengan cepat</li>
+<li>Memahami perilaku aplikasi saat runtime</li>
+<li>Mendokumentasikan kejadian penting dalam aplikasi</li>
+</ol>
+<p>Gunakan logging secara bijak dan strategis untuk memudahkan proses debugging dan pemeliharaan aplikasi mahasiswa Anda.</p>
+
+</body>
+</html>

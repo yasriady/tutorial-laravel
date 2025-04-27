@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>2-membuat-migrasi-database.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="membuat-migrasi-database-untuk-tabel-mahasiswa">Membuat Migrasi Database untuk Tabel Mahasiswa</h1>
+<p>Migrasi database adalah fitur Laravel yang memungkinkan Anda mengelola struktur database aplikasi dengan mudah dan terstruktur. Dalam tutorial ini, kita akan belajar cara membuat migrasi untuk tabel Mahasiswa dalam aplikasi mahasiswa-app.</p>
+<h2 id="diagram-alur-migrasi-di-laravel">Diagram Alur Migrasi di Laravel</h2>
+<pre><code class="language-mermaid"><div class="mermaid">flowchart LR
+    A[Buat File Migrasi] --> B[Edit Struktur Tabel]
+    B --> C{Jalankan Migrasi}
+    C --> D[Berhasil: Tabel Terbentuk]
+    C --> E[Gagal: Debug Error]
+    E --> B
+    D --> F[Selesai]
+    G[Rollback Migrasi] --> H[Perbarui Struktur]
+    H --> C
+
+</div></code></pre>
+<h2 id="1-pengenalan-migrasi-database-laravel">1. Pengenalan Migrasi Database Laravel</h2>
+<p>Migrasi database di Laravel adalah seperti version control untuk database Anda. Migrasi memungkinkan Anda dan tim Anda untuk:</p>
+<ol>
+<li>Mendefinisikan dan berbagi struktur database aplikasi</li>
+<li>Mengubah struktur database dengan mudah dan aman</li>
+<li>Melacak perubahan pada skema database dari waktu ke waktu</li>
+<li>Memudahkan deployment pada berbagai lingkungan (development, testing, production)</li>
+</ol>
+<h2 id="2-membuat-file-migrasi">2. Membuat File Migrasi</h2>
+<h3 id="langkah-1-buat-file-migrasi-dengan-artisan-cli">Langkah 1: Buat File Migrasi dengan Artisan CLI</h3>
+<p>Gunakan perintah berikut di terminal:</p>
+<pre class="hljs"><code><div>php artisan make:migration create_mahasiswa_table
+</div></code></pre>
+<p>Perintah ini akan membuat file migrasi baru di direktori <code>database/migrations</code> dengan format nama <code>[timestamp]_create_mahasiswa_table.php</code>.</p>
+<h3 id="langkah-2-struktur-dasar-file-migrasi">Langkah 2: Struktur Dasar File Migrasi</h3>
+<p>File migrasi yang dihasilkan akan terlihat seperti ini:</p>
+<pre class="hljs"><code><div><span class="hljs-meta">&lt;?php</span>
+
+<span class="hljs-keyword">use</span> <span class="hljs-title">Illuminate</span>\<span class="hljs-title">Database</span>\<span class="hljs-title">Migrations</span>\<span class="hljs-title">Migration</span>;
+<span class="hljs-keyword">use</span> <span class="hljs-title">Illuminate</span>\<span class="hljs-title">Database</span>\<span class="hljs-title">Schema</span>\<span class="hljs-title">Blueprint</span>;
+<span class="hljs-keyword">use</span> <span class="hljs-title">Illuminate</span>\<span class="hljs-title">Support</span>\<span class="hljs-title">Facades</span>\<span class="hljs-title">Schema</span>;
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">CreateMahasiswaTable</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Migration</span>
+</span>{
+    <span class="hljs-comment">/**
+     * Run the migrations.
+     *
+     * <span class="hljs-doctag">@return</span> void
+     */</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">up</span><span class="hljs-params">()</span>
+    </span>{
+        Schema::create(<span class="hljs-string">'mahasiswa'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(Blueprint $table)</span> </span>{
+            $table-&gt;id();
+            $table-&gt;timestamps();
+        });
+    }
+
+    <span class="hljs-comment">/**
+     * Reverse the migrations.
+     *
+     * <span class="hljs-doctag">@return</span> void
+     */</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">down</span><span class="hljs-params">()</span>
+    </span>{
+        Schema::dropIfExists(<span class="hljs-string">'mahasiswa'</span>);
+    }
+}
+</div></code></pre>
+<p>Setiap file migrasi berisi dua metode utama:</p>
+<ul>
+<li><code>up()</code>: Dijalankan saat migrasi diterapkan (menambah tabel, kolom, dll)</li>
+<li><code>down()</code>: Dijalankan saat migrasi dibatalkan (menghapus tabel, kolom, dll)</li>
+</ul>
+<h2 id="3-menentukan-struktur-tabel-mahasiswa">3. Menentukan Struktur Tabel Mahasiswa</h2>
+<h3 id="langkah-1-edit-file-migrasi">Langkah 1: Edit File Migrasi</h3>
+<p>Buka file migrasi yang baru dibuat dan ubah metode <code>up()</code> untuk mendefinisikan struktur tabel Mahasiswa:</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">up</span><span class="hljs-params">()</span>
+</span>{
+    Schema::create(<span class="hljs-string">'mahasiswa'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(Blueprint $table)</span> </span>{
+        $table-&gt;id();                              <span class="hljs-comment">// Kolom ID otomatis</span>
+        $table-&gt;string(<span class="hljs-string">'nim'</span>, <span class="hljs-number">20</span>)-&gt;unique();       <span class="hljs-comment">// NIM mahasiswa (unique)</span>
+        $table-&gt;string(<span class="hljs-string">'nama'</span>, <span class="hljs-number">100</span>);               <span class="hljs-comment">// Nama lengkap mahasiswa</span>
+        $table-&gt;string(<span class="hljs-string">'email'</span>)-&gt;unique();         <span class="hljs-comment">// Email (unique)</span>
+        $table-&gt;enum(<span class="hljs-string">'jenis_kelamin'</span>, [<span class="hljs-string">'L'</span>, <span class="hljs-string">'P'</span>]); <span class="hljs-comment">// Jenis kelamin (L/P)</span>
+        $table-&gt;unsignedBigInteger(<span class="hljs-string">'jurusan_id'</span>);  <span class="hljs-comment">// Foreign key ke jurusan</span>
+        $table-&gt;text(<span class="hljs-string">'alamat'</span>)-&gt;nullable();        <span class="hljs-comment">// Alamat (opsional)</span>
+        $table-&gt;string(<span class="hljs-string">'no_telp'</span>, <span class="hljs-number">15</span>)-&gt;nullable(); <span class="hljs-comment">// No telepon (opsional)</span>
+        $table-&gt;timestamps();                      <span class="hljs-comment">// created_at &amp; updated_at</span>
+        
+        <span class="hljs-comment">// Menambahkan foreign key constraint</span>
+        $table-&gt;foreign(<span class="hljs-string">'jurusan_id'</span>)
+              -&gt;references(<span class="hljs-string">'id'</span>)
+              -&gt;on(<span class="hljs-string">'jurusan'</span>)
+              -&gt;onDelete(<span class="hljs-string">'cascade'</span>); <span class="hljs-comment">// Hapus mahasiswa jika jurusan dihapus</span>
+    });
+}
+</div></code></pre>
+<h2 id="4-jenis-kolom-yang-sering-digunakan">4. Jenis Kolom yang Sering Digunakan</h2>
+<p>Selain tipe kolom yang digunakan di atas, Laravel menyediakan berbagai tipe data untuk kolom:</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// Tipe Numerik</span>
+$table-&gt;bigInteger(<span class="hljs-string">'nomor_induk'</span>);    <span class="hljs-comment">// BIGINT</span>
+$table-&gt;integer(<span class="hljs-string">'angkatan'</span>);          <span class="hljs-comment">// INTEGER</span>
+$table-&gt;smallInteger(<span class="hljs-string">'semester'</span>);     <span class="hljs-comment">// SMALLINT</span>
+$table-&gt;tinyInteger(<span class="hljs-string">'status'</span>);        <span class="hljs-comment">// TINYINT</span>
+$table-&gt;decimal(<span class="hljs-string">'ipk'</span>, <span class="hljs-number">3</span>, <span class="hljs-number">2</span>);         <span class="hljs-comment">// DECIMAL dengan 3 digit dan 2 desimal (misal 3.85)</span>
+$table-&gt;float(<span class="hljs-string">'nilai'</span>);               <span class="hljs-comment">// FLOAT</span>
+
+<span class="hljs-comment">// Tipe Teks</span>
+$table-&gt;char(<span class="hljs-string">'kode'</span>, <span class="hljs-number">5</span>);              <span class="hljs-comment">// CHAR panjang tetap</span>
+$table-&gt;string(<span class="hljs-string">'nama'</span>, <span class="hljs-number">100</span>);          <span class="hljs-comment">// VARCHAR dengan panjang 100</span>
+$table-&gt;text(<span class="hljs-string">'biografi'</span>);             <span class="hljs-comment">// TEXT</span>
+$table-&gt;mediumText(<span class="hljs-string">'esai'</span>);           <span class="hljs-comment">// MEDIUMTEXT</span>
+$table-&gt;longText(<span class="hljs-string">'penelitian'</span>);       <span class="hljs-comment">// LONGTEXT</span>
+
+<span class="hljs-comment">// Tipe Tanggal dan Waktu</span>
+$table-&gt;date(<span class="hljs-string">'tanggal_lahir'</span>);        <span class="hljs-comment">// DATE</span>
+$table-&gt;time(<span class="hljs-string">'jam_masuk'</span>);            <span class="hljs-comment">// TIME</span>
+$table-&gt;dateTime(<span class="hljs-string">'waktu_ujian'</span>);      <span class="hljs-comment">// DATETIME</span>
+$table-&gt;timestamp(<span class="hljs-string">'login_at'</span>);        <span class="hljs-comment">// TIMESTAMP</span>
+$table-&gt;year(<span class="hljs-string">'tahun_masuk'</span>);          <span class="hljs-comment">// YEAR</span>
+
+<span class="hljs-comment">// Tipe Boolean</span>
+$table-&gt;boolean(<span class="hljs-string">'aktif'</span>);             <span class="hljs-comment">// BOOLEAN (TINYINT(1))</span>
+
+<span class="hljs-comment">// Tipe Khusus</span>
+$table-&gt;json(<span class="hljs-string">'preferensi'</span>);           <span class="hljs-comment">// JSON</span>
+$table-&gt;binary(<span class="hljs-string">'file'</span>);               <span class="hljs-comment">// BLOB</span>
+$table-&gt;uuid(<span class="hljs-string">'identifier'</span>);           <span class="hljs-comment">// UUID</span>
+</div></code></pre>
+<h2 id="5-modifikasi-kolom">5. Modifikasi Kolom</h2>
+<p>Anda dapat menambahkan modifikasi ke kolom untuk berbagai keperluan:</p>
+<pre class="hljs"><code><div>$table-&gt;string(<span class="hljs-string">'nim'</span>)-&gt;unique();        <span class="hljs-comment">// Kolom harus memiliki nilai unik</span>
+$table-&gt;text(<span class="hljs-string">'alamat'</span>)-&gt;nullable();     <span class="hljs-comment">// Kolom boleh kosong (NULL)</span>
+$table-&gt;integer(<span class="hljs-string">'sks'</span>)-&gt;default(<span class="hljs-number">20</span>);    <span class="hljs-comment">// Nilai default jika tidak diisi</span>
+$table-&gt;timestamp(<span class="hljs-string">'logged_at'</span>)-&gt;useCurrent(); <span class="hljs-comment">// Nilai default: waktu sekarang</span>
+$table-&gt;softDeletes();                  <span class="hljs-comment">// Tambahkan kolom deleted_at untuk soft deletes</span>
+</div></code></pre>
+<h2 id="6-menjalankan-migrasi">6. Menjalankan Migrasi</h2>
+<h3 id="langkah-1-memastikan-database-terhubung">Langkah 1: Memastikan Database Terhubung</h3>
+<p>Pastikan database sudah dikonfigurasi dengan benar di file <code>.env</code>:</p>
+<pre class="hljs"><code><div>DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=mahasiswa_app
+DB_USERNAME=root
+DB_PASSWORD=
+</div></code></pre>
+<h3 id="langkah-2-menjalankan-migrasi">Langkah 2: Menjalankan Migrasi</h3>
+<p>Jalankan perintah berikut untuk menerapkan migrasi:</p>
+<pre class="hljs"><code><div>php artisan migrate
+</div></code></pre>
+<p>Laravel akan menjalankan semua file migrasi yang belum diterapkan dan membuat tabel yang telah didefinisikan.</p>
+<h2 id="7-memodifikasi-tabel-yang-sudah-ada">7. Memodifikasi Tabel yang Sudah Ada</h2>
+<h3 id="cara-1-membuat-migrasi-baru">Cara 1: Membuat Migrasi Baru</h3>
+<p>Jika Anda perlu menambahkan kolom ke tabel yang sudah ada:</p>
+<pre class="hljs"><code><div>php artisan make:migration add_foto_to_mahasiswa_table
+</div></code></pre>
+<p>Edit file migrasi:</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">up</span><span class="hljs-params">()</span>
+</span>{
+    Schema::table(<span class="hljs-string">'mahasiswa'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(Blueprint $table)</span> </span>{
+        $table-&gt;string(<span class="hljs-string">'foto'</span>)-&gt;nullable()-&gt;after(<span class="hljs-string">'nama'</span>);
+    });
+}
+
+<span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">down</span><span class="hljs-params">()</span>
+</span>{
+    Schema::table(<span class="hljs-string">'mahasiswa'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(Blueprint $table)</span> </span>{
+        $table-&gt;dropColumn(<span class="hljs-string">'foto'</span>);
+    });
+}
+</div></code></pre>
+<h3 id="cara-2-menggunakan-fresh-migration-reset-database">Cara 2: Menggunakan Fresh Migration (Reset Database)</h3>
+<p><strong>Perhatian</strong>: Perintah ini akan menghapus semua tabel dan data:</p>
+<pre class="hljs"><code><div>php artisan migrate:fresh
+</div></code></pre>
+<p>Untuk mempertahankan data sambil memperbarui struktur:</p>
+<pre class="hljs"><code><div>php artisan migrate:refresh
+</div></code></pre>
+<h2 id="8-migrasi-untuk-tabel-terkait-mahasiswa">8. Migrasi untuk Tabel Terkait Mahasiswa</h2>
+<h3 id="membuat-migrasi-untuk-tabel-jurusan">Membuat Migrasi untuk Tabel Jurusan</h3>
+<p>Karena tabel Mahasiswa memiliki foreign key ke tabel Jurusan, kita harus membuat dan menjalankan migrasi untuk tabel Jurusan terlebih dahulu:</p>
+<pre class="hljs"><code><div>php artisan make:migration create_jurusan_table
+</div></code></pre>
+<p>Edit file migrasi Jurusan:</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">up</span><span class="hljs-params">()</span>
+</span>{
+    Schema::create(<span class="hljs-string">'jurusan'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(Blueprint $table)</span> </span>{
+        $table-&gt;id();
+        $table-&gt;string(<span class="hljs-string">'nama'</span>, <span class="hljs-number">100</span>);
+        $table-&gt;string(<span class="hljs-string">'kode'</span>, <span class="hljs-number">10</span>)-&gt;unique();
+        $table-&gt;text(<span class="hljs-string">'deskripsi'</span>)-&gt;nullable();
+        $table-&gt;timestamps();
+    });
+}
+</div></code></pre>
+<h3 id="membuat-migrasi-untuk-tabel-relasional-many-to-many">Membuat Migrasi untuk Tabel Relasional (Many-to-Many)</h3>
+<p>Jika mahasiswa dapat mengambil banyak mata kuliah, kita perlu tabel pivot:</p>
+<pre class="hljs"><code><div>php artisan make:migration create_mahasiswa_matakuliah_table
+</div></code></pre>
+<p>Edit file migrasi:</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">up</span><span class="hljs-params">()</span>
+</span>{
+    Schema::create(<span class="hljs-string">'mahasiswa_matakuliah'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(Blueprint $table)</span> </span>{
+        $table-&gt;id();
+        $table-&gt;unsignedBigInteger(<span class="hljs-string">'mahasiswa_id'</span>);
+        $table-&gt;unsignedBigInteger(<span class="hljs-string">'matakuliah_id'</span>);
+        $table-&gt;integer(<span class="hljs-string">'nilai'</span>)-&gt;nullable();
+        $table-&gt;timestamps();
+        
+        $table-&gt;foreign(<span class="hljs-string">'mahasiswa_id'</span>)-&gt;references(<span class="hljs-string">'id'</span>)-&gt;on(<span class="hljs-string">'mahasiswa'</span>);
+        $table-&gt;foreign(<span class="hljs-string">'matakuliah_id'</span>)-&gt;references(<span class="hljs-string">'id'</span>)-&gt;on(<span class="hljs-string">'matakuliah'</span>);
+        
+        <span class="hljs-comment">// Memastikan tidak ada duplikasi mahasiswa-matakuliah</span>
+        $table-&gt;unique([<span class="hljs-string">'mahasiswa_id'</span>, <span class="hljs-string">'matakuliah_id'</span>]);
+    });
+}
+</div></code></pre>
+<h2 id="9-mengurutkan-migrasi">9. Mengurutkan Migrasi</h2>
+<p>Laravel menjalankan migrasi berdasarkan urutan timestamp. Jika Anda memiliki dependensi antar tabel (foreign key), pastikan untuk menjalankan migrasi tabel referensi terlebih dahulu:</p>
+<ol>
+<li>Tabel <code>jurusan</code> (tidak memiliki foreign key)</li>
+<li>Tabel <code>matakuliah</code> (tidak memiliki foreign key)</li>
+<li>Tabel <code>mahasiswa</code> (memiliki foreign key ke <code>jurusan</code>)</li>
+<li>Tabel <code>mahasiswa_matakuliah</code> (memiliki foreign key ke <code>mahasiswa</code> dan <code>matakuliah</code>)</li>
+</ol>
+<h2 id="10-praktik-membuat-migrasi-lengkap-untuk-aplikasi-mahasiswa">10. Praktik: Membuat Migrasi Lengkap untuk Aplikasi Mahasiswa</h2>
+<p>Berikut adalah langkah-langkah untuk membuat semua migrasi yang diperlukan untuk aplikasi manajemen mahasiswa:</p>
+<ol>
+<li>
+<p>Buat dan jalankan migrasi untuk tabel <code>jurusan</code>:</p>
+<pre class="hljs"><code><div>php artisan make:migration create_jurusan_table
+<span class="hljs-comment"># Edit file migrasi</span>
+php artisan migrate
+</div></code></pre>
+</li>
+<li>
+<p>Buat dan jalankan migrasi untuk tabel <code>matakuliah</code>:</p>
+<pre class="hljs"><code><div>php artisan make:migration create_matakuliah_table
+<span class="hljs-comment"># Edit file migrasi</span>
+php artisan migrate
+</div></code></pre>
+</li>
+<li>
+<p>Buat dan jalankan migrasi untuk tabel <code>mahasiswa</code>:</p>
+<pre class="hljs"><code><div>php artisan make:migration create_mahasiswa_table
+<span class="hljs-comment"># Edit file migrasi</span>
+php artisan migrate
+</div></code></pre>
+</li>
+<li>
+<p>Buat dan jalankan migrasi untuk tabel pivot <code>mahasiswa_matakuliah</code>:</p>
+<pre class="hljs"><code><div>php artisan make:migration create_mahasiswa_matakuliah_table
+<span class="hljs-comment"># Edit file migrasi</span>
+php artisan migrate
+</div></code></pre>
+</li>
+</ol>
+<h2 id="kesimpulan">Kesimpulan</h2>
+<p>Migrasi database di Laravel memberikan cara yang elegan dan terstruktur untuk mengelola skema database aplikasi Anda. Dengan menggunakan migrasi, Anda dapat:</p>
+<ol>
+<li>Mendokumentasikan perubahan database dengan jelas</li>
+<li>Memudahkan kolaborasi antar developer</li>
+<li>Memastikan konsistensi struktur database di semua lingkungan</li>
+<li>Menerapkan dan membatalkan perubahan database dengan mudah</li>
+</ol>
+<p>Untuk aplikasi mahasiswa-app, migrasi database memungkinkan kita untuk membuat struktur data yang sesuai untuk menyimpan informasi mahasiswa, jurusan, mata kuliah, dan relasi antar entitas tersebut.</p>
+<p>Setelah migrasi selesai dibuat dan dijalankan, Anda siap untuk melanjutkan ke tahap berikutnya: membuat model Eloquent untuk berinteraksi dengan tabel-tabel tersebut.</p>
+
+</body>
+</html>

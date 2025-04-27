@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>2-middleware-di-laravel.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="middleware-di-laravel">Middleware di Laravel</h1>
+<h2 id="pengertian-middleware">Pengertian Middleware</h2>
+<p>Middleware adalah filter atau &quot;rantai&quot; yang dilewati oleh request HTTP sebelum mencapai aplikasi Laravel Anda. Middleware dapat digunakan untuk:</p>
+<ul>
+<li>Verifikasi apakah pengguna sudah login</li>
+<li>Verifikasi hak akses (permissions) pengguna</li>
+<li>Proteksi aplikasi dari CSRF (Cross-Site Request Forgery)</li>
+<li>Memodifikasi request atau response</li>
+</ul>
+<h2 id="cara-kerja-middleware">Cara Kerja Middleware</h2>
+<pre><code class="language-mermaid"><div class="mermaid">flowchart LR
+    A[Request HTTP] --> B[Middleware 1]
+    B --> C[Middleware 2]
+    C --> D[Middleware ...]
+    D --> E[Controller/Action]
+    E --> F[Response]
+    F --> G[Middleware ...]
+    G --> H[Middleware 2]
+    H --> I[Middleware 1]
+    I --> J[Browser]
+    
+    style A fill:#f9f,stroke:#333,stroke-width:2px
+    style J fill:#bbf,stroke:#333,stroke-width:2px
+    style E fill:#bfb,stroke:#333,stroke-width:2px
+
+</div></code></pre>
+<h2 id="langkah-langkah-membuat-dan-menggunakan-middleware">Langkah-langkah Membuat dan Menggunakan Middleware</h2>
+<h3 id="1-middleware-bawaan-laravel">1. Middleware Bawaan Laravel</h3>
+<p>Laravel sudah menyediakan beberapa middleware bawaan yang sering digunakan:</p>
+<ul>
+<li><code>auth</code> - Verifikasi apakah pengguna sudah login</li>
+<li><code>guest</code> - Verifikasi apakah pengguna belum login</li>
+<li><code>verified</code> - Verifikasi apakah email pengguna sudah diverifikasi</li>
+<li><code>throttle</code> - Membatasi jumlah request dalam periode tertentu</li>
+<li><code>can</code> - Verifikasi hak akses berdasarkan Gates/Policies</li>
+</ul>
+<h3 id="2-membuat-middleware-kustom">2. Membuat Middleware Kustom</h3>
+<p>Untuk membuat middleware baru, gunakan perintah Artisan:</p>
+<pre class="hljs"><code><div>php artisan make:middleware CheckUserRole
+</div></code></pre>
+<p>Perintah ini akan membuat file baru di <code>app/Http/Middleware/CheckUserRole.php</code>:</p>
+<pre class="hljs"><code><div><span class="hljs-meta">&lt;?php</span>
+
+<span class="hljs-keyword">namespace</span> <span class="hljs-title">App</span>\<span class="hljs-title">Http</span>\<span class="hljs-title">Middleware</span>;
+
+<span class="hljs-keyword">use</span> <span class="hljs-title">Closure</span>;
+<span class="hljs-keyword">use</span> <span class="hljs-title">Illuminate</span>\<span class="hljs-title">Http</span>\<span class="hljs-title">Request</span>;
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">CheckUserRole</span>
+</span>{
+    <span class="hljs-comment">/**
+     * Handle an incoming request.
+     *
+     * <span class="hljs-doctag">@param</span>  \Illuminate\Http\Request  $request
+     * <span class="hljs-doctag">@param</span>  \Closure  $next
+     * <span class="hljs-doctag">@return</span> mixed
+     */</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">handle</span><span class="hljs-params">(Request $request, Closure $next, $role)</span>
+    </span>{
+        <span class="hljs-keyword">if</span> (!$request-&gt;user() || $request-&gt;user()-&gt;role !== $role) {
+            <span class="hljs-keyword">return</span> redirect(<span class="hljs-string">'home'</span>)-&gt;with(<span class="hljs-string">'error'</span>, <span class="hljs-string">'Anda tidak memiliki akses ke halaman ini'</span>);
+        }
+
+        <span class="hljs-keyword">return</span> $next($request);
+    }
+}
+</div></code></pre>
+<h3 id="3-mendaftarkan-middleware">3. Mendaftarkan Middleware</h3>
+<p>Setelah membuat middleware, daftarkan di file <code>app/Http/Kernel.php</code>:</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">protected</span> $routeMiddleware = [
+    <span class="hljs-comment">// Middleware lain...</span>
+    <span class="hljs-string">'role'</span> =&gt; \App\Http\Middleware\CheckUserRole::class,
+];
+</div></code></pre>
+<h3 id="4-menggunakan-middleware-pada-route">4. Menggunakan Middleware pada Route</h3>
+<h4 id="a-middleware-tunggal">a. Middleware Tunggal</h4>
+<pre class="hljs"><code><div>Route::get(<span class="hljs-string">'/admin'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">()</span> </span>{
+    <span class="hljs-comment">// Hanya admin yang bisa akses</span>
+})-&gt;middleware(<span class="hljs-string">'role:admin'</span>);
+</div></code></pre>
+<h4 id="b-multiple-middleware">b. Multiple Middleware</h4>
+<pre class="hljs"><code><div>Route::get(<span class="hljs-string">'/admin/reports'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">()</span> </span>{
+    <span class="hljs-comment">// Hanya admin yang sudah login yang bisa akses</span>
+})-&gt;middleware([<span class="hljs-string">'auth'</span>, <span class="hljs-string">'role:admin'</span>]);
+</div></code></pre>
+<h4 id="c-middleware-pada-controller">c. Middleware pada Controller</h4>
+<pre class="hljs"><code><div><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">AdminController</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Controller</span>
+</span>{
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">__construct</span><span class="hljs-params">()</span>
+    </span>{
+        <span class="hljs-keyword">$this</span>-&gt;middleware(<span class="hljs-string">'auth'</span>);
+        <span class="hljs-keyword">$this</span>-&gt;middleware(<span class="hljs-string">'role:admin'</span>);
+    }
+    
+    <span class="hljs-comment">// Method controller</span>
+}
+</div></code></pre>
+<h4 id="d-middleware-pada-group-route">d. Middleware pada Group Route</h4>
+<pre class="hljs"><code><div>Route::middleware([<span class="hljs-string">'auth'</span>, <span class="hljs-string">'role:admin'</span>])-&gt;group(<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">()</span> </span>{
+    Route::get(<span class="hljs-string">'/admin'</span>, <span class="hljs-string">'AdminController@index'</span>);
+    Route::get(<span class="hljs-string">'/admin/users'</span>, <span class="hljs-string">'AdminController@users'</span>);
+    Route::get(<span class="hljs-string">'/admin/reports'</span>, <span class="hljs-string">'AdminController@reports'</span>);
+});
+</div></code></pre>
+<h3 id="5-middleware-before--after">5. Middleware Before &amp; After</h3>
+<p>Laravel mendukung middleware yang dijalankan sebelum atau sesudah request diproses:</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// Middleware Before - dijalankan sebelum request diproses</span>
+<span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">handle</span><span class="hljs-params">($request, Closure $next)</span>
+</span>{
+    <span class="hljs-comment">// Lakukan sesuatu sebelum request diproses</span>
+    
+    <span class="hljs-keyword">return</span> $next($request);
+}
+
+<span class="hljs-comment">// Middleware After - dijalankan setelah request diproses</span>
+<span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">handle</span><span class="hljs-params">($request, Closure $next)</span>
+</span>{
+    $response = $next($request);
+    
+    <span class="hljs-comment">// Lakukan sesuatu setelah request diproses</span>
+    
+    <span class="hljs-keyword">return</span> $response;
+}
+</div></code></pre>
+<h2 id="contoh-implementasi-middleware-untuk-verifikasi-level-user">Contoh Implementasi: Middleware untuk Verifikasi Level User</h2>
+<p>Pertama, tambahkan kolom level pada tabel users melalui migrasi:</p>
+<pre class="hljs"><code><div>Schema::table(<span class="hljs-string">'users'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(Blueprint $table)</span> </span>{
+    $table-&gt;enum(<span class="hljs-string">'level'</span>, [<span class="hljs-string">'admin'</span>, <span class="hljs-string">'dosen'</span>, <span class="hljs-string">'mahasiswa'</span>])-&gt;default(<span class="hljs-string">'mahasiswa'</span>);
+});
+</div></code></pre>
+<p>Buat middleware untuk memeriksa level user:</p>
+<pre class="hljs"><code><div>php artisan make:middleware CheckUserLevel
+</div></code></pre>
+<p>Edit file <code>app/Http/Middleware/CheckUserLevel.php</code>:</p>
+<pre class="hljs"><code><div><span class="hljs-meta">&lt;?php</span>
+
+<span class="hljs-keyword">namespace</span> <span class="hljs-title">App</span>\<span class="hljs-title">Http</span>\<span class="hljs-title">Middleware</span>;
+
+<span class="hljs-keyword">use</span> <span class="hljs-title">Closure</span>;
+<span class="hljs-keyword">use</span> <span class="hljs-title">Illuminate</span>\<span class="hljs-title">Http</span>\<span class="hljs-title">Request</span>;
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">CheckUserLevel</span>
+</span>{
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">handle</span><span class="hljs-params">(Request $request, Closure $next, ...$levels)</span>
+    </span>{
+        <span class="hljs-keyword">if</span> (!$request-&gt;user() || !in_array($request-&gt;user()-&gt;level, $levels)) {
+            <span class="hljs-keyword">return</span> redirect(<span class="hljs-string">'dashboard'</span>)-&gt;with(<span class="hljs-string">'error'</span>, <span class="hljs-string">'Anda tidak memiliki hak akses'</span>);
+        }
+
+        <span class="hljs-keyword">return</span> $next($request);
+    }
+}
+</div></code></pre>
+<p>Daftarkan middleware di Kernel.php:</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">protected</span> $routeMiddleware = [
+    <span class="hljs-comment">// Middleware lain...</span>
+    <span class="hljs-string">'level'</span> =&gt; \App\Http\Middleware\CheckUserLevel::class,
+];
+</div></code></pre>
+<p>Gunakan middleware pada route:</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// Hanya admin yang bisa akses</span>
+Route::get(<span class="hljs-string">'/admin'</span>, <span class="hljs-string">'AdminController@index'</span>)-&gt;middleware(<span class="hljs-string">'level:admin'</span>);
+
+<span class="hljs-comment">// Admin dan dosen yang bisa akses</span>
+Route::get(<span class="hljs-string">'/nilai'</span>, <span class="hljs-string">'NilaiController@index'</span>)-&gt;middleware(<span class="hljs-string">'level:admin,dosen'</span>);
+
+<span class="hljs-comment">// Semua user yang sudah login bisa akses</span>
+Route::get(<span class="hljs-string">'/profil'</span>, <span class="hljs-string">'ProfilController@index'</span>)-&gt;middleware(<span class="hljs-string">'auth'</span>);
+</div></code></pre>
+<pre><code class="language-mermaid"><div class="mermaid">sequenceDiagram
+    participant Client
+    participant Router
+    participant Middleware
+    participant Controller
+    
+    Client->>Router: HTTP Request
+    Router->>Router: Match Route
+    Router->>Middleware: Pass Request
+    
+    alt Auth Middleware
+        Middleware->>Middleware: Check if user is logged in
+        alt User not logged in
+            Middleware-->>Client: Redirect to login
+        end
+    end
+    
+    alt Role/Level Middleware
+        Middleware->>Middleware: Check user role/level
+        alt Unauthorized role/level
+            Middleware-->>Client: Return error/redirect
+        end
+    end
+    
+    Middleware->>Controller: Pass Request
+    Controller->>Controller: Process Request
+    Controller-->>Middleware: Return Response
+    
+    alt After Middleware
+        Middleware->>Middleware: Modify Response
+    end
+    
+    Middleware-->>Client: Return Response
+
+</div></code></pre>
+<h2 id="tips-penggunaan-middleware">Tips Penggunaan Middleware</h2>
+<ol>
+<li>
+<p><strong>Gunakan nama yang deskriptif</strong> - Beri nama middleware yang jelas sesuai fungsinya.</p>
+</li>
+<li>
+<p><strong>Gunakan parameter pada middleware</strong> - Seperti contoh <code>role:admin</code> di atas, parameter membuat middleware lebih fleksibel.</p>
+</li>
+<li>
+<p><strong>Middleware Groups</strong> - Untuk kombinasi middleware yang sering digunakan, definisikan dalam grup middleware di <code>app/Http/Kernel.php</code>:</p>
+</li>
+</ol>
+<pre class="hljs"><code><div><span class="hljs-keyword">protected</span> $middlewareGroups = [
+    <span class="hljs-string">'admin'</span> =&gt; [
+        <span class="hljs-string">'auth'</span>,
+        <span class="hljs-string">'level:admin'</span>,
+    ],
+];
+</div></code></pre>
+<p>Kemudian gunakan:</p>
+<pre class="hljs"><code><div>Route::middleware(<span class="hljs-string">'admin'</span>)-&gt;group(<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">()</span> </span>{
+    <span class="hljs-comment">// Route untuk admin</span>
+});
+</div></code></pre>
+<ol start="4">
+<li><strong>Global Middleware</strong> - Middleware yang harus selalu dijalankan untuk semua request, didaftarkan di:</li>
+</ol>
+<pre class="hljs"><code><div><span class="hljs-keyword">protected</span> $middleware = [
+    <span class="hljs-comment">// Middleware lain...</span>
+    \App\Http\Middleware\CheckAppMaintenance::class,
+];
+</div></code></pre>
+<ol start="5">
+<li><strong>Exception Handling</strong> - Gunakan try-catch dalam middleware untuk penanganan error yang lebih baik.</li>
+</ol>
+<p>Dengan menguasai middleware, Anda dapat mengontrol alur request dan meningkatkan keamanan aplikasi Laravel Anda dengan lebih efektif.</p>
+
+</body>
+</html>

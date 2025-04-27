@@ -1,0 +1,906 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>6-membuat-view-pertama-new.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="membuat-view-pertama-di-laravel">Membuat View Pertama di Laravel</h1>
+<p>View merupakan komponen penting dalam arsitektur MVC (Model-View-Controller) Laravel yang bertanggung jawab untuk menampilkan data ke pengguna dalam bentuk antarmuka yang menarik dan interaktif. Pada tutorial ini, kita akan belajar cara membuat view pertama dalam aplikasi manajemen data mahasiswa.</p>
+<h2 id="apa-itu-view">Apa itu View?</h2>
+<p>View adalah file yang berisi kode HTML dan tampilan yang digunakan untuk menyajikan data kepada pengguna. Dalam Laravel, view dipisahkan dari logika aplikasi, sehingga memudahkan pengembangan dan pemeliharaan kode.</p>
+<pre><code class="language-mermaid"><div class="mermaid">graph LR
+    A[Controller] --> B[View]
+    C[Model/Data] --> A
+    B --> D[User Browser]
+</div></code></pre>
+<h2 id="lokasi-view-di-laravel">Lokasi View di Laravel</h2>
+<p>View Laravel disimpan di direktori <code>resources/views</code>. Secara default, Laravel menggunakan Blade sebagai template engine untuk membuat view yang lebih dinamis.</p>
+<h2 id="struktur-direktori-view-yang-direkomendasikan">Struktur Direktori View yang Direkomendasikan</h2>
+<p>Untuk aplikasi manajemen mahasiswa kita, sebaiknya kita mengorganisir view ke dalam struktur direktori yang rapi:</p>
+<pre class="hljs"><code><div>resources/
+└── views/
+    ├── layouts/            # Template utama
+    │   └── app.blade.php   # Layout dasar aplikasi
+    ├── partials/           # Komponen yang dapat digunakan kembali
+    │   ├── header.blade.php
+    │   ├── footer.blade.php
+    │   └── sidebar.blade.php
+    ├── mahasiswa/          # View untuk fitur mahasiswa
+    │   ├── index.blade.php  # Daftar mahasiswa
+    │   ├── create.blade.php # Form tambah mahasiswa
+    │   ├── edit.blade.php   # Form edit mahasiswa
+    │   └── show.blade.php   # Detail mahasiswa
+    ├── jurusan/            # View untuk fitur jurusan
+    ├── home.blade.php      # Halaman beranda
+    └── welcome.blade.php   # Halaman selamat datang
+</div></code></pre>
+<h2 id="membuat-layout-dasar">Membuat Layout Dasar</h2>
+<p>Pertama, mari buat layout dasar aplikasi yang akan digunakan oleh semua halaman:</p>
+<ol>
+<li>Buat direktori <code>layouts</code> jika belum ada:</li>
+</ol>
+<pre class="hljs"><code><div>mkdir -p resources/views/layouts
+</div></code></pre>
+<ol start="2">
+<li>Buat file <code>app.blade.php</code> di dalam direktori tersebut:</li>
+</ol>
+<pre class="hljs"><code><div>&lt;!DOCTYPE html&gt;
+&lt;html lang=<span class="hljs-string">"id"</span>&gt;
+&lt;head&gt;
+    &lt;meta charset=<span class="hljs-string">"UTF-8"</span>&gt;
+    &lt;meta name=<span class="hljs-string">"viewport"</span> content=<span class="hljs-string">"width=device-width, initial-scale=1.0"</span>&gt;
+    &lt;title&gt;@<span class="hljs-keyword">yield</span>(<span class="hljs-string">'title'</span>, <span class="hljs-string">'Aplikasi Manajemen Mahasiswa'</span>)&lt;/title&gt;
+    
+    &lt;!-- Bootstrap CSS --&gt;
+    &lt;link href=<span class="hljs-string">"https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"</span> rel=<span class="hljs-string">"stylesheet"</span>&gt;
+    
+    &lt;!-- Custom CSS --&gt;
+    &lt;link rel=<span class="hljs-string">"stylesheet"</span> href=<span class="hljs-string">"{{ asset('css/app.css') }}"</span>&gt;
+    
+    @<span class="hljs-keyword">yield</span>(<span class="hljs-string">'styles'</span>)
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;header&gt;
+        &lt;nav <span class="hljs-class"><span class="hljs-keyword">class</span>="<span class="hljs-title">navbar</span> <span class="hljs-title">navbar</span>-<span class="hljs-title">expand</span>-<span class="hljs-title">lg</span> <span class="hljs-title">navbar</span>-<span class="hljs-title">dark</span> <span class="hljs-title">bg</span>-<span class="hljs-title">primary</span>"&gt;
+            &lt;<span class="hljs-title">div</span> <span class="hljs-title">class</span>="<span class="hljs-title">container</span>"&gt;
+                &lt;<span class="hljs-title">a</span> <span class="hljs-title">class</span>="<span class="hljs-title">navbar</span>-<span class="hljs-title">brand</span>" <span class="hljs-title">href</span>="</span>{{ route(<span class="hljs-string">'home'</span>) }}<span class="hljs-string">"&gt;Sistem Mahasiswa&lt;/a&gt;
+                &lt;button class="</span>navbar-toggler<span class="hljs-string">" type="</span>button<span class="hljs-string">" data-bs-toggle="</span>collapse<span class="hljs-string">" data-bs-target="</span><span class="hljs-comment">#navbarNav"&gt;</span>
+                    &lt;span <span class="hljs-class"><span class="hljs-keyword">class</span>="<span class="hljs-title">navbar</span>-<span class="hljs-title">toggler</span>-<span class="hljs-title">icon</span>"&gt;&lt;/<span class="hljs-title">span</span>&gt;
+                &lt;/<span class="hljs-title">button</span>&gt;
+                &lt;<span class="hljs-title">div</span> <span class="hljs-title">class</span>="<span class="hljs-title">collapse</span> <span class="hljs-title">navbar</span>-<span class="hljs-title">collapse</span>" <span class="hljs-title">id</span>="<span class="hljs-title">navbarNav</span>"&gt;
+                    &lt;<span class="hljs-title">ul</span> <span class="hljs-title">class</span>="<span class="hljs-title">navbar</span>-<span class="hljs-title">nav</span>"&gt;
+                        &lt;<span class="hljs-title">li</span> <span class="hljs-title">class</span>="<span class="hljs-title">nav</span>-<span class="hljs-title">item</span>"&gt;
+                            &lt;<span class="hljs-title">a</span> <span class="hljs-title">class</span>="<span class="hljs-title">nav</span>-<span class="hljs-title">link</span>" <span class="hljs-title">href</span>="</span>{{ route(<span class="hljs-string">'home'</span>) }}<span class="hljs-string">"&gt;Home&lt;/a&gt;
+                        &lt;/li&gt;
+                        &lt;li class="</span>nav-item<span class="hljs-string">"&gt;
+                            &lt;a class="</span>nav-link<span class="hljs-string">" href="</span>{{ route(<span class="hljs-string">'mahasiswa.index'</span>) }}<span class="hljs-string">"&gt;Mahasiswa&lt;/a&gt;
+                        &lt;/li&gt;
+                        &lt;li class="</span>nav-item<span class="hljs-string">"&gt;
+                            &lt;a class="</span>nav-link<span class="hljs-string">" href="</span><span class="hljs-comment">#"&gt;Jurusan&lt;/a&gt;</span>
+                        &lt;/li&gt;
+                    &lt;/ul&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/nav&gt;
+    &lt;/header&gt;
+
+    &lt;main <span class="hljs-class"><span class="hljs-keyword">class</span>="<span class="hljs-title">container</span> <span class="hljs-title">my</span>-4"&gt;
+        @<span class="hljs-title">yield</span>('<span class="hljs-title">content</span>')
+    &lt;/<span class="hljs-title">main</span>&gt;
+
+    &lt;<span class="hljs-title">footer</span> <span class="hljs-title">class</span>="<span class="hljs-title">bg</span>-<span class="hljs-title">light</span> <span class="hljs-title">py</span>-3 <span class="hljs-title">mt</span>-5"&gt;
+        &lt;<span class="hljs-title">div</span> <span class="hljs-title">class</span>="<span class="hljs-title">container</span> <span class="hljs-title">text</span>-<span class="hljs-title">center</span>"&gt;
+            &lt;<span class="hljs-title">p</span>&gt;&amp;<span class="hljs-title">copy</span>; </span>{{ date(<span class="hljs-string">'Y'</span>) }} Aplikasi Manajemen Mahasiswa&lt;/p&gt;
+        &lt;/div&gt;
+    &lt;/footer&gt;
+
+    &lt;!-- Bootstrap JS Bundle with Popper --&gt;
+    &lt;script src=<span class="hljs-string">"https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"</span>&gt;&lt;/script&gt;
+    
+    &lt;!-- Custom JavaScript --&gt;
+    &lt;script src=<span class="hljs-string">"{{ asset('js/app.js') }}"</span>&gt;&lt;/script&gt;
+    
+    @<span class="hljs-keyword">yield</span>(<span class="hljs-string">'scripts'</span>)
+&lt;/body&gt;
+&lt;/html&gt;
+</div></code></pre>
+<p>Pada layout di atas, kita menggunakan direktif Blade <code>@yield</code> untuk mendefinisikan bagian yang akan diisi oleh view yang menggunakan layout ini.</p>
+<h2 id="membuat-view-untuk-halaman-beranda">Membuat View untuk Halaman Beranda</h2>
+<p>Sekarang, mari buat view untuk halaman beranda:</p>
+<pre class="hljs"><code><div>&lt;!-- resources/views/home.blade.php --&gt;
+@extends(<span class="hljs-string">'layouts.app'</span>)
+
+@section(<span class="hljs-string">'title'</span>, <span class="hljs-string">'Beranda - Aplikasi Manajemen Mahasiswa'</span>)
+
+@section(<span class="hljs-string">'content'</span>)
+    &lt;div <span class="hljs-class"><span class="hljs-keyword">class</span>="<span class="hljs-title">jumbotron</span>"&gt;
+        &lt;<span class="hljs-title">h1</span> <span class="hljs-title">class</span>="<span class="hljs-title">display</span>-4"&gt;<span class="hljs-title">Selamat</span> <span class="hljs-title">Datang</span> <span class="hljs-title">di</span> <span class="hljs-title">Sistem</span> <span class="hljs-title">Manajemen</span> <span class="hljs-title">Mahasiswa</span>&lt;/<span class="hljs-title">h1</span>&gt;
+        &lt;<span class="hljs-title">p</span> <span class="hljs-title">class</span>="<span class="hljs-title">lead</span>"&gt;<span class="hljs-title">Aplikasi</span> <span class="hljs-title">ini</span> <span class="hljs-title">digunakan</span> <span class="hljs-title">untuk</span> <span class="hljs-title">mengelola</span> <span class="hljs-title">data</span> <span class="hljs-title">mahasiswa</span>, <span class="hljs-title">jurusan</span>, <span class="hljs-title">dan</span> <span class="hljs-title">mata</span> <span class="hljs-title">kuliah</span>.&lt;/<span class="hljs-title">p</span>&gt;
+        &lt;<span class="hljs-title">hr</span> <span class="hljs-title">class</span>="<span class="hljs-title">my</span>-4"&gt;
+        &lt;<span class="hljs-title">p</span>&gt;<span class="hljs-title">Silakan</span> <span class="hljs-title">gunakan</span> <span class="hljs-title">menu</span> <span class="hljs-title">di</span> <span class="hljs-title">atas</span> <span class="hljs-title">untuk</span> <span class="hljs-title">mengakses</span> <span class="hljs-title">fitur</span>-<span class="hljs-title">fitur</span> <span class="hljs-title">aplikasi</span>.&lt;/<span class="hljs-title">p</span>&gt;
+        &lt;<span class="hljs-title">a</span> <span class="hljs-title">class</span>="<span class="hljs-title">btn</span> <span class="hljs-title">btn</span>-<span class="hljs-title">primary</span> <span class="hljs-title">btn</span>-<span class="hljs-title">lg</span>" <span class="hljs-title">href</span>="</span>{{ route(<span class="hljs-string">'mahasiswa.index'</span>) }}<span class="hljs-string">" role="</span>button<span class="hljs-string">"&gt;Lihat Daftar Mahasiswa&lt;/a&gt;
+    &lt;/div&gt;
+
+    &lt;div class="</span>row mt<span class="hljs-number">-5</span><span class="hljs-string">"&gt;
+        &lt;div class="</span>col-md<span class="hljs-number">-4</span><span class="hljs-string">"&gt;
+            &lt;div class="</span>card<span class="hljs-string">"&gt;
+                &lt;div class="</span>card-body<span class="hljs-string">"&gt;
+                    &lt;h5 class="</span>card-title<span class="hljs-string">"&gt;Total Mahasiswa&lt;/h5&gt;
+                    &lt;p class="</span>card-text display<span class="hljs-number">-4</span><span class="hljs-string">"&gt;{{ $totalMahasiswa ?? 0 }}&lt;/p&gt;
+                    &lt;a href="</span>{{ route(<span class="hljs-string">'mahasiswa.index'</span>) }}<span class="hljs-string">" class="</span>btn btn-sm btn-outline-primary<span class="hljs-string">"&gt;Lihat Detail&lt;/a&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+        &lt;div class="</span>col-md<span class="hljs-number">-4</span><span class="hljs-string">"&gt;
+            &lt;div class="</span>card<span class="hljs-string">"&gt;
+                &lt;div class="</span>card-body<span class="hljs-string">"&gt;
+                    &lt;h5 class="</span>card-title<span class="hljs-string">"&gt;Total Jurusan&lt;/h5&gt;
+                    &lt;p class="</span>card-text display<span class="hljs-number">-4</span><span class="hljs-string">"&gt;{{ $totalJurusan ?? 0 }}&lt;/p&gt;
+                    &lt;a href="</span><span class="hljs-comment">#" class="btn btn-sm btn-outline-primary"&gt;Lihat Detail&lt;/a&gt;</span>
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+        &lt;div <span class="hljs-class"><span class="hljs-keyword">class</span>="<span class="hljs-title">col</span>-<span class="hljs-title">md</span>-4"&gt;
+            &lt;<span class="hljs-title">div</span> <span class="hljs-title">class</span>="<span class="hljs-title">card</span>"&gt;
+                &lt;<span class="hljs-title">div</span> <span class="hljs-title">class</span>="<span class="hljs-title">card</span>-<span class="hljs-title">body</span>"&gt;
+                    &lt;<span class="hljs-title">h5</span> <span class="hljs-title">class</span>="<span class="hljs-title">card</span>-<span class="hljs-title">title</span>"&gt;<span class="hljs-title">Total</span> <span class="hljs-title">Mata</span> <span class="hljs-title">Kuliah</span>&lt;/<span class="hljs-title">h5</span>&gt;
+                    &lt;<span class="hljs-title">p</span> <span class="hljs-title">class</span>="<span class="hljs-title">card</span>-<span class="hljs-title">text</span> <span class="hljs-title">display</span>-4"&gt;</span>{{ $totalMataKuliah ?? <span class="hljs-number">0</span> }}&lt;/p&gt;
+                    &lt;a href=<span class="hljs-string">"#"</span> <span class="hljs-class"><span class="hljs-keyword">class</span>="<span class="hljs-title">btn</span> <span class="hljs-title">btn</span>-<span class="hljs-title">sm</span> <span class="hljs-title">btn</span>-<span class="hljs-title">outline</span>-<span class="hljs-title">primary</span>"&gt;<span class="hljs-title">Lihat</span> <span class="hljs-title">Detail</span>&lt;/<span class="hljs-title">a</span>&gt;
+                &lt;/<span class="hljs-title">div</span>&gt;
+            &lt;/<span class="hljs-title">div</span>&gt;
+        &lt;/<span class="hljs-title">div</span>&gt;
+    &lt;/<span class="hljs-title">div</span>&gt;
+
+    @<span class="hljs-title">if</span>(<span class="hljs-title">isset</span>($<span class="hljs-title">mahasiswaTerbaru</span>) &amp;&amp; <span class="hljs-title">count</span>($<span class="hljs-title">mahasiswaTerbaru</span>) &gt; 0)
+        &lt;<span class="hljs-title">div</span> <span class="hljs-title">class</span>="<span class="hljs-title">mt</span>-5"&gt;
+            &lt;<span class="hljs-title">h3</span>&gt;<span class="hljs-title">Mahasiswa</span> <span class="hljs-title">Terbaru</span>&lt;/<span class="hljs-title">h3</span>&gt;
+            &lt;<span class="hljs-title">div</span> <span class="hljs-title">class</span>="<span class="hljs-title">table</span>-<span class="hljs-title">responsive</span>"&gt;
+                &lt;<span class="hljs-title">table</span> <span class="hljs-title">class</span>="<span class="hljs-title">table</span> <span class="hljs-title">table</span>-<span class="hljs-title">striped</span>"&gt;
+                    &lt;<span class="hljs-title">thead</span>&gt;
+                        &lt;<span class="hljs-title">tr</span>&gt;
+                            &lt;<span class="hljs-title">th</span>&gt;<span class="hljs-title">NIM</span>&lt;/<span class="hljs-title">th</span>&gt;
+                            &lt;<span class="hljs-title">th</span>&gt;<span class="hljs-title">Nama</span>&lt;/<span class="hljs-title">th</span>&gt;
+                            &lt;<span class="hljs-title">th</span>&gt;<span class="hljs-title">Jurusan</span>&lt;/<span class="hljs-title">th</span>&gt;
+                            &lt;<span class="hljs-title">th</span>&gt;<span class="hljs-title">Aksi</span>&lt;/<span class="hljs-title">th</span>&gt;
+                        &lt;/<span class="hljs-title">tr</span>&gt;
+                    &lt;/<span class="hljs-title">thead</span>&gt;
+                    &lt;<span class="hljs-title">tbody</span>&gt;
+                        @<span class="hljs-title">foreach</span>($<span class="hljs-title">mahasiswaTerbaru</span> <span class="hljs-title">as</span> $<span class="hljs-title">mhs</span>)
+                            &lt;<span class="hljs-title">tr</span>&gt;
+                                &lt;<span class="hljs-title">td</span>&gt;</span>{{ $mhs-&gt;nim }}&lt;/td&gt;
+                                &lt;td&gt;{{ $mhs-&gt;nama }}&lt;/td&gt;
+                                &lt;td&gt;{{ $mhs-&gt;jurusan }}&lt;/td&gt;
+                                &lt;td&gt;
+                                    &lt;a href=<span class="hljs-string">"{{ route('mahasiswa.show', $mhs-&gt;id) }}"</span> <span class="hljs-class"><span class="hljs-keyword">class</span>="<span class="hljs-title">btn</span> <span class="hljs-title">btn</span>-<span class="hljs-title">sm</span> <span class="hljs-title">btn</span>-<span class="hljs-title">info</span>"&gt;<span class="hljs-title">Detail</span>&lt;/<span class="hljs-title">a</span>&gt;
+                                &lt;/<span class="hljs-title">td</span>&gt;
+                            &lt;/<span class="hljs-title">tr</span>&gt;
+                        @<span class="hljs-title">endforeach</span>
+                    &lt;/<span class="hljs-title">tbody</span>&gt;
+                &lt;/<span class="hljs-title">table</span>&gt;
+            &lt;/<span class="hljs-title">div</span>&gt;
+        &lt;/<span class="hljs-title">div</span>&gt;
+    @<span class="hljs-title">endif</span>
+@<span class="hljs-title">endsection</span>
+</span></div></code></pre>
+<h2 id="membuat-view-untuk-daftar-mahasiswa">Membuat View untuk Daftar Mahasiswa</h2>
+<p>Selanjutnya, mari buat view untuk menampilkan daftar mahasiswa:</p>
+<ol>
+<li>Buat direktori <code>mahasiswa</code> jika belum ada:</li>
+</ol>
+<pre class="hljs"><code><div>mkdir -p resources/views/mahasiswa
+</div></code></pre>
+<ol start="2">
+<li>Buat file <code>index.blade.php</code> di dalam direktori tersebut:</li>
+</ol>
+<pre class="hljs"><code><div>&lt;!-- resources/views/mahasiswa/index.blade.php --&gt;
+@extends(<span class="hljs-string">'layouts.app'</span>)
+
+@section(<span class="hljs-string">'title'</span>, <span class="hljs-string">'Daftar Mahasiswa'</span>)
+
+@section(<span class="hljs-string">'content'</span>)
+    &lt;div <span class="hljs-class"><span class="hljs-keyword">class</span>="<span class="hljs-title">d</span>-<span class="hljs-title">flex</span> <span class="hljs-title">justify</span>-<span class="hljs-title">content</span>-<span class="hljs-title">between</span> <span class="hljs-title">align</span>-<span class="hljs-title">items</span>-<span class="hljs-title">center</span> <span class="hljs-title">mb</span>-4"&gt;
+        &lt;<span class="hljs-title">h1</span>&gt;<span class="hljs-title">Daftar</span> <span class="hljs-title">Mahasiswa</span>&lt;/<span class="hljs-title">h1</span>&gt;
+        &lt;<span class="hljs-title">a</span> <span class="hljs-title">href</span>="</span>{{ route(<span class="hljs-string">'mahasiswa.create'</span>) }}<span class="hljs-string">" class="</span>btn btn-primary<span class="hljs-string">"&gt;
+            &lt;i class="</span>bi bi-plus-circle<span class="hljs-string">"&gt;&lt;/i&gt; Tambah Mahasiswa
+        &lt;/a&gt;
+    &lt;/div&gt;
+
+    @if(session('success'))
+        &lt;div class="</span>alert alert-success alert-dismissible fade show<span class="hljs-string">" role="</span>alert<span class="hljs-string">"&gt;
+            {{ session('success') }}
+            &lt;button type="</span>button<span class="hljs-string">" class="</span>btn-close<span class="hljs-string">" data-bs-dismiss="</span>alert<span class="hljs-string">" aria-label="</span>Close<span class="hljs-string">"&gt;&lt;/button&gt;
+        &lt;/div&gt;
+    @endif
+
+    &lt;div class="</span>card<span class="hljs-string">"&gt;
+        &lt;div class="</span>card-header<span class="hljs-string">"&gt;
+            &lt;form action="</span>{{ route(<span class="hljs-string">'mahasiswa.index'</span>) }}<span class="hljs-string">" method="</span>GET<span class="hljs-string">" class="</span>row g<span class="hljs-number">-3</span><span class="hljs-string">"&gt;
+                &lt;div class="</span>col-md<span class="hljs-number">-10</span><span class="hljs-string">"&gt;
+                    &lt;input type="</span>text<span class="hljs-string">" name="</span>search<span class="hljs-string">" class="</span>form-control<span class="hljs-string">" placeholder="</span>Cari berdasarkan nama atau NIM...<span class="hljs-string">" value="</span>{{ request(<span class="hljs-string">'search'</span>) }}<span class="hljs-string">"&gt;
+                &lt;/div&gt;
+                &lt;div class="</span>col-md<span class="hljs-number">-2</span><span class="hljs-string">"&gt;
+                    &lt;button type="</span>submit<span class="hljs-string">" class="</span>btn btn-primary w<span class="hljs-number">-100</span><span class="hljs-string">"&gt;Cari&lt;/button&gt;
+                &lt;/div&gt;
+            &lt;/form&gt;
+        &lt;/div&gt;
+        &lt;div class="</span>card-body<span class="hljs-string">"&gt;
+            @if(count($mahasiswa) &gt; 0)
+                &lt;div class="</span>table-responsive<span class="hljs-string">"&gt;
+                    &lt;table class="</span>table table-striped table-hover<span class="hljs-string">"&gt;
+                        &lt;thead&gt;
+                            &lt;tr&gt;
+                                &lt;th&gt;No.&lt;/th&gt;
+                                &lt;th&gt;NIM&lt;/th&gt;
+                                &lt;th&gt;Nama&lt;/th&gt;
+                                &lt;th&gt;Email&lt;/th&gt;
+                                &lt;th&gt;Jurusan&lt;/th&gt;
+                                &lt;th&gt;Aksi&lt;/th&gt;
+                            &lt;/tr&gt;
+                        &lt;/thead&gt;
+                        &lt;tbody&gt;
+                            @foreach($mahasiswa as $index =&gt; $mhs)
+                                &lt;tr&gt;
+                                    &lt;td&gt;{{ $index + 1 }}&lt;/td&gt;
+                                    &lt;td&gt;{{ $mhs-&gt;nim }}&lt;/td&gt;
+                                    &lt;td&gt;{{ $mhs-&gt;nama }}&lt;/td&gt;
+                                    &lt;td&gt;{{ $mhs-&gt;email }}&lt;/td&gt;
+                                    &lt;td&gt;{{ $mhs-&gt;jurusan }}&lt;/td&gt;
+                                    &lt;td&gt;
+                                        &lt;div class="</span>btn-group<span class="hljs-string">" role="</span>group<span class="hljs-string">"&gt;
+                                            &lt;a href="</span>{{ route(<span class="hljs-string">'mahasiswa.show'</span>, $mhs-&gt;id) }}<span class="hljs-string">" class="</span>btn btn-sm btn-info<span class="hljs-string">"&gt;Detail&lt;/a&gt;
+                                            &lt;a href="</span>{{ route(<span class="hljs-string">'mahasiswa.edit'</span>, $mhs-&gt;id) }}<span class="hljs-string">" class="</span>btn btn-sm btn-warning<span class="hljs-string">"&gt;Edit&lt;/a&gt;
+                                            &lt;form action="</span>{{ route(<span class="hljs-string">'mahasiswa.destroy'</span>, $mhs-&gt;id) }}<span class="hljs-string">" method="</span>POST<span class="hljs-string">" class="</span>d-inline<span class="hljs-string">" onsubmit="</span><span class="hljs-keyword">return</span> confirm(<span class="hljs-string">'Apakah Anda yakin ingin menghapus data ini?'</span>);<span class="hljs-string">"&gt;
+                                                @csrf
+                                                @method('DELETE')
+                                                &lt;button type="</span>submit<span class="hljs-string">" class="</span>btn btn-sm btn-danger<span class="hljs-string">"&gt;Hapus&lt;/button&gt;
+                                            &lt;/form&gt;
+                                        &lt;/div&gt;
+                                    &lt;/td&gt;
+                                &lt;/tr&gt;
+                            @endforeach
+                        &lt;/tbody&gt;
+                    &lt;/table&gt;
+                &lt;/div&gt;
+                
+                &lt;div class="</span>d-flex justify-content-center mt<span class="hljs-number">-4</span><span class="hljs-string">"&gt;
+                    {{ $mahasiswa-&gt;links() }}
+                &lt;/div&gt;
+            @else
+                &lt;div class="</span>alert alert-info<span class="hljs-string">"&gt;
+                    Tidak ada data mahasiswa yang ditemukan.
+                &lt;/div&gt;
+            @endif
+        &lt;/div&gt;
+    &lt;/div&gt;
+@endsection
+</span></div></code></pre>
+<h2 id="membuat-view-form-tambah-mahasiswa">Membuat View Form Tambah Mahasiswa</h2>
+<p>Sekarang, mari buat view untuk form tambah mahasiswa:</p>
+<pre class="hljs"><code><div>&lt;!-- resources/views/mahasiswa/create.blade.php --&gt;
+@extends(<span class="hljs-string">'layouts.app'</span>)
+
+@section(<span class="hljs-string">'title'</span>, <span class="hljs-string">'Tambah Mahasiswa'</span>)
+
+@section(<span class="hljs-string">'content'</span>)
+    &lt;div <span class="hljs-class"><span class="hljs-keyword">class</span>="<span class="hljs-title">d</span>-<span class="hljs-title">flex</span> <span class="hljs-title">justify</span>-<span class="hljs-title">content</span>-<span class="hljs-title">between</span> <span class="hljs-title">align</span>-<span class="hljs-title">items</span>-<span class="hljs-title">center</span> <span class="hljs-title">mb</span>-4"&gt;
+        &lt;<span class="hljs-title">h1</span>&gt;<span class="hljs-title">Tambah</span> <span class="hljs-title">Mahasiswa</span> <span class="hljs-title">Baru</span>&lt;/<span class="hljs-title">h1</span>&gt;
+        &lt;<span class="hljs-title">a</span> <span class="hljs-title">href</span>="</span>{{ route(<span class="hljs-string">'mahasiswa.index'</span>) }}<span class="hljs-string">" class="</span>btn btn-secondary<span class="hljs-string">"&gt;
+            &lt;i class="</span>bi bi-arrow-left<span class="hljs-string">"&gt;&lt;/i&gt; Kembali
+        &lt;/a&gt;
+    &lt;/div&gt;
+
+    &lt;div class="</span>card<span class="hljs-string">"&gt;
+        &lt;div class="</span>card-body<span class="hljs-string">"&gt;
+            &lt;form action="</span>{{ route(<span class="hljs-string">'mahasiswa.store'</span>) }}<span class="hljs-string">" method="</span>POST<span class="hljs-string">"&gt;
+                @csrf
+                
+                &lt;div class="</span>mb<span class="hljs-number">-3</span><span class="hljs-string">"&gt;
+                    &lt;label for="</span>nim<span class="hljs-string">" class="</span>form-label<span class="hljs-string">"&gt;NIM&lt;/label&gt;
+                    &lt;input type="</span>text<span class="hljs-string">" class="</span>form-control @error(<span class="hljs-string">'nim'</span>) is-invalid @enderror<span class="hljs-string">" id="</span>nim<span class="hljs-string">" name="</span>nim<span class="hljs-string">" value="</span>{{ old(<span class="hljs-string">'nim'</span>) }}<span class="hljs-string">" required&gt;
+                    @error('nim')
+                        &lt;div class="</span>invalid-feedback<span class="hljs-string">"&gt;{{ $message }}&lt;/div&gt;
+                    @enderror
+                &lt;/div&gt;
+                
+                &lt;div class="</span>mb<span class="hljs-number">-3</span><span class="hljs-string">"&gt;
+                    &lt;label for="</span>nama<span class="hljs-string">" class="</span>form-label<span class="hljs-string">"&gt;Nama Lengkap&lt;/label&gt;
+                    &lt;input type="</span>text<span class="hljs-string">" class="</span>form-control @error(<span class="hljs-string">'nama'</span>) is-invalid @enderror<span class="hljs-string">" id="</span>nama<span class="hljs-string">" name="</span>nama<span class="hljs-string">" value="</span>{{ old(<span class="hljs-string">'nama'</span>) }}<span class="hljs-string">" required&gt;
+                    @error('nama')
+                        &lt;div class="</span>invalid-feedback<span class="hljs-string">"&gt;{{ $message }}&lt;/div&gt;
+                    @enderror
+                &lt;/div&gt;
+                
+                &lt;div class="</span>mb<span class="hljs-number">-3</span><span class="hljs-string">"&gt;
+                    &lt;label for="</span>email<span class="hljs-string">" class="</span>form-label<span class="hljs-string">"&gt;Email&lt;/label&gt;
+                    &lt;input type="</span>email<span class="hljs-string">" class="</span>form-control @error(<span class="hljs-string">'email'</span>) is-invalid @enderror<span class="hljs-string">" id="</span>email<span class="hljs-string">" name="</span>email<span class="hljs-string">" value="</span>{{ old(<span class="hljs-string">'email'</span>) }}<span class="hljs-string">" required&gt;
+                    @error('email')
+                        &lt;div class="</span>invalid-feedback<span class="hljs-string">"&gt;{{ $message }}&lt;/div&gt;
+                    @enderror
+                &lt;/div&gt;
+                
+                &lt;div class="</span>mb<span class="hljs-number">-3</span><span class="hljs-string">"&gt;
+                    &lt;label for="</span>jurusan<span class="hljs-string">" class="</span>form-label<span class="hljs-string">"&gt;Jurusan&lt;/label&gt;
+                    &lt;select class="</span>form-select @error(<span class="hljs-string">'jurusan'</span>) is-invalid @enderror<span class="hljs-string">" id="</span>jurusan<span class="hljs-string">" name="</span>jurusan<span class="hljs-string">" required&gt;
+                        &lt;option value="</span><span class="hljs-string">" selected disabled&gt;Pilih Jurusan&lt;/option&gt;
+                        &lt;option value="</span>Teknik Informatika<span class="hljs-string">" {{ old('jurusan') == 'Teknik Informatika' ? 'selected' : '' }}&gt;Teknik Informatika&lt;/option&gt;
+                        &lt;option value="</span>Sistem Informasi<span class="hljs-string">" {{ old('jurusan') == 'Sistem Informasi' ? 'selected' : '' }}&gt;Sistem Informasi&lt;/option&gt;
+                        &lt;option value="</span>Teknik Komputer<span class="hljs-string">" {{ old('jurusan') == 'Teknik Komputer' ? 'selected' : '' }}&gt;Teknik Komputer&lt;/option&gt;
+                        &lt;option value="</span>Manajemen Informatika<span class="hljs-string">" {{ old('jurusan') == 'Manajemen Informatika' ? 'selected' : '' }}&gt;Manajemen Informatika&lt;/option&gt;
+                    &lt;/select&gt;
+                    @error('jurusan')
+                        &lt;div class="</span>invalid-feedback<span class="hljs-string">"&gt;{{ $message }}&lt;/div&gt;
+                    @enderror
+                &lt;/div&gt;
+                
+                &lt;div class="</span>mb<span class="hljs-number">-3</span><span class="hljs-string">"&gt;
+                    &lt;label for="</span>alamat<span class="hljs-string">" class="</span>form-label<span class="hljs-string">"&gt;Alamat&lt;/label&gt;
+                    &lt;textarea class="</span>form-control @error(<span class="hljs-string">'alamat'</span>) is-invalid @enderror<span class="hljs-string">" id="</span>alamat<span class="hljs-string">" name="</span>alamat<span class="hljs-string">" rows="</span><span class="hljs-number">3</span><span class="hljs-string">"&gt;{{ old('alamat') }}&lt;/textarea&gt;
+                    @error('alamat')
+                        &lt;div class="</span>invalid-feedback<span class="hljs-string">"&gt;{{ $message }}&lt;/div&gt;
+                    @enderror
+                &lt;/div&gt;
+                
+                &lt;div class="</span>mb<span class="hljs-number">-3</span><span class="hljs-string">"&gt;
+                    &lt;label for="</span>tanggal_lahir<span class="hljs-string">" class="</span>form-label<span class="hljs-string">"&gt;Tanggal Lahir&lt;/label&gt;
+                    &lt;input type="</span>date<span class="hljs-string">" class="</span>form-control @error(<span class="hljs-string">'tanggal_lahir'</span>) is-invalid @enderror<span class="hljs-string">" id="</span>tanggal_lahir<span class="hljs-string">" name="</span>tanggal_lahir<span class="hljs-string">" value="</span>{{ old(<span class="hljs-string">'tanggal_lahir'</span>) }}<span class="hljs-string">"&gt;
+                    @error('tanggal_lahir')
+                        &lt;div class="</span>invalid-feedback<span class="hljs-string">"&gt;{{ $message }}&lt;/div&gt;
+                    @enderror
+                &lt;/div&gt;
+                
+                &lt;div class="</span>d-grid gap<span class="hljs-number">-2</span><span class="hljs-string">"&gt;
+                    &lt;button type="</span>submit<span class="hljs-string">" class="</span>btn btn-primary<span class="hljs-string">"&gt;Simpan Data&lt;/button&gt;
+                &lt;/div&gt;
+            &lt;/form&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+@endsection
+</span></div></code></pre>
+<h2 id="blade-template-engine">Blade Template Engine</h2>
+<p>Blade adalah template engine Laravel yang memudahkan kita untuk menulis kode PHP di dalam HTML. Beberapa fitur utama Blade:</p>
+<pre><code class="language-mermaid"><div class="mermaid">graph TD
+    A[Blade Template Engine] --> B[Layout Inheritance]
+    A --> C[Components & Slots]
+    A --> D[Template Directives]
+    A --> E[Conditional Statements]
+    A --> F[Loops]
+    A --> G[Forms & CSRF]
+    A --> H[Includes & Sections]
+</div></code></pre>
+<h3 id="direktif-blade-yang-sering-digunakan">Direktif Blade yang Sering Digunakan</h3>
+<ol>
+<li>
+<p><strong>Layout Inheritance</strong></p>
+<ul>
+<li><code>@extends</code> - Menentukan layout yang akan digunakan</li>
+<li><code>@section</code> - Mendefinisikan bagian konten</li>
+<li><code>@yield</code> - Menampilkan konten dari section</li>
+</ul>
+</li>
+<li>
+<p><strong>Conditional Statements</strong></p>
+<ul>
+<li><code>@if</code>, <code>@elseif</code>, <code>@else</code> - Struktur kondisional</li>
+<li><code>@unless</code> - Kebalikan dari if</li>
+<li><code>@isset</code>, <code>@empty</code> - Cek variabel</li>
+</ul>
+</li>
+<li>
+<p><strong>Loops</strong></p>
+<ul>
+<li><code>@foreach</code>, <code>@for</code>, <code>@while</code> - Struktur perulangan</li>
+<li><code>@forelse</code> - Foreach dengan kondisi empty</li>
+</ul>
+</li>
+<li>
+<p><strong>Form &amp; CSRF</strong></p>
+<ul>
+<li><code>@csrf</code> - Menambahkan token CSRF ke form</li>
+<li><code>@method</code> - Menentukan HTTP method (PUT, DELETE)</li>
+</ul>
+</li>
+<li>
+<p><strong>Include &amp; Component</strong></p>
+<ul>
+<li><code>@include</code> - Menyertakan sub-view</li>
+<li><code>@component</code> - Menggunakan komponen blade</li>
+</ul>
+</li>
+</ol>
+<h2 id="membuat-partial-views">Membuat Partial Views</h2>
+<p>Untuk kode yang digunakan berulang kali, kita dapat membuatnya sebagai partial view:</p>
+<ol>
+<li>Buat direktori <code>partials</code>:</li>
+</ol>
+<pre class="hljs"><code><div>mkdir -p resources/views/partials
+</div></code></pre>
+<ol start="2">
+<li>Buat file untuk pesan flash:</li>
+</ol>
+<pre class="hljs"><code><div>&lt;!-- resources/views/partials/flash-message.blade.php --&gt;
+@<span class="hljs-keyword">if</span>(session(<span class="hljs-string">'success'</span>))
+    &lt;div <span class="hljs-class"><span class="hljs-keyword">class</span>="<span class="hljs-title">alert</span> <span class="hljs-title">alert</span>-<span class="hljs-title">success</span> <span class="hljs-title">alert</span>-<span class="hljs-title">dismissible</span> <span class="hljs-title">fade</span> <span class="hljs-title">show</span>" <span class="hljs-title">role</span>="<span class="hljs-title">alert</span>"&gt;
+        </span>{{ session(<span class="hljs-string">'success'</span>) }}
+        &lt;button type=<span class="hljs-string">"button"</span> <span class="hljs-class"><span class="hljs-keyword">class</span>="<span class="hljs-title">btn</span>-<span class="hljs-title">close</span>" <span class="hljs-title">data</span>-<span class="hljs-title">bs</span>-<span class="hljs-title">dismiss</span>="<span class="hljs-title">alert</span>" <span class="hljs-title">aria</span>-<span class="hljs-title">label</span>="<span class="hljs-title">Close</span>"&gt;&lt;/<span class="hljs-title">button</span>&gt;
+    &lt;/<span class="hljs-title">div</span>&gt;
+@<span class="hljs-title">endif</span>
+
+@<span class="hljs-title">if</span>(<span class="hljs-title">session</span>('<span class="hljs-title">error</span>'))
+    &lt;<span class="hljs-title">div</span> <span class="hljs-title">class</span>="<span class="hljs-title">alert</span> <span class="hljs-title">alert</span>-<span class="hljs-title">danger</span> <span class="hljs-title">alert</span>-<span class="hljs-title">dismissible</span> <span class="hljs-title">fade</span> <span class="hljs-title">show</span>" <span class="hljs-title">role</span>="<span class="hljs-title">alert</span>"&gt;
+        </span>{{ session(<span class="hljs-string">'error'</span>) }}
+        &lt;button type=<span class="hljs-string">"button"</span> <span class="hljs-class"><span class="hljs-keyword">class</span>="<span class="hljs-title">btn</span>-<span class="hljs-title">close</span>" <span class="hljs-title">data</span>-<span class="hljs-title">bs</span>-<span class="hljs-title">dismiss</span>="<span class="hljs-title">alert</span>" <span class="hljs-title">aria</span>-<span class="hljs-title">label</span>="<span class="hljs-title">Close</span>"&gt;&lt;/<span class="hljs-title">button</span>&gt;
+    &lt;/<span class="hljs-title">div</span>&gt;
+@<span class="hljs-title">endif</span>
+</span></div></code></pre>
+<ol start="3">
+<li>Penggunaan partial view di halaman lain:</li>
+</ol>
+<pre class="hljs"><code><div>@<span class="hljs-keyword">include</span>(<span class="hljs-string">'partials.flash-message'</span>)
+</div></code></pre>
+<h2 id="alur-kerja-dari-controller-ke-view">Alur Kerja dari Controller ke View</h2>
+<p>Berikut adalah alur kerja dari controller hingga view ditampilkan:</p>
+<pre><code class="language-mermaid"><div class="mermaid">sequenceDiagram
+    participant User
+    participant Route
+    participant Controller
+    participant Model
+    participant View
+    participant Browser
+
+    User->>Route: Akses URL
+    Route->>Controller: Panggil Method
+    Controller->>Model: Request Data
+    Model-->>Controller: Return Data
+    Controller->>View: Render dengan Data
+    View-->>Browser: HTML Response
+    Browser-->>User: Tampilkan Halaman
+</div></code></pre>
+<h2 id="passing-data-ke-view">Passing Data ke View</h2>
+<p>Ada beberapa cara untuk mengirim data dari controller ke view:</p>
+<h3 id="cara-1-menggunakan-array-asosiatif">Cara 1: Menggunakan array asosiatif</h3>
+<pre class="hljs"><code><div><span class="hljs-comment">// Di Controller</span>
+<span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">index</span><span class="hljs-params">()</span>
+</span>{
+    $mahasiswa = Mahasiswa::paginate(<span class="hljs-number">10</span>);
+    <span class="hljs-keyword">return</span> view(<span class="hljs-string">'mahasiswa.index'</span>, [<span class="hljs-string">'mahasiswa'</span> =&gt; $mahasiswa]);
+}
+</div></code></pre>
+<h3 id="cara-2-menggunakan-method-with">Cara 2: Menggunakan method <code>with()</code></h3>
+<pre class="hljs"><code><div><span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">index</span><span class="hljs-params">()</span>
+</span>{
+    $mahasiswa = Mahasiswa::paginate(<span class="hljs-number">10</span>);
+    <span class="hljs-keyword">return</span> view(<span class="hljs-string">'mahasiswa.index'</span>)-&gt;with(<span class="hljs-string">'mahasiswa'</span>, $mahasiswa);
+}
+</div></code></pre>
+<h3 id="cara-3-menggunakan-helper-compact">Cara 3: Menggunakan helper <code>compact()</code></h3>
+<pre class="hljs"><code><div><span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">index</span><span class="hljs-params">()</span>
+</span>{
+    $mahasiswa = Mahasiswa::paginate(<span class="hljs-number">10</span>);
+    $title = <span class="hljs-string">'Daftar Mahasiswa'</span>;
+    <span class="hljs-keyword">return</span> view(<span class="hljs-string">'mahasiswa.index'</span>, compact(<span class="hljs-string">'mahasiswa'</span>, <span class="hljs-string">'title'</span>));
+}
+</div></code></pre>
+<h2 id="mengakses-data-di-view">Mengakses Data di View</h2>
+<p>Di view, kita bisa mengakses data yang dikirim menggunakan sintaks Blade:</p>
+<pre class="hljs"><code><div>&lt;h1&gt;{{ $title }}&lt;/h1&gt;
+
+&lt;ul&gt;
+    @<span class="hljs-keyword">foreach</span>($mahasiswa <span class="hljs-keyword">as</span> $mhs)
+        &lt;li&gt;{{ $mhs-&gt;nama }} ({{ $mhs-&gt;nim }})&lt;/li&gt;
+    @<span class="hljs-keyword">endforeach</span>
+&lt;/ul&gt;
+</div></code></pre>
+<h2 id="praktik-implementasi-home-view">Praktik: Implementasi Home View</h2>
+<p>Mari praktikkan pembuatan view untuk halaman home yang terhubung dengan HomeController yang telah kita buat sebelumnya:</p>
+<ol>
+<li>Di Controller:</li>
+</ol>
+<pre class="hljs"><code><div><span class="hljs-comment">// app/Http/Controllers/HomeController.php</span>
+<span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">index</span><span class="hljs-params">()</span>
+</span>{
+    $totalMahasiswa = Mahasiswa::count();
+    $totalJurusan = Jurusan::count();
+    $mahasiswaTerbaru = Mahasiswa::latest()-&gt;take(<span class="hljs-number">5</span>)-&gt;get();
+    
+    <span class="hljs-keyword">return</span> view(<span class="hljs-string">'home'</span>, compact(<span class="hljs-string">'totalMahasiswa'</span>, <span class="hljs-string">'totalJurusan'</span>, <span class="hljs-string">'mahasiswaTerbaru'</span>));
+}
+</div></code></pre>
+<ol start="2">
+<li>Pastikan route sudah terhubung:</li>
+</ol>
+<pre class="hljs"><code><div><span class="hljs-comment">// routes/web.php</span>
+Route::get(<span class="hljs-string">'/'</span>, [HomeController::class, <span class="hljs-string">'index'</span>])-&gt;name(<span class="hljs-string">'home'</span>);
+</div></code></pre>
+<ol start="3">
+<li>Buat view home seperti contoh di atas, dan pastikan sudah ada layout app.blade.php.</li>
+</ol>
+<h2 id="flowchart-pembuatan-view">Flowchart Pembuatan View</h2>
+<pre><code class="language-mermaid"><div class="mermaid">flowchart TD
+    A[Start] --> B[Buat Layout Dasar]
+    B --> C[Buat Direktori untuk Fitur]
+    C --> D[Buat View untuk Fitur]
+    D --> E[Hubungkan Controller dengan View]
+    E --> F[Pass Data ke View]
+    F --> G[Test View di Browser]
+    G --> H{View OK?}
+    H -->|Yes| I[End]
+    H -->|No| J[Debug & Fix]
+    J --> G
+</div></code></pre>
+<h2 id="tips-dan-praktik-terbaik">Tips dan Praktik Terbaik</h2>
+<ol>
+<li><strong>Gunakan Layout</strong> - Hindari duplikasi kode dengan memanfaatkan layout</li>
+<li><strong>Buat Partial Views</strong> - Untuk komponen yang digunakan berulang kali</li>
+<li><strong>Organisasi Direktori</strong> - Kelompokkan view berdasarkan fitur atau modul</li>
+<li><strong>Validasi Form</strong> - Tampilkan pesan error validasi dengan benar</li>
+<li><strong>Escape Output</strong> - Gunakan <code>{{ $variable }}</code> untuk mencegah XSS</li>
+<li><strong>Jangan Taruh Logika Kompleks di View</strong> - Pindahkan ke controller atau helper</li>
+<li><strong>Gunakan Blade Components</strong> - Untuk UI yang konsisten dan dapat digunakan kembali</li>
+</ol>
+<h2 id="kesimpulan">Kesimpulan</h2>
+<p>View adalah komponen penting dalam arsitektur MVC Laravel yang bertanggung jawab untuk menampilkan data kepada pengguna. Dengan menggunakan Blade template engine, kita dapat membuat view yang dinamis, aman, dan mudah dikelola.</p>
+<p>Setelah mempelajari cara membuat controller dan view, kita sudah memiliki dasar yang cukup untuk mulai mengembangkan fitur-fitur aplikasi manajemen mahasiswa. Pada pertemuan selanjutnya, kita akan mempelajari tentang Model dan bagaimana mengintegrasikannya dengan database.</p>
+
+</body>
+</html>

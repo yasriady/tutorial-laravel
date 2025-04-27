@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>datatable-untuk-manajemen-data-mahasiswa-dgn-Yajra-lib.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="datatable-untuk-manajemen-data-mahasiswa">Datatable untuk Manajemen Data Mahasiswa</h1>
+<p>Datatable adalah komponen UI yang sangat berguna untuk menampilkan dan mengelola data dalam bentuk tabel dengan berbagai fitur seperti pencarian, pengurutan, dan pagination. Dalam konteks aplikasi mahasiswa, datatable akan sangat membantu untuk mengelola data mahasiswa dengan lebih efisien.</p>
+<h2 id="pengenalan-datatables">Pengenalan DataTables</h2>
+<p>DataTables adalah plugin jQuery yang menyediakan fungsionalitas tabel data yang kaya fitur. Untuk mengimplementasikan DataTables di aplikasi Laravel, kita akan menggunakan library Yajra DataTables yang menyediakan integrasi yang mulus antara Laravel dan DataTables.</p>
+<pre><code class="language-mermaid"><div class="mermaid">graph TD
+    A[Client Browser] -->|1. Request Halaman| B[Laravel Controller]
+    B -->|2. Render View| A
+    A -->|3. Ajax Request Data| C[DataTables Controller]
+    C -->|4. Query Database| D[Database]
+    D -->|5. Return Data| C
+    C -->|6. Format JSON Response| A
+    A -->|7. Render DataTable| A
+
+</div></code></pre>
+<h2 id="instalasi-yajra-datatables">Instalasi Yajra DataTables</h2>
+<p>Pertama, mari kita instal paket Yajra DataTables:</p>
+<pre class="hljs"><code><div>composer require yajra/laravel-datatables-oracle
+</div></code></pre>
+<p>Setelah instalasi, tambahkan service provider dan alias di <code>config/app.php</code> (jika diperlukan, tergantung versi Laravel):</p>
+<pre class="hljs"><code><div><span class="hljs-string">'providers'</span> =&gt; [
+    <span class="hljs-comment">// ...</span>
+    Yajra\DataTables\DataTablesServiceProvider::class,
+],
+
+<span class="hljs-string">'aliases'</span> =&gt; [
+    <span class="hljs-comment">// ...</span>
+    <span class="hljs-string">'DataTables'</span> =&gt; Yajra\DataTables\Facades\DataTables::class,
+],
+</div></code></pre>
+<p>Kemudian publikasikan konfigurasi:</p>
+<pre class="hljs"><code><div>php artisan vendor:publish --provider=<span class="hljs-string">"Yajra\DataTables\DataTablesServiceProvider"</span>
+</div></code></pre>
+<h2 id="implementasi-datatables-untuk-data-mahasiswa">Implementasi DataTables untuk Data Mahasiswa</h2>
+<h3 id="1-controller-untuk-datatable">1. Controller untuk DataTable</h3>
+<p>Buat method di MahasiswaController untuk menangani request DataTable:</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">use</span> <span class="hljs-title">DataTables</span>;
+<span class="hljs-keyword">use</span> <span class="hljs-title">App</span>\<span class="hljs-title">Models</span>\<span class="hljs-title">Mahasiswa</span>;
+
+<span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getData</span><span class="hljs-params">()</span>
+</span>{
+    $mahasiswa = Mahasiswa::with(<span class="hljs-string">'jurusan'</span>); <span class="hljs-comment">// Eager loading relasi</span>
+    
+    <span class="hljs-keyword">return</span> DataTables::of($mahasiswa)
+        -&gt;addIndexColumn()
+        -&gt;addColumn(<span class="hljs-string">'action'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">($row)</span></span>{
+            $btn = <span class="hljs-string">'&lt;a href="'</span>.route(<span class="hljs-string">'mahasiswa.edit'</span>, $row-&gt;id).<span class="hljs-string">'" class="btn btn-primary btn-sm"&gt;Edit&lt;/a&gt; '</span>;
+            $btn .= <span class="hljs-string">'&lt;a href="javascript:void(0)" data-id="'</span>.$row-&gt;id.<span class="hljs-string">'" class="btn btn-danger btn-sm delete-btn"&gt;Hapus&lt;/a&gt;'</span>;
+            <span class="hljs-keyword">return</span> $btn;
+        })
+        -&gt;rawColumns([<span class="hljs-string">'action'</span>])
+        -&gt;make(<span class="hljs-keyword">true</span>);
+}
+</div></code></pre>
+<h3 id="2-rute-untuk-datatable">2. Rute untuk DataTable</h3>
+<p>Tambahkan rute di <code>routes/web.php</code>:</p>
+<pre class="hljs"><code><div>Route::get(<span class="hljs-string">'mahasiswa/data'</span>, [MahasiswaController::class, <span class="hljs-string">'getData'</span>])-&gt;name(<span class="hljs-string">'mahasiswa.data'</span>);
+</div></code></pre>
+<h3 id="3-implementasi-view">3. Implementasi View</h3>
+<p>Buat view dengan DataTable:</p>
+<pre class="hljs"><code><div>@extends('layouts.app')
+
+@section('styles')
+<span class="hljs-tag">&lt;<span class="hljs-name">link</span> <span class="hljs-attr">rel</span>=<span class="hljs-string">"stylesheet"</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"https://cdn.datatables.net/1.10.25/css/dataTables.bootstrap5.min.css"</span>&gt;</span>
+@endsection
+
+@section('content')
+<span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"container"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"row justify-content-center"</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"col-md-12"</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"card"</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"card-header d-flex justify-content-between align-items-center"</span>&gt;</span>
+                    <span class="hljs-tag">&lt;<span class="hljs-name">span</span>&gt;</span>Daftar Mahasiswa<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
+                    <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"{{ route('mahasiswa.create') }}"</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"btn btn-primary btn-sm"</span>&gt;</span>Tambah Mahasiswa<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
+                <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"card-body"</span>&gt;</span>
+                    <span class="hljs-tag">&lt;<span class="hljs-name">table</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"table table-bordered"</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"mahasiswa-table"</span>&gt;</span>
+                        <span class="hljs-tag">&lt;<span class="hljs-name">thead</span>&gt;</span>
+                            <span class="hljs-tag">&lt;<span class="hljs-name">tr</span>&gt;</span>
+                                <span class="hljs-tag">&lt;<span class="hljs-name">th</span>&gt;</span>No<span class="hljs-tag">&lt;/<span class="hljs-name">th</span>&gt;</span>
+                                <span class="hljs-tag">&lt;<span class="hljs-name">th</span>&gt;</span>NIM<span class="hljs-tag">&lt;/<span class="hljs-name">th</span>&gt;</span>
+                                <span class="hljs-tag">&lt;<span class="hljs-name">th</span>&gt;</span>Nama<span class="hljs-tag">&lt;/<span class="hljs-name">th</span>&gt;</span>
+                                <span class="hljs-tag">&lt;<span class="hljs-name">th</span>&gt;</span>Jurusan<span class="hljs-tag">&lt;/<span class="hljs-name">th</span>&gt;</span>
+                                <span class="hljs-tag">&lt;<span class="hljs-name">th</span>&gt;</span>Email<span class="hljs-tag">&lt;/<span class="hljs-name">th</span>&gt;</span>
+                                <span class="hljs-tag">&lt;<span class="hljs-name">th</span>&gt;</span>Aksi<span class="hljs-tag">&lt;/<span class="hljs-name">th</span>&gt;</span>
+                            <span class="hljs-tag">&lt;/<span class="hljs-name">tr</span>&gt;</span>
+                        <span class="hljs-tag">&lt;/<span class="hljs-name">thead</span>&gt;</span>
+                        <span class="hljs-tag">&lt;<span class="hljs-name">tbody</span>&gt;</span>
+                        <span class="hljs-tag">&lt;/<span class="hljs-name">tbody</span>&gt;</span>
+                    <span class="hljs-tag">&lt;/<span class="hljs-name">table</span>&gt;</span>
+                <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+            <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+@endsection
+
+@section('scripts')
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"https://code.jquery.com/jquery-3.6.0.min.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap5.min.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="javascript">
+    $(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+        $(<span class="hljs-string">'#mahasiswa-table'</span>).DataTable({
+            <span class="hljs-attr">processing</span>: <span class="hljs-literal">true</span>,
+            <span class="hljs-attr">serverSide</span>: <span class="hljs-literal">true</span>,
+            <span class="hljs-attr">ajax</span>: <span class="hljs-string">"{{ route('mahasiswa.data') }}"</span>,
+            <span class="hljs-attr">columns</span>: [
+                {<span class="hljs-attr">data</span>: <span class="hljs-string">'DT_RowIndex'</span>, <span class="hljs-attr">name</span>: <span class="hljs-string">'DT_RowIndex'</span>},
+                {<span class="hljs-attr">data</span>: <span class="hljs-string">'nim'</span>, <span class="hljs-attr">name</span>: <span class="hljs-string">'nim'</span>},
+                {<span class="hljs-attr">data</span>: <span class="hljs-string">'nama'</span>, <span class="hljs-attr">name</span>: <span class="hljs-string">'nama'</span>},
+                {<span class="hljs-attr">data</span>: <span class="hljs-string">'jurusan.nama'</span>, <span class="hljs-attr">name</span>: <span class="hljs-string">'jurusan.nama'</span>},
+                {<span class="hljs-attr">data</span>: <span class="hljs-string">'email'</span>, <span class="hljs-attr">name</span>: <span class="hljs-string">'email'</span>},
+                {<span class="hljs-attr">data</span>: <span class="hljs-string">'action'</span>, <span class="hljs-attr">name</span>: <span class="hljs-string">'action'</span>, <span class="hljs-attr">orderable</span>: <span class="hljs-literal">false</span>, <span class="hljs-attr">searchable</span>: <span class="hljs-literal">false</span>},
+            ]
+        });
+    });
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+@endsection
+</div></code></pre>
+<h2 id="fitur-fitur-datatable-yang-berguna">Fitur-fitur DataTable yang Berguna</h2>
+<h3 id="1-server-side-processing">1. Server-side Processing</h3>
+<p>Fitur ini memungkinkan DataTable memproses data di server, yang sangat berguna saat Anda memiliki dataset yang besar. Ini mengurangi waktu loading halaman dan meningkatkan performa aplikasi.</p>
+<h3 id="2-pencarian-dan-pengurutan">2. Pencarian dan Pengurutan</h3>
+<p>DataTable menyediakan fitur pencarian dan pengurutan kolom yang mudah digunakan. Pengguna dapat mencari data berdasarkan kata kunci atau mengurutkan berdasarkan kolom tertentu.</p>
+<h3 id="3-pagination">3. Pagination</h3>
+<p>DataTable secara otomatis menerapkan pagination untuk data yang ditampilkan, membuatnya lebih mudah untuk menjelajahi data yang banyak.</p>
+<h3 id="4-export-data">4. Export Data</h3>
+<p>Anda juga dapat menambahkan fitur export data ke berbagai format seperti CSV, Excel, PDF, dll.</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// Tambahkan di controller</span>
+<span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">exportExcel</span><span class="hljs-params">()</span>
+</span>{
+    <span class="hljs-keyword">return</span> Excel::download(<span class="hljs-keyword">new</span> MahasiswaExport, <span class="hljs-string">'mahasiswa.xlsx'</span>);
+}
+</div></code></pre>
+<h3 id="5-tombol-aksi-kustom">5. Tombol Aksi Kustom</h3>
+<p>Anda dapat menambahkan tombol aksi kustom untuk setiap baris data, seperti edit, hapus, atau lihat detail.</p>
+<h2 id="tambahkan-konfirmasi-hapus-dengan-sweet-alert">Tambahkan Konfirmasi Hapus dengan Sweet Alert</h2>
+<p>Untuk meningkatkan UX, tambahkan konfirmasi hapus menggunakan Sweet Alert:</p>
+<pre class="hljs"><code><div>@section('scripts')
+<span class="hljs-comment">&lt;!-- Script DataTable dari sebelumnya --&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"https://cdn.jsdelivr.net/npm/sweetalert2@11"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="javascript">
+    <span class="hljs-comment">// Event delegasi untuk tombol hapus</span>
+    $(<span class="hljs-string">'#mahasiswa-table'</span>).on(<span class="hljs-string">'click'</span>, <span class="hljs-string">'.delete-btn'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+        <span class="hljs-keyword">const</span> id = $(<span class="hljs-keyword">this</span>).data(<span class="hljs-string">'id'</span>);
+        
+        Swal.fire({
+            <span class="hljs-attr">title</span>: <span class="hljs-string">'Apakah Anda yakin?'</span>,
+            <span class="hljs-attr">text</span>: <span class="hljs-string">"Data mahasiswa akan dihapus permanen!"</span>,
+            <span class="hljs-attr">icon</span>: <span class="hljs-string">'warning'</span>,
+            <span class="hljs-attr">showCancelButton</span>: <span class="hljs-literal">true</span>,
+            <span class="hljs-attr">confirmButtonColor</span>: <span class="hljs-string">'#3085d6'</span>,
+            <span class="hljs-attr">cancelButtonColor</span>: <span class="hljs-string">'#d33'</span>,
+            <span class="hljs-attr">confirmButtonText</span>: <span class="hljs-string">'Ya, hapus!'</span>,
+            <span class="hljs-attr">cancelButtonText</span>: <span class="hljs-string">'Batal'</span>
+        }).then(<span class="hljs-function">(<span class="hljs-params">result</span>) =&gt;</span> {
+            <span class="hljs-keyword">if</span> (result.isConfirmed) {
+                <span class="hljs-comment">// Kirim request hapus</span>
+                $.ajax({
+                    <span class="hljs-attr">url</span>: <span class="hljs-string">`/mahasiswa/<span class="hljs-subst">${id}</span>`</span>,
+                    <span class="hljs-attr">type</span>: <span class="hljs-string">'DELETE'</span>,
+                    <span class="hljs-attr">data</span>: {
+                        <span class="hljs-string">"_token"</span>: <span class="hljs-string">"{{ csrf_token() }}"</span>
+                    },
+                    <span class="hljs-attr">success</span>: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">response</span>) </span>{
+                        Swal.fire(
+                            <span class="hljs-string">'Terhapus!'</span>,
+                            <span class="hljs-string">'Data mahasiswa berhasil dihapus.'</span>,
+                            <span class="hljs-string">'success'</span>
+                        );
+                        
+                        <span class="hljs-comment">// Reload DataTable</span>
+                        $(<span class="hljs-string">'#mahasiswa-table'</span>).DataTable().ajax.reload();
+                    },
+                    <span class="hljs-attr">error</span>: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">error</span>) </span>{
+                        Swal.fire(
+                            <span class="hljs-string">'Gagal!'</span>,
+                            <span class="hljs-string">'Terjadi kesalahan saat menghapus data.'</span>,
+                            <span class="hljs-string">'error'</span>
+                        );
+                    }
+                });
+            }
+        });
+    });
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+@endsection
+</div></code></pre>
+<h2 id="kustomisasi-tampilan-datatable">Kustomisasi Tampilan DataTable</h2>
+<p>Anda dapat menyesuaikan tampilan DataTable sesuai kebutuhan:</p>
+<pre class="hljs"><code><div>$(<span class="hljs-string">'#mahasiswa-table'</span>).DataTable({
+    <span class="hljs-comment">// Konfigurasi dasar</span>
+    <span class="hljs-attr">processing</span>: <span class="hljs-literal">true</span>,
+    <span class="hljs-attr">serverSide</span>: <span class="hljs-literal">true</span>,
+    <span class="hljs-attr">ajax</span>: <span class="hljs-string">"{{ route('mahasiswa.data') }}"</span>,
+    
+    <span class="hljs-comment">// Kustomisasi bahasa</span>
+    <span class="hljs-attr">language</span>: {
+        <span class="hljs-attr">search</span>: <span class="hljs-string">"Cari:"</span>,
+        <span class="hljs-attr">lengthMenu</span>: <span class="hljs-string">"Tampilkan _MENU_ data per halaman"</span>,
+        <span class="hljs-attr">zeroRecords</span>: <span class="hljs-string">"Tidak ada data yang ditemukan"</span>,
+        <span class="hljs-attr">info</span>: <span class="hljs-string">"Menampilkan halaman _PAGE_ dari _PAGES_"</span>,
+        <span class="hljs-attr">infoEmpty</span>: <span class="hljs-string">"Tidak ada data tersedia"</span>,
+        <span class="hljs-attr">infoFiltered</span>: <span class="hljs-string">"(difilter dari _MAX_ total data)"</span>,
+        <span class="hljs-attr">paginate</span>: {
+            <span class="hljs-attr">first</span>: <span class="hljs-string">"Pertama"</span>,
+            <span class="hljs-attr">last</span>: <span class="hljs-string">"Terakhir"</span>,
+            <span class="hljs-attr">next</span>: <span class="hljs-string">"Selanjutnya"</span>,
+            <span class="hljs-attr">previous</span>: <span class="hljs-string">"Sebelumnya"</span>
+        }
+    },
+    
+    <span class="hljs-comment">// Konfigurasi kolom</span>
+    <span class="hljs-attr">columns</span>: [
+        <span class="hljs-comment">// Definisi kolom seperti sebelumnya</span>
+    ],
+    
+    <span class="hljs-comment">// Kustomisasi tampilan</span>
+    <span class="hljs-attr">dom</span>: <span class="hljs-string">'&lt;"top"fl&gt;rt&lt;"bottom"ip&gt;&lt;"clear"&gt;'</span>,
+    <span class="hljs-attr">responsive</span>: <span class="hljs-literal">true</span>,
+    
+    <span class="hljs-comment">// Pengaturan panjang halaman</span>
+    <span class="hljs-attr">pageLength</span>: <span class="hljs-number">10</span>,
+    <span class="hljs-attr">lengthMenu</span>: [[<span class="hljs-number">10</span>, <span class="hljs-number">25</span>, <span class="hljs-number">50</span>, <span class="hljs-number">100</span>, <span class="hljs-number">-1</span>], [<span class="hljs-number">10</span>, <span class="hljs-number">25</span>, <span class="hljs-number">50</span>, <span class="hljs-number">100</span>, <span class="hljs-string">"Semua"</span>]]
+});
+</div></code></pre>
+<h2 id="best-practices-dalam-menggunakan-datatable">Best Practices dalam Menggunakan DataTable</h2>
+<ol>
+<li><strong>Gunakan eager loading</strong> untuk meningkatkan performa saat mengambil data relasi</li>
+<li><strong>Batasi kolom yang diambil</strong> untuk mengurangi transfer data</li>
+<li><strong>Gunakan server-side processing</strong> untuk dataset yang besar</li>
+<li><strong>Tambahkan indeks database</strong> pada kolom yang sering digunakan untuk pencarian</li>
+<li><strong>Hindari custom HTML kompleks</strong> di controller, gunakan view partial atau component</li>
+</ol>
+
+</body>
+</html>

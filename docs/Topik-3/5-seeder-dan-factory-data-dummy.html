@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>5-seeder-dan-factory-data-dummy.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="seeder-dan-factory-untuk-data-dummy-pada-laravel">Seeder dan Factory untuk Data Dummy pada Laravel</h1>
+<p>Seeder dan Factory adalah fitur Laravel yang memudahkan kita untuk mengisi database dengan data testing atau dummy. Fitur ini sangat berguna untuk pengembangan dan testing aplikasi. Mari kita pelajari cara menggunakannya dalam aplikasi mahasiswa kita.</p>
+<h2 id="mengapa-membutuhkan-data-dummy">Mengapa Membutuhkan Data Dummy?</h2>
+<ul>
+<li>Mempercepat proses pengembangan aplikasi</li>
+<li>Menguji fungsionalitas tanpa perlu input data manual</li>
+<li>Memastikan aplikasi berfungsi dengan beragam data</li>
+<li>Memudahkan demonstrasi fitur aplikasi</li>
+</ul>
+<h2 id="cara-kerja-seeder-dan-factory">Cara Kerja Seeder dan Factory</h2>
+<pre><code class="language-mermaid"><div class="mermaid">flowchart TD
+    A[Factory] -->|Mendefinisikan blueprint data| B[Seeder]
+    B -->|Menggunakan factory untuk membuat data| C[Database]
+    D[php artisan db:seed] -->|Menjalankan| B
+
+</div></code></pre>
+<h2 id="langkah-1-membuat-model-factory">Langkah 1: Membuat Model Factory</h2>
+<p>Factory adalah blueprint yang mendefinisikan bagaimana data dummy untuk model tertentu seharusnya dibuat.</p>
+<pre class="hljs"><code><div>php artisan make:factory JurusanFactory --model=Jurusan
+php artisan make:factory MahasiswaFactory --model=Mahasiswa
+</div></code></pre>
+<h2 id="langkah-2-mendefinisikan-factory-untuk-jurusan">Langkah 2: Mendefinisikan Factory untuk Jurusan</h2>
+<p>Edit file <code>database/factories/JurusanFactory.php</code>:</p>
+<pre class="hljs"><code><div><span class="hljs-meta">&lt;?php</span>
+
+<span class="hljs-keyword">namespace</span> <span class="hljs-title">Database</span>\<span class="hljs-title">Factories</span>;
+
+<span class="hljs-keyword">use</span> <span class="hljs-title">App</span>\<span class="hljs-title">Models</span>\<span class="hljs-title">Jurusan</span>;
+<span class="hljs-keyword">use</span> <span class="hljs-title">Illuminate</span>\<span class="hljs-title">Database</span>\<span class="hljs-title">Eloquent</span>\<span class="hljs-title">Factories</span>\<span class="hljs-title">Factory</span>;
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">JurusanFactory</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Factory</span>
+</span>{
+    <span class="hljs-keyword">protected</span> $model = Jurusan::class;
+
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">definition</span><span class="hljs-params">()</span>
+    </span>{
+        <span class="hljs-comment">// Data jurusan yang realistis</span>
+        $jurusanList = [
+            [<span class="hljs-string">'kode'</span> =&gt; <span class="hljs-string">'TI'</span>, <span class="hljs-string">'nama'</span> =&gt; <span class="hljs-string">'Teknik Informatika'</span>],
+            [<span class="hljs-string">'kode'</span> =&gt; <span class="hljs-string">'SI'</span>, <span class="hljs-string">'nama'</span> =&gt; <span class="hljs-string">'Sistem Informasi'</span>],
+            [<span class="hljs-string">'kode'</span> =&gt; <span class="hljs-string">'TK'</span>, <span class="hljs-string">'nama'</span> =&gt; <span class="hljs-string">'Teknik Komputer'</span>],
+            [<span class="hljs-string">'kode'</span> =&gt; <span class="hljs-string">'MI'</span>, <span class="hljs-string">'nama'</span> =&gt; <span class="hljs-string">'Manajemen Informatika'</span>],
+            [<span class="hljs-string">'kode'</span> =&gt; <span class="hljs-string">'AK'</span>, <span class="hljs-string">'nama'</span> =&gt; <span class="hljs-string">'Akuntansi'</span>],
+            [<span class="hljs-string">'kode'</span> =&gt; <span class="hljs-string">'MN'</span>, <span class="hljs-string">'nama'</span> =&gt; <span class="hljs-string">'Manajemen'</span>],
+        ];
+        
+        <span class="hljs-comment">// Ambil satu secara acak</span>
+        $jurusan = <span class="hljs-keyword">$this</span>-&gt;faker-&gt;unique()-&gt;randomElement($jurusanList);
+        
+        <span class="hljs-keyword">return</span> [
+            <span class="hljs-string">'kode'</span> =&gt; $jurusan[<span class="hljs-string">'kode'</span>],
+            <span class="hljs-string">'nama'</span> =&gt; $jurusan[<span class="hljs-string">'nama'</span>],
+        ];
+    }
+}
+</div></code></pre>
+<h2 id="langkah-3-mendefinisikan-factory-untuk-mahasiswa">Langkah 3: Mendefinisikan Factory untuk Mahasiswa</h2>
+<p>Edit file <code>database/factories/MahasiswaFactory.php</code>:</p>
+<pre class="hljs"><code><div><span class="hljs-meta">&lt;?php</span>
+
+<span class="hljs-keyword">namespace</span> <span class="hljs-title">Database</span>\<span class="hljs-title">Factories</span>;
+
+<span class="hljs-keyword">use</span> <span class="hljs-title">App</span>\<span class="hljs-title">Models</span>\<span class="hljs-title">Jurusan</span>;
+<span class="hljs-keyword">use</span> <span class="hljs-title">App</span>\<span class="hljs-title">Models</span>\<span class="hljs-title">Mahasiswa</span>;
+<span class="hljs-keyword">use</span> <span class="hljs-title">Illuminate</span>\<span class="hljs-title">Database</span>\<span class="hljs-title">Eloquent</span>\<span class="hljs-title">Factories</span>\<span class="hljs-title">Factory</span>;
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MahasiswaFactory</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Factory</span>
+</span>{
+    <span class="hljs-keyword">protected</span> $model = Mahasiswa::class;
+
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">definition</span><span class="hljs-params">()</span>
+    </span>{
+        <span class="hljs-comment">// Daftar jurusan yang tersedia (akan digunakan untuk mengambil ID)</span>
+        $jurusanIds = Jurusan::pluck(<span class="hljs-string">'id'</span>)-&gt;toArray();
+        
+        <span class="hljs-comment">// Jika belum ada jurusan, buat satu</span>
+        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">empty</span>($jurusanIds)) {
+            $jurusan = Jurusan::factory()-&gt;create();
+            $jurusanIds = [$jurusan-&gt;id];
+        }
+        
+        <span class="hljs-comment">// Tentukan jenis kelamin secara acak</span>
+        $gender = <span class="hljs-keyword">$this</span>-&gt;faker-&gt;randomElement([<span class="hljs-string">'L'</span>, <span class="hljs-string">'P'</span>]);
+        
+        <span class="hljs-comment">// Tentukan nama depan berdasarkan jenis kelamin</span>
+        $firstName = $gender === <span class="hljs-string">'L'</span> ? 
+            <span class="hljs-keyword">$this</span>-&gt;faker-&gt;firstNameMale() : 
+            <span class="hljs-keyword">$this</span>-&gt;faker-&gt;firstNameFemale();
+        
+        <span class="hljs-comment">// Gabungkan dengan nama belakang</span>
+        $fullName = $firstName . <span class="hljs-string">' '</span> . <span class="hljs-keyword">$this</span>-&gt;faker-&gt;lastName();
+        
+        <span class="hljs-comment">// Generate NIM dengan format tahun + kode jurusan + 5 digit angka random</span>
+        $nim = <span class="hljs-string">'20'</span> . <span class="hljs-keyword">$this</span>-&gt;faker-&gt;numberBetween(<span class="hljs-number">18</span>, <span class="hljs-number">23</span>) . 
+               <span class="hljs-keyword">$this</span>-&gt;faker-&gt;randomElement([<span class="hljs-string">'01'</span>, <span class="hljs-string">'02'</span>, <span class="hljs-string">'03'</span>, <span class="hljs-string">'04'</span>, <span class="hljs-string">'05'</span>, <span class="hljs-string">'06'</span>]) . 
+               <span class="hljs-keyword">$this</span>-&gt;faker-&gt;unique()-&gt;randomNumber(<span class="hljs-number">5</span>, <span class="hljs-keyword">true</span>);
+        
+        <span class="hljs-keyword">return</span> [
+            <span class="hljs-string">'nim'</span> =&gt; $nim,
+            <span class="hljs-string">'nama'</span> =&gt; $fullName,
+            <span class="hljs-string">'email'</span> =&gt; <span class="hljs-keyword">$this</span>-&gt;faker-&gt;unique()-&gt;safeEmail(),
+            <span class="hljs-string">'jenis_kelamin'</span> =&gt; $gender,
+            <span class="hljs-string">'alamat'</span> =&gt; <span class="hljs-keyword">$this</span>-&gt;faker-&gt;address(),
+            <span class="hljs-string">'tanggal_lahir'</span> =&gt; <span class="hljs-keyword">$this</span>-&gt;faker-&gt;date(<span class="hljs-string">'Y-m-d'</span>, <span class="hljs-string">'-18 years'</span>),
+            <span class="hljs-string">'jurusan_id'</span> =&gt; <span class="hljs-keyword">$this</span>-&gt;faker-&gt;randomElement($jurusanIds),
+        ];
+    }
+}
+</div></code></pre>
+<h2 id="langkah-4-membuat-seeder-untuk-jurusan">Langkah 4: Membuat Seeder untuk Jurusan</h2>
+<pre class="hljs"><code><div>php artisan make:seeder JurusanSeeder
+</div></code></pre>
+<p>Edit file <code>database/seeders/JurusanSeeder.php</code>:</p>
+<pre class="hljs"><code><div><span class="hljs-meta">&lt;?php</span>
+
+<span class="hljs-keyword">namespace</span> <span class="hljs-title">Database</span>\<span class="hljs-title">Seeders</span>;
+
+<span class="hljs-keyword">use</span> <span class="hljs-title">App</span>\<span class="hljs-title">Models</span>\<span class="hljs-title">Jurusan</span>;
+<span class="hljs-keyword">use</span> <span class="hljs-title">Illuminate</span>\<span class="hljs-title">Database</span>\<span class="hljs-title">Seeder</span>;
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">JurusanSeeder</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Seeder</span>
+</span>{
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">run</span><span class="hljs-params">()</span>
+    </span>{
+        <span class="hljs-comment">// Buat 6 jurusan dengan factory</span>
+        Jurusan::factory()-&gt;count(<span class="hljs-number">6</span>)-&gt;create();
+        
+        <span class="hljs-comment">// Atau, jika ingin data yang lebih terkontrol:</span>
+        <span class="hljs-comment">/*
+        $jurusans = [
+            ['kode' =&gt; 'TI', 'nama' =&gt; 'Teknik Informatika'],
+            ['kode' =&gt; 'SI', 'nama' =&gt; 'Sistem Informasi'],
+            ['kode' =&gt; 'TK', 'nama' =&gt; 'Teknik Komputer'],
+            ['kode' =&gt; 'MI', 'nama' =&gt; 'Manajemen Informatika'],
+            ['kode' =&gt; 'AK', 'nama' =&gt; 'Akuntansi'],
+            ['kode' =&gt; 'MN', 'nama' =&gt; 'Manajemen'],
+        ];
+        
+        foreach ($jurusans as $jurusan) {
+            Jurusan::create($jurusan);
+        }
+        */</span>
+    }
+}
+</div></code></pre>
+<h2 id="langkah-5-membuat-seeder-untuk-mahasiswa">Langkah 5: Membuat Seeder untuk Mahasiswa</h2>
+<pre class="hljs"><code><div>php artisan make:seeder MahasiswaSeeder
+</div></code></pre>
+<p>Edit file <code>database/seeders/MahasiswaSeeder.php</code>:</p>
+<pre class="hljs"><code><div><span class="hljs-meta">&lt;?php</span>
+
+<span class="hljs-keyword">namespace</span> <span class="hljs-title">Database</span>\<span class="hljs-title">Seeders</span>;
+
+<span class="hljs-keyword">use</span> <span class="hljs-title">App</span>\<span class="hljs-title">Models</span>\<span class="hljs-title">Mahasiswa</span>;
+<span class="hljs-keyword">use</span> <span class="hljs-title">Illuminate</span>\<span class="hljs-title">Database</span>\<span class="hljs-title">Seeder</span>;
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MahasiswaSeeder</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Seeder</span>
+</span>{
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">run</span><span class="hljs-params">()</span>
+    </span>{
+        <span class="hljs-comment">// Buat 50 data mahasiswa</span>
+        Mahasiswa::factory()-&gt;count(<span class="hljs-number">50</span>)-&gt;create();
+    }
+}
+</div></code></pre>
+<h2 id="langkah-6-mendaftarkan-seeder-di-databaseseeder">Langkah 6: Mendaftarkan Seeder di DatabaseSeeder</h2>
+<p>Edit file <code>database/seeders/DatabaseSeeder.php</code>:</p>
+<pre class="hljs"><code><div><span class="hljs-meta">&lt;?php</span>
+
+<span class="hljs-keyword">namespace</span> <span class="hljs-title">Database</span>\<span class="hljs-title">Seeders</span>;
+
+<span class="hljs-keyword">use</span> <span class="hljs-title">Illuminate</span>\<span class="hljs-title">Database</span>\<span class="hljs-title">Seeder</span>;
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">DatabaseSeeder</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Seeder</span>
+</span>{
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">run</span><span class="hljs-params">()</span>
+    </span>{
+        <span class="hljs-comment">// Tentukan urutan pemanggilan seeder</span>
+        <span class="hljs-comment">// Jurusan harus dibuat lebih dulu karena Mahasiswa membutuhkan jurusan_id</span>
+        <span class="hljs-keyword">$this</span>-&gt;call([
+            JurusanSeeder::class,
+            MahasiswaSeeder::class,
+        ]);
+    }
+}
+</div></code></pre>
+<h2 id="langkah-7-menjalankan-seeder">Langkah 7: Menjalankan Seeder</h2>
+<h3 id="untuk-menjalankan-semua-seeder">Untuk Menjalankan Semua Seeder</h3>
+<pre class="hljs"><code><div>php artisan db:seed
+</div></code></pre>
+<h3 id="untuk-menjalankan-seeder-tertentu">Untuk Menjalankan Seeder Tertentu</h3>
+<pre class="hljs"><code><div>php artisan db:seed --class=JurusanSeeder
+php artisan db:seed --class=MahasiswaSeeder
+</div></code></pre>
+<h3 id="untuk-menjalankan-migrasi-dan-seeder-sekaligus-fresh-install">Untuk Menjalankan Migrasi dan Seeder Sekaligus (Fresh Install)</h3>
+<pre class="hljs"><code><div>php artisan migrate:fresh --seed
+</div></code></pre>
+<h2 id="langkah-8-menggunakan-factory-di-aplikasi-opsional">Langkah 8: Menggunakan Factory di Aplikasi (Opsional)</h2>
+<p>Factory tidak hanya berguna untuk seeding database, tapi juga bisa digunakan dalam testing atau pembuatan data dummy pada saat runtime.</p>
+<h3 id="contoh-penggunaan-dalam-testing">Contoh Penggunaan dalam Testing</h3>
+<pre class="hljs"><code><div><span class="hljs-keyword">use</span> <span class="hljs-title">App</span>\<span class="hljs-title">Models</span>\<span class="hljs-title">Mahasiswa</span>;
+
+<span class="hljs-comment">// Membuat satu instance Mahasiswa tanpa menyimpan ke database</span>
+$mahasiswa = Mahasiswa::factory()-&gt;make();
+
+<span class="hljs-comment">// Membuat dan menyimpan satu Mahasiswa ke database</span>
+$mahasiswa = Mahasiswa::factory()-&gt;create();
+
+<span class="hljs-comment">// Membuat 5 Mahasiswa dengan jurusan_id yang sama</span>
+$mahasiswas = Mahasiswa::factory()
+                    -&gt;count(<span class="hljs-number">5</span>)
+                    -&gt;create([<span class="hljs-string">'jurusan_id'</span> =&gt; <span class="hljs-number">1</span>]);
+
+<span class="hljs-comment">// Membuat data dengan relasi (akan membuat Jurusan terlebih dahulu)</span>
+$mahasiswa = Mahasiswa::factory()
+                    -&gt;for(Jurusan::factory()-&gt;state([
+                        <span class="hljs-string">'kode'</span> =&gt; <span class="hljs-string">'TI'</span>,
+                        <span class="hljs-string">'nama'</span> =&gt; <span class="hljs-string">'Teknik Informatika'</span>
+                    ]))
+                    -&gt;create();
+</div></code></pre>
+<h2 id="langkah-9-membuat-seeder-untuk-tabel-pivot-bila-ada">Langkah 9: Membuat Seeder untuk Tabel Pivot (Bila Ada)</h2>
+<p>Jika kita memiliki relasi Many-to-Many antara Mahasiswa dan MataKuliah, kita perlu seeder untuk tabel pivot.</p>
+<pre class="hljs"><code><div><span class="hljs-meta">&lt;?php</span>
+
+<span class="hljs-keyword">namespace</span> <span class="hljs-title">Database</span>\<span class="hljs-title">Seeders</span>;
+
+<span class="hljs-keyword">use</span> <span class="hljs-title">App</span>\<span class="hljs-title">Models</span>\<span class="hljs-title">Mahasiswa</span>;
+<span class="hljs-keyword">use</span> <span class="hljs-title">App</span>\<span class="hljs-title">Models</span>\<span class="hljs-title">MataKuliah</span>;
+<span class="hljs-keyword">use</span> <span class="hljs-title">Illuminate</span>\<span class="hljs-title">Database</span>\<span class="hljs-title">Seeder</span>;
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MahasiswaMataKuliahSeeder</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Seeder</span>
+</span>{
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">run</span><span class="hljs-params">()</span>
+    </span>{
+        <span class="hljs-comment">// Ambil semua mahasiswa dan mata kuliah</span>
+        $mahasiswas = Mahasiswa::all();
+        $mataKuliahs = MataKuliah::all();
+        
+        <span class="hljs-comment">// Untuk setiap mahasiswa, tetapkan beberapa mata kuliah secara acak</span>
+        <span class="hljs-keyword">foreach</span> ($mahasiswas <span class="hljs-keyword">as</span> $mahasiswa) {
+            <span class="hljs-comment">// Ambil 3-8 mata kuliah secara acak</span>
+            $mataKuliahCount = rand(<span class="hljs-number">3</span>, <span class="hljs-number">8</span>);
+            $selectedMataKuliahs = $mataKuliahs-&gt;random($mataKuliahCount);
+            
+            <span class="hljs-comment">// Simpan ke tabel pivot dengan nilai tambahan jika diperlukan</span>
+            <span class="hljs-keyword">foreach</span> ($selectedMataKuliahs <span class="hljs-keyword">as</span> $mataKuliah) {
+                $mahasiswa-&gt;mataKuliahs()-&gt;attach($mataKuliah-&gt;id, [
+                    <span class="hljs-string">'nilai'</span> =&gt; rand(<span class="hljs-number">50</span>, <span class="hljs-number">100</span>),
+                    <span class="hljs-string">'semester'</span> =&gt; rand(<span class="hljs-number">1</span>, <span class="hljs-number">8</span>)
+                ]);
+            }
+        }
+    }
+}
+</div></code></pre>
+<h2 id="tips-dan-trik">Tips dan Trik</h2>
+<ol>
+<li>
+<p><strong>Refresh dan Seed</strong>: Untuk menghapus data lama dan membuat data baru saat development:</p>
+<pre class="hljs"><code><div>php artisan migrate:fresh --seed
+</div></code></pre>
+</li>
+<li>
+<p><strong>Membuat Data yang Konsisten</strong>: Gunakan <code>state()</code> untuk membuat variasi factory:</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// Di Factory</span>
+<span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">ipkTinggi</span><span class="hljs-params">()</span>
+</span>{
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">$this</span>-&gt;state(<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(array $attributes)</span> </span>{
+        <span class="hljs-keyword">return</span> [
+            <span class="hljs-string">'ipk'</span> =&gt; <span class="hljs-keyword">$this</span>-&gt;faker-&gt;randomFloat(<span class="hljs-number">2</span>, <span class="hljs-number">3.5</span>, <span class="hljs-number">4.0</span>),
+        ];
+    });
+}
+
+<span class="hljs-comment">// Penggunaan</span>
+$mahasiswaBerprestasi = Mahasiswa::factory()-&gt;ipkTinggi()-&gt;create();
+</div></code></pre>
+</li>
+<li>
+<p><strong>Perbaiki Ketergantungan Data</strong>: Selalu jalankan seeder dalam urutan yang benar (parent models dulu, baru child models)</p>
+</li>
+<li>
+<p><strong>Gunakan Faker Efektif</strong>: Faker memiliki banyak method yang berguna:</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">$this</span>-&gt;faker-&gt;name();
+<span class="hljs-keyword">$this</span>-&gt;faker-&gt;unique()-&gt;email();
+<span class="hljs-keyword">$this</span>-&gt;faker-&gt;dateTimeBetween(<span class="hljs-string">'-30 years'</span>, <span class="hljs-string">'-18 years'</span>);
+<span class="hljs-keyword">$this</span>-&gt;faker-&gt;paragraphs(<span class="hljs-number">3</span>, <span class="hljs-keyword">true</span>);
+<span class="hljs-keyword">$this</span>-&gt;faker-&gt;randomElement([<span class="hljs-string">'A'</span>, <span class="hljs-string">'B'</span>, <span class="hljs-string">'C'</span>]);
+</div></code></pre>
+</li>
+<li>
+<p><strong>Penanggulangan Error Unique</strong>: Jika terjadi error karena constraint unique, coba gunakan <code>-&gt;unique()</code> pada faker atau tingkatkan iterasi:</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">$this</span>-&gt;faker-&gt;unique(<span class="hljs-keyword">true</span>)-&gt;safeEmail; <span class="hljs-comment">// true akan me-reset ketika kehabisan nilai unik</span>
+</div></code></pre>
+</li>
+</ol>
+<h2 id="kesimpulan">Kesimpulan</h2>
+<p>Seeder dan Factory sangat membantu dalam pengembangan aplikasi Laravel, terutama untuk mengisi database dengan data dummy yang realistis. Dengan data dummy yang baik, kita bisa:</p>
+<ul>
+<li>Melakukan testing lebih efektif</li>
+<li>Mempercepat proses development</li>
+<li>Memudahkan demonstrasi fitur aplikasi</li>
+<li>Meningkatkan kualitas pengujian aplikasi</li>
+</ul>
+<p>Selamat mencoba mengimplementasikan Seeder dan Factory pada aplikasi mahasiswa Anda!</p>
+
+</body>
+</html>

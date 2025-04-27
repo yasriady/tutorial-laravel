@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>1-konfigurasi-database-laravel.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="tutorial-konfigurasi-database-di-laravel">Tutorial: Konfigurasi Database di Laravel</h1>
+<p>Database adalah bagian penting dari kebanyakan aplikasi web modern. Laravel menyediakan cara yang mudah dan fleksibel untuk mengonfigurasi koneksi database. Tutorial ini akan memandu Anda melalui langkah-langkah konfigurasi database di project Laravel Anda, khususnya untuk aplikasi manajemen data mahasiswa.</p>
+<h2 id="diagram-koneksi-database-di-laravel">Diagram Koneksi Database di Laravel</h2>
+<pre><code class="language-mermaid"><div class="mermaid">flowchart TD
+    A[.env File] --> B[config/database.php]
+    B --> C{Database Manager}
+    C --> D[MySQL Connection]
+    C --> E[PostgreSQL Connection]
+    C --> F[SQLite Connection]
+    C --> G[SQL Server Connection]
+    D --> H[Database Server]
+    E --> H
+    F --> H
+    G --> H
+    H --> I[Migrations]
+    H --> J[Seeds]
+    H <--> K[Eloquent Models]
+
+</div></code></pre>
+<h2 id="1-memahami-file-konfigurasi-database">1. Memahami File Konfigurasi Database</h2>
+<p>Laravel menyimpan pengaturan koneksi database dalam dua lokasi utama:</p>
+<ul>
+<li>File <code>.env</code> - menyimpan informasi sensitif seperti username, password, dan nama database</li>
+<li>File <code>config/database.php</code> - menyimpan konfigurasi default dan struktur koneksi</li>
+</ul>
+<h2 id="2-menyiapkan-file-env">2. Menyiapkan File .env</h2>
+<p>File <code>.env</code> berada di root project Laravel Anda. Untuk aplikasi mahasiswa-app, konfigurasi database pada file <code>.env</code> akan terlihat seperti ini:</p>
+<pre class="hljs"><code><div>DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=mahasiswa_app
+DB_USERNAME=root
+DB_PASSWORD=
+</div></code></pre>
+<h3 id="penjelasan-parameter">Penjelasan Parameter:</h3>
+<ul>
+<li><code>DB_CONNECTION</code>: Jenis database yang digunakan (mysql, pgsql, sqlite, sqlsrv)</li>
+<li><code>DB_HOST</code>: Host server database (biasanya localhost atau 127.0.0.1 untuk pengembangan lokal)</li>
+<li><code>DB_PORT</code>: Port yang digunakan database (3306 untuk MySQL)</li>
+<li><code>DB_DATABASE</code>: Nama database yang akan digunakan</li>
+<li><code>DB_USERNAME</code>: Username untuk koneksi database</li>
+<li><code>DB_PASSWORD</code>: Password untuk koneksi database</li>
+</ul>
+<h2 id="3-membuat-database-baru">3. Membuat Database Baru</h2>
+<p>Sebelum melanjutkan, Anda perlu membuat database baru untuk aplikasi mahasiswa-app.</p>
+<h3 id="menggunakan-laragon">Menggunakan Laragon:</h3>
+<ol>
+<li>Buka Laragon</li>
+<li>Klik tombol &quot;Database&quot;</li>
+<li>Login ke MySQL (biasanya dengan username &quot;root&quot; dan password kosong)</li>
+<li>Buat database baru dengan nama &quot;mahasiswa_app&quot;</li>
+</ol>
+<h3 id="menggunakan-command-line-mysql">Menggunakan Command Line (MySQL):</h3>
+<pre class="hljs"><code><div>mysql -u root -p
+</div></code></pre>
+<p>Setelah masuk ke prompt MySQL:</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">DATABASE</span> mahasiswa_app;
+EXIT;
+</div></code></pre>
+<h2 id="4-memahami-file-configdatabasephp">4. Memahami File config/database.php</h2>
+<p>File <code>config/database.php</code> berisi konfigurasi untuk berbagai jenis koneksi database. Anda tidak perlu mengubah file ini secara langsung kecuali untuk konfigurasi khusus, karena Laravel akan mengambil nilai dari file <code>.env</code>.</p>
+<p>Berikut sebagian isi dari file <code>config/database.php</code>:</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">return</span> [
+    <span class="hljs-string">'default'</span> =&gt; env(<span class="hljs-string">'DB_CONNECTION'</span>, <span class="hljs-string">'mysql'</span>),
+    
+    <span class="hljs-string">'connections'</span> =&gt; [
+        <span class="hljs-string">'mysql'</span> =&gt; [
+            <span class="hljs-string">'driver'</span> =&gt; <span class="hljs-string">'mysql'</span>,
+            <span class="hljs-string">'url'</span> =&gt; env(<span class="hljs-string">'DATABASE_URL'</span>),
+            <span class="hljs-string">'host'</span> =&gt; env(<span class="hljs-string">'DB_HOST'</span>, <span class="hljs-string">'127.0.0.1'</span>),
+            <span class="hljs-string">'port'</span> =&gt; env(<span class="hljs-string">'DB_PORT'</span>, <span class="hljs-string">'3306'</span>),
+            <span class="hljs-string">'database'</span> =&gt; env(<span class="hljs-string">'DB_DATABASE'</span>, <span class="hljs-string">'forge'</span>),
+            <span class="hljs-string">'username'</span> =&gt; env(<span class="hljs-string">'DB_USERNAME'</span>, <span class="hljs-string">'forge'</span>),
+            <span class="hljs-string">'password'</span> =&gt; env(<span class="hljs-string">'DB_PASSWORD'</span>, <span class="hljs-string">''</span>),
+            <span class="hljs-string">'unix_socket'</span> =&gt; env(<span class="hljs-string">'DB_SOCKET'</span>, <span class="hljs-string">''</span>),
+            <span class="hljs-string">'charset'</span> =&gt; <span class="hljs-string">'utf8mb4'</span>,
+            <span class="hljs-string">'collation'</span> =&gt; <span class="hljs-string">'utf8mb4_unicode_ci'</span>,
+            <span class="hljs-string">'prefix'</span> =&gt; <span class="hljs-string">''</span>,
+            <span class="hljs-string">'prefix_indexes'</span> =&gt; <span class="hljs-keyword">true</span>,
+            <span class="hljs-string">'strict'</span> =&gt; <span class="hljs-keyword">true</span>,
+            <span class="hljs-string">'engine'</span> =&gt; <span class="hljs-keyword">null</span>,
+            <span class="hljs-string">'options'</span> =&gt; extension_loaded(<span class="hljs-string">'pdo_mysql'</span>) ? array_filter([
+                PDO::MYSQL_ATTR_SSL_CA =&gt; env(<span class="hljs-string">'MYSQL_ATTR_SSL_CA'</span>),
+            ]) : [],
+        ],
+        <span class="hljs-comment">// Konfigurasi untuk jenis database lainnya...</span>
+    ],
+    <span class="hljs-comment">// Konfigurasi lainnya...</span>
+];
+</div></code></pre>
+<h2 id="5-menguji-koneksi-database">5. Menguji Koneksi Database</h2>
+<p>Untuk memastikan koneksi database sudah benar, Anda dapat menggunakan perintah Artisan:</p>
+<pre class="hljs"><code><div>php artisan db:monitor
+</div></code></pre>
+<p>atau</p>
+<pre class="hljs"><code><div>php artisan tinker
+</div></code></pre>
+<p>Kemudian di dalam Tinker:</p>
+<pre class="hljs"><code><div>DB::connection()-&gt;getPdo();
+</div></code></pre>
+<p>Jika koneksi berhasil, perintah ini akan menampilkan objek PDO. Jika terjadi error, Laravel akan menampilkan pesan error yang berkaitan dengan masalah koneksi.</p>
+<h2 id="6-mengonfigurasi-multiple-database">6. Mengonfigurasi Multiple Database</h2>
+<p>Laravel memungkinkan Anda untuk menggunakan beberapa koneksi database dalam satu aplikasi. Ini berguna jika aplikasi Anda memerlukan akses ke beberapa database.</p>
+<h3 id="tambahkan-koneksi-baru-di-env">Tambahkan koneksi baru di .env:</h3>
+<pre class="hljs"><code><div>DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=mahasiswa_app
+DB_USERNAME=root
+DB_PASSWORD=
+
+DB_ARCHIVE_CONNECTION=mysql
+DB_ARCHIVE_HOST=127.0.0.1
+DB_ARCHIVE_PORT=3306
+DB_ARCHIVE_DATABASE=mahasiswa_archive
+DB_ARCHIVE_USERNAME=root
+DB_ARCHIVE_PASSWORD=
+</div></code></pre>
+<h3 id="tambahkan-koneksi-baru-di-configdatabasephp">Tambahkan koneksi baru di config/database.php:</h3>
+<pre class="hljs"><code><div><span class="hljs-string">'connections'</span> =&gt; [
+    <span class="hljs-string">'mysql'</span> =&gt; [
+        <span class="hljs-comment">// Konfigurasi database utama...</span>
+    ],
+    
+    <span class="hljs-string">'archive'</span> =&gt; [
+        <span class="hljs-string">'driver'</span> =&gt; <span class="hljs-string">'mysql'</span>,
+        <span class="hljs-string">'host'</span> =&gt; env(<span class="hljs-string">'DB_ARCHIVE_HOST'</span>, <span class="hljs-string">'127.0.0.1'</span>),
+        <span class="hljs-string">'port'</span> =&gt; env(<span class="hljs-string">'DB_ARCHIVE_PORT'</span>, <span class="hljs-string">'3306'</span>),
+        <span class="hljs-string">'database'</span> =&gt; env(<span class="hljs-string">'DB_ARCHIVE_DATABASE'</span>, <span class="hljs-string">'forge'</span>),
+        <span class="hljs-string">'username'</span> =&gt; env(<span class="hljs-string">'DB_ARCHIVE_USERNAME'</span>, <span class="hljs-string">'forge'</span>),
+        <span class="hljs-string">'password'</span> =&gt; env(<span class="hljs-string">'DB_ARCHIVE_PASSWORD'</span>, <span class="hljs-string">''</span>),
+        <span class="hljs-comment">// Parameter lainnya...</span>
+    ],
+],
+</div></code></pre>
+<h2 id="7-menggunakan-database-di-model">7. Menggunakan Database di Model</h2>
+<p>Untuk menggunakan koneksi database tertentu dalam model, Anda dapat menentukan properti <code>$connection</code>:</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">namespace</span> <span class="hljs-title">App</span>\<span class="hljs-title">Models</span>;
+
+<span class="hljs-keyword">use</span> <span class="hljs-title">Illuminate</span>\<span class="hljs-title">Database</span>\<span class="hljs-title">Eloquent</span>\<span class="hljs-title">Model</span>;
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MahasiswaArchive</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Model</span>
+</span>{
+    <span class="hljs-keyword">protected</span> $connection = <span class="hljs-string">'archive'</span>;
+    <span class="hljs-keyword">protected</span> $table = <span class="hljs-string">'mahasiswa_archives'</span>;
+    <span class="hljs-comment">// ...</span>
+}
+</div></code></pre>
+<h2 id="8-migrasi-database">8. Migrasi Database</h2>
+<p>Laravel menggunakan migrasi untuk membuat dan memodifikasi struktur tabel. Buat file migrasi untuk tabel mahasiswa:</p>
+<pre class="hljs"><code><div>php artisan make:migration create_mahasiswa_table
+</div></code></pre>
+<p>Edit file migrasi di direktori <code>database/migrations</code>:</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">up</span><span class="hljs-params">()</span>
+</span>{
+    Schema::create(<span class="hljs-string">'mahasiswa'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(Blueprint $table)</span> </span>{
+        $table-&gt;id();
+        $table-&gt;string(<span class="hljs-string">'nim'</span>, <span class="hljs-number">20</span>)-&gt;unique();
+        $table-&gt;string(<span class="hljs-string">'nama'</span>, <span class="hljs-number">100</span>);
+        $table-&gt;string(<span class="hljs-string">'email'</span>)-&gt;unique();
+        $table-&gt;enum(<span class="hljs-string">'jenis_kelamin'</span>, [<span class="hljs-string">'L'</span>, <span class="hljs-string">'P'</span>]);
+        $table-&gt;unsignedBigInteger(<span class="hljs-string">'jurusan_id'</span>);
+        $table-&gt;text(<span class="hljs-string">'alamat'</span>)-&gt;nullable();
+        $table-&gt;string(<span class="hljs-string">'no_telp'</span>, <span class="hljs-number">15</span>)-&gt;nullable();
+        $table-&gt;timestamps();
+        
+        $table-&gt;foreign(<span class="hljs-string">'jurusan_id'</span>)-&gt;references(<span class="hljs-string">'id'</span>)-&gt;on(<span class="hljs-string">'jurusan'</span>);
+    });
+}
+</div></code></pre>
+<p>Jalankan migrasi untuk membuat tabel:</p>
+<pre class="hljs"><code><div>php artisan migrate
+</div></code></pre>
+<h2 id="9-seeder-untuk-data-awal">9. Seeder untuk Data Awal</h2>
+<p>Buat seeder untuk mengisi data awal:</p>
+<pre class="hljs"><code><div>php artisan make:seeder JurusanSeeder
+php artisan make:seeder MahasiswaSeeder
+</div></code></pre>
+<p>Edit file <code>database/seeders/JurusanSeeder.php</code>:</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">run</span><span class="hljs-params">()</span>
+</span>{
+    DB::table(<span class="hljs-string">'jurusan'</span>)-&gt;insert([
+        [<span class="hljs-string">'nama'</span> =&gt; <span class="hljs-string">'Teknik Informatika'</span>, <span class="hljs-string">'kode'</span> =&gt; <span class="hljs-string">'TI'</span>, <span class="hljs-string">'created_at'</span> =&gt; now(), <span class="hljs-string">'updated_at'</span> =&gt; now()],
+        [<span class="hljs-string">'nama'</span> =&gt; <span class="hljs-string">'Sistem Informasi'</span>, <span class="hljs-string">'kode'</span> =&gt; <span class="hljs-string">'SI'</span>, <span class="hljs-string">'created_at'</span> =&gt; now(), <span class="hljs-string">'updated_at'</span> =&gt; now()],
+        [<span class="hljs-string">'nama'</span> =&gt; <span class="hljs-string">'Teknik Elektro'</span>, <span class="hljs-string">'kode'</span> =&gt; <span class="hljs-string">'TE'</span>, <span class="hljs-string">'created_at'</span> =&gt; now(), <span class="hljs-string">'updated_at'</span> =&gt; now()],
+    ]);
+}
+</div></code></pre>
+<p>Jalankan seeder:</p>
+<pre class="hljs"><code><div>php artisan db:seed --class=JurusanSeeder
+</div></code></pre>
+<h2 id="10-konfigurasi-database-untuk-environment-yang-berbeda">10. Konfigurasi Database untuk Environment yang Berbeda</h2>
+<p>Laravel memungkinkan konfigurasi database yang berbeda untuk environment yang berbeda (development, testing, production):</p>
+<h3 id="file-envtesting">File .env.testing</h3>
+<p>Untuk lingkungan testing, buatlah file <code>.env.testing</code>:</p>
+<pre class="hljs"><code><div>DB_CONNECTION=sqlite
+DB_DATABASE=:memory:
+</div></code></pre>
+<p>Menggunakan SQLite in-memory database untuk testing akan mempercepat waktu eksekusi test.</p>
+<h2 id="11-menggunakan-database-factory-untuk-testing">11. Menggunakan Database Factory untuk Testing</h2>
+<p>Buat factory untuk model Mahasiswa:</p>
+<pre class="hljs"><code><div>php artisan make:factory MahasiswaFactory
+</div></code></pre>
+<p>Edit file <code>database/factories/MahasiswaFactory.php</code>:</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">definition</span><span class="hljs-params">()</span>
+</span>{
+    <span class="hljs-keyword">return</span> [
+        <span class="hljs-string">'nim'</span> =&gt; <span class="hljs-keyword">$this</span>-&gt;faker-&gt;unique()-&gt;numerify(<span class="hljs-string">'##########'</span>),
+        <span class="hljs-string">'nama'</span> =&gt; <span class="hljs-keyword">$this</span>-&gt;faker-&gt;name,
+        <span class="hljs-string">'email'</span> =&gt; <span class="hljs-keyword">$this</span>-&gt;faker-&gt;unique()-&gt;safeEmail,
+        <span class="hljs-string">'jenis_kelamin'</span> =&gt; <span class="hljs-keyword">$this</span>-&gt;faker-&gt;randomElement([<span class="hljs-string">'L'</span>, <span class="hljs-string">'P'</span>]),
+        <span class="hljs-string">'jurusan_id'</span> =&gt; Jurusan::factory(),
+        <span class="hljs-string">'alamat'</span> =&gt; <span class="hljs-keyword">$this</span>-&gt;faker-&gt;address,
+        <span class="hljs-string">'no_telp'</span> =&gt; <span class="hljs-keyword">$this</span>-&gt;faker-&gt;phoneNumber,
+    ];
+}
+</div></code></pre>
+<h2 id="praktik-mengonfigurasi-database-untuk-aplikasi-mahasiswa-app">Praktik: Mengonfigurasi Database untuk Aplikasi Mahasiswa-App</h2>
+<ol>
+<li>Sesuaikan file <code>.env</code> dengan konfigurasi database lokal Anda</li>
+<li>Buat database <code>mahasiswa_app</code> di MySQL</li>
+<li>Buat file migrasi untuk tabel <code>jurusan</code> dan <code>mahasiswa</code></li>
+<li>Jalankan migrasi untuk membuat tabel</li>
+<li>Buat seeder untuk mengisi data awal jurusan dan beberapa data mahasiswa</li>
+<li>Jalankan seeder untuk mengisi data</li>
+</ol>
+<h2 id="kesimpulan">Kesimpulan</h2>
+<p>Konfigurasi database di Laravel sangat fleksibel dan mudah untuk disesuaikan dengan kebutuhan aplikasi. Dengan mengikuti langkah-langkah di atas, Anda telah berhasil mengonfigurasi database untuk aplikasi mahasiswa-app. Pastikan untuk selalu menjaga informasi sensitif seperti username dan password database dalam file <code>.env</code> yang tidak disertakan dalam version control.</p>
+<p>Selanjutnya, Anda dapat melanjutkan dengan membuat model, controller, dan view untuk mengelola data mahasiswa dengan memanfaatkan koneksi database yang telah Anda konfigurasi.</p>
+
+</body>
+</html>

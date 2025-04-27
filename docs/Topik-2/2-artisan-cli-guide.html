@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>2-artisan-cli-guide.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="pengenalan-artisan-cli---tutorial-singkat">Pengenalan Artisan CLI - Tutorial Singkat</h1>
+<h2 id="apa-itu-artisan-cli">Apa itu Artisan CLI?</h2>
+<p>Artisan adalah command-line interface (CLI) yang disertakan dengan Laravel. Artisan menyediakan banyak perintah yang berguna untuk membantu Anda membangun aplikasi Laravel dengan lebih cepat dan efisien. Perintah-perintah ini dapat mengotomatisasi banyak tugas pemrograman yang berulang dan membosankan.</p>
+<h2 id="prasyarat">Prasyarat</h2>
+<ul>
+<li>Laravel telah terinstal</li>
+<li>Akses terminal/command prompt</li>
+<li>Dasar-dasar PHP dan Laravel</li>
+</ul>
+<h2 id="langkah-langkah-tutorial">Langkah-langkah Tutorial</h2>
+<h3 id="1-mengakses-artisan-cli">1. Mengakses Artisan CLI</h3>
+<ul>
+<li>Buka terminal atau command prompt</li>
+<li>Navigasi ke direktori proyek Laravel Anda:<pre class="hljs"><code><div><span class="hljs-built_in">cd</span> path/ke/proyek/laravel
+<span class="hljs-comment"># contoh: cd C:\laragon\www\mahasiswa-app</span>
+</div></code></pre>
+</li>
+</ul>
+<h3 id="2-melihat-semua-perintah-artisan-yang-tersedia">2. Melihat Semua Perintah Artisan yang Tersedia</h3>
+<ul>
+<li>
+<p>Jalankan perintah:</p>
+<pre class="hljs"><code><div>php artisan list
+</div></code></pre>
+<p>atau cukup:</p>
+<pre class="hljs"><code><div>php artisan
+</div></code></pre>
+</li>
+<li>
+<p>Anda akan melihat daftar semua perintah yang tersedia dikelompokkan berdasarkan kategori seperti:</p>
+<ul>
+<li><code>make</code> - Untuk membuat berbagai komponen Laravel</li>
+<li><code>migrate</code> - Untuk manajemen migrasi database</li>
+<li><code>db</code> - Untuk manajemen database</li>
+<li><code>cache</code> - Untuk manajemen cache</li>
+<li>Dan lainnya</li>
+</ul>
+</li>
+</ul>
+<h3 id="3-mendapatkan-bantuan-untuk-perintah-spesifik">3. Mendapatkan Bantuan untuk Perintah Spesifik</h3>
+<ul>
+<li>
+<p>Untuk mendapatkan informasi detail tentang perintah tertentu:</p>
+<pre class="hljs"><code><div>php artisan <span class="hljs-built_in">help</span> nama:perintah
+</div></code></pre>
+<p>Contoh:</p>
+<pre class="hljs"><code><div>php artisan <span class="hljs-built_in">help</span> make:controller
+</div></code></pre>
+</li>
+</ul>
+<h3 id="4-perintah-perintah-artisan-dasar">4. Perintah-perintah Artisan Dasar</h3>
+<h4 id="informasi-aplikasi">Informasi Aplikasi</h4>
+<pre class="hljs"><code><div><span class="hljs-comment"># Menampilkan versi Laravel</span>
+php artisan --version
+
+<span class="hljs-comment"># Menampilkan lingkungan aplikasi</span>
+php artisan env
+
+<span class="hljs-comment"># Menampilkan rute yang terdaftar</span>
+php artisan route:list
+</div></code></pre>
+<h4 id="pembersihan-cache">Pembersihan Cache</h4>
+<pre class="hljs"><code><div><span class="hljs-comment"># Membersihkan cache konfigurasi</span>
+php artisan config:clear
+
+<span class="hljs-comment"># Membersihkan cache view</span>
+php artisan view:clear
+
+<span class="hljs-comment"># Membersihkan cache rute</span>
+php artisan route:clear
+
+<span class="hljs-comment"># Membersihkan cache aplikasi</span>
+php artisan cache:clear
+
+<span class="hljs-comment"># Membersihkan semua cache sekaligus</span>
+php artisan optimize:clear
+</div></code></pre>
+<h3 id="5-membuat-komponen-aplikasi-dengan-artisan">5. Membuat Komponen Aplikasi dengan Artisan</h3>
+<h4 id="membuat-controller">Membuat Controller</h4>
+<pre class="hljs"><code><div><span class="hljs-comment"># Controller dasar</span>
+php artisan make:controller MahasiswaController
+
+<span class="hljs-comment"># Controller dengan method resource (CRUD)</span>
+php artisan make:controller MahasiswaController --resource
+
+<span class="hljs-comment"># Controller dengan model</span>
+php artisan make:controller MahasiswaController --resource --model=Mahasiswa
+</div></code></pre>
+<h4 id="membuat-model">Membuat Model</h4>
+<pre class="hljs"><code><div><span class="hljs-comment"># Model dasar</span>
+php artisan make:model Mahasiswa
+
+<span class="hljs-comment"># Model dengan migrasi</span>
+php artisan make:model Mahasiswa -m
+
+<span class="hljs-comment"># Model dengan migrasi, factory, dan seeder</span>
+php artisan make:model Mahasiswa -mfs
+
+<span class="hljs-comment"># Model dengan controller resource</span>
+php artisan make:model Mahasiswa -mc --resource
+</div></code></pre>
+<h4 id="membuat-migrasi">Membuat Migrasi</h4>
+<pre class="hljs"><code><div><span class="hljs-comment"># Migrasi dasar</span>
+php artisan make:migration create_mahasiswas_table
+
+<span class="hljs-comment"># Migrasi dengan tabel khusus</span>
+php artisan make:migration add_nim_to_mahasiswas_table --table=mahasiswas
+</div></code></pre>
+<h4 id="membuat-file-lainnya">Membuat File Lainnya</h4>
+<pre class="hljs"><code><div><span class="hljs-comment"># Membuat middleware</span>
+php artisan make:middleware VerifikasiMahasiswa
+
+<span class="hljs-comment"># Membuat request untuk validasi</span>
+php artisan make:request StoreMahasiswaRequest
+
+<span class="hljs-comment"># Membuat seeder (pengisi data)</span>
+php artisan make:seeder MahasiswaSeeder
+
+<span class="hljs-comment"># Membuat factory (pembuat data)</span>
+php artisan make:factory MahasiswaFactory
+
+<span class="hljs-comment"># Membuat event</span>
+php artisan make:event MahasiswaTerdaftar
+
+<span class="hljs-comment"># Membuat listener</span>
+php artisan make:listener KirimEmailSelamatDatang
+</div></code></pre>
+<h3 id="6-mengelola-database-dengan-artisan">6. Mengelola Database dengan Artisan</h3>
+<h4 id="migrasi-database">Migrasi Database</h4>
+<pre class="hljs"><code><div><span class="hljs-comment"># Menjalankan migrasi</span>
+php artisan migrate
+
+<span class="hljs-comment"># Menjalankan migrasi dengan seed</span>
+php artisan migrate --seed
+
+<span class="hljs-comment"># Rollback migrasi terakhir</span>
+php artisan migrate:rollback
+
+<span class="hljs-comment"># Rollback semua migrasi dan jalankan ulang</span>
+php artisan migrate:fresh
+
+<span class="hljs-comment"># Rollback semua migrasi, jalankan ulang, dan seed</span>
+php artisan migrate:fresh --seed
+</div></code></pre>
+<h4 id="seeding-database">Seeding Database</h4>
+<pre class="hljs"><code><div><span class="hljs-comment"># Menjalankan semua seeder</span>
+php artisan db:seed
+
+<span class="hljs-comment"># Menjalankan seeder tertentu</span>
+php artisan db:seed --class=MahasiswaSeeder
+</div></code></pre>
+<h3 id="7-menjalankan-artisan-tinker">7. Menjalankan Artisan Tinker</h3>
+<p>Tinker adalah REPL (Read-Eval-Print-Loop) interaktif untuk Laravel yang memungkinkan Anda berinteraksi dengan aplikasi Anda dari command line:</p>
+<pre class="hljs"><code><div>php artisan tinker
+</div></code></pre>
+<p>Contoh penggunaan Tinker:</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// Membuat data Mahasiswa baru</span>
+$m = <span class="hljs-keyword">new</span> App\Models\Mahasiswa();
+$m-&gt;nama = <span class="hljs-string">'Budi Santoso'</span>;
+$m-&gt;nim = <span class="hljs-string">'12345678'</span>;
+$m-&gt;save();
+
+<span class="hljs-comment">// Query data Mahasiswa</span>
+App\Models\Mahasiswa::all();
+App\Models\Mahasiswa::where(<span class="hljs-string">'nama'</span>, <span class="hljs-string">'like'</span>, <span class="hljs-string">'%Budi%'</span>)-&gt;get();
+
+<span class="hljs-comment">// Menghitung jumlah Mahasiswa</span>
+App\Models\Mahasiswa::count();
+</div></code></pre>
+<h3 id="8-maintenance-mode">8. Maintenance Mode</h3>
+<pre class="hljs"><code><div><span class="hljs-comment"># Mengaktifkan mode maintenance</span>
+php artisan down
+
+<span class="hljs-comment"># Mengaktifkan dengan pesan kustom</span>
+php artisan down --message=<span class="hljs-string">"Sedang maintenance, coba lagi nanti"</span>
+
+<span class="hljs-comment"># Mengaktifkan dengan retry-after (dalam detik)</span>
+php artisan down --retry=60
+
+<span class="hljs-comment"># Mengaktifkan dengan halaman kustom</span>
+php artisan down --render=<span class="hljs-string">"errors.maintenance"</span>
+
+<span class="hljs-comment"># Mematikan mode maintenance</span>
+php artisan up
+</div></code></pre>
+<h3 id="9-membuat-perintah-artisan-kustom">9. Membuat Perintah Artisan Kustom</h3>
+<p>Anda dapat membuat perintah Artisan kustom untuk mengotomatisasi tugas spesifik aplikasi:</p>
+<pre class="hljs"><code><div><span class="hljs-comment"># Membuat perintah Artisan kustom</span>
+php artisan make:<span class="hljs-built_in">command</span> GenerateMahasiswaReport
+</div></code></pre>
+<p>Edit file yang dihasilkan di <code>app/Console/Commands/GenerateMahasiswaReport.php</code>:</p>
+<pre class="hljs"><code><div><span class="hljs-meta">&lt;?php</span>
+
+<span class="hljs-keyword">namespace</span> <span class="hljs-title">App</span>\<span class="hljs-title">Console</span>\<span class="hljs-title">Commands</span>;
+
+<span class="hljs-keyword">use</span> <span class="hljs-title">Illuminate</span>\<span class="hljs-title">Console</span>\<span class="hljs-title">Command</span>;
+<span class="hljs-keyword">use</span> <span class="hljs-title">App</span>\<span class="hljs-title">Models</span>\<span class="hljs-title">Mahasiswa</span>;
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">GenerateMahasiswaReport</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Command</span>
+</span>{
+    <span class="hljs-keyword">protected</span> $signature = <span class="hljs-string">'mahasiswa:report {--format=text : Format output (text/json)}'</span>;
+    <span class="hljs-keyword">protected</span> $description = <span class="hljs-string">'Generate laporan data mahasiswa'</span>;
+
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">handle</span><span class="hljs-params">()</span>
+    </span>{
+        $format = <span class="hljs-keyword">$this</span>-&gt;option(<span class="hljs-string">'format'</span>);
+        $jumlahMahasiswa = Mahasiswa::count();
+        
+        <span class="hljs-keyword">$this</span>-&gt;info(<span class="hljs-string">"Laporan Data Mahasiswa"</span>);
+        <span class="hljs-keyword">$this</span>-&gt;info(<span class="hljs-string">"===================="</span>);
+        <span class="hljs-keyword">$this</span>-&gt;info(<span class="hljs-string">"Jumlah mahasiswa: $jumlahMahasiswa"</span>);
+        
+        <span class="hljs-keyword">if</span> ($format === <span class="hljs-string">'json'</span>) {
+            <span class="hljs-keyword">$this</span>-&gt;output-&gt;writeln(json_encode([
+                <span class="hljs-string">'total_mahasiswa'</span> =&gt; $jumlahMahasiswa,
+                <span class="hljs-string">'generated_at'</span> =&gt; now()-&gt;toDateTimeString()
+            ]));
+        }
+        
+        <span class="hljs-keyword">return</span> Command::SUCCESS;
+    }
+}
+</div></code></pre>
+<p>Untuk menjalankan perintah kustom:</p>
+<pre class="hljs"><code><div>php artisan mahasiswa:report
+php artisan mahasiswa:report --format=json
+</div></code></pre>
+<h3 id="10-scheduling-dengan-artisan">10. Scheduling dengan Artisan</h3>
+<p>Laravel memungkinkan Anda menjadwalkan perintah Artisan untuk dijalankan secara otomatis.</p>
+<p>Edit file <code>app/Console/Kernel.php</code>:</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">protected</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">schedule</span><span class="hljs-params">(Schedule $schedule)</span>
+</span>{
+    <span class="hljs-comment">// Menjalankan perintah artisan setiap hari jam 8 pagi</span>
+    $schedule-&gt;command(<span class="hljs-string">'mahasiswa:report'</span>)-&gt;dailyAt(<span class="hljs-string">'8:00'</span>);
+    
+    <span class="hljs-comment">// Menjalankan perintah artisan setiap jam</span>
+    $schedule-&gt;command(<span class="hljs-string">'cache:clear'</span>)-&gt;hourly();
+    
+    <span class="hljs-comment">// Menjalankan closure setiap 5 menit</span>
+    $schedule-&gt;call(<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">()</span> </span>{
+        DB::table(<span class="hljs-string">'recent_users'</span>)-&gt;delete();
+    })-&gt;everyFiveMinutes();
+}
+</div></code></pre>
+<p>Untuk menjalankan scheduler, tambahkan entry berikut di server cron:</p>
+<pre class="hljs"><code><div>* * * * * cd /path-to-your-project &amp;&amp; php artisan schedule:run &gt;&gt; /dev/null 2&gt;&amp;1
+</div></code></pre>
+<h3 id="11-tips-menggunakan-artisan-cli">11. Tips Menggunakan Artisan CLI</h3>
+<h4 id="alias-untuk-artisan">Alias untuk Artisan</h4>
+<p>Untuk menghemat waktu, tambahkan alias untuk perintah artisan di file <code>~/.bashrc</code> atau <code>~/.zshrc</code>:</p>
+<pre class="hljs"><code><div><span class="hljs-built_in">alias</span> pa=<span class="hljs-string">"php artisan"</span>
+</div></code></pre>
+<p>Dengan alias ini, Anda bisa menggunakan:</p>
+<pre class="hljs"><code><div>pa make:controller MahasiswaController
+</div></code></pre>
+<h4 id="autocompletion">Autocompletion</h4>
+<p>Beberapa shell mendukung autocompletion untuk Artisan. Untuk membuat file autocompletion:</p>
+<pre class="hljs"><code><div>php artisan completion bash &gt; artisan-completion.bash
+<span class="hljs-built_in">source</span> artisan-completion.bash
+</div></code></pre>
+<h4 id="mematikan-output">Mematikan Output</h4>
+<p>Untuk mematikan output perintah artisan (mode silent):</p>
+<pre class="hljs"><code><div>php artisan migrate --quiet
+</div></code></pre>
+<h4 id="menggunakan---help">Menggunakan --help</h4>
+<p>Setiap perintah memiliki opsi --help yang menampilkan informasi lengkap:</p>
+<pre class="hljs"><code><div>php artisan make:model --<span class="hljs-built_in">help</span>
+</div></code></pre>
+<h2 id="kesimpulan">Kesimpulan</h2>
+<p>Artisan CLI adalah alat yang sangat kuat dalam ekosistem Laravel. Dengan menguasai perintah-perintah Artisan, Anda dapat meningkatkan produktivitas pengembangan secara signifikan. Dari pembuatan komponen aplikasi, manajemen database, hingga automasi tugas, Artisan menyederhanakan banyak aspek pengembangan Laravel. Sebagai langkah selanjutnya, Anda dapat mempelajari cara membuat perintah Artisan kustom untuk mengotomatisasi tugas spesifik dalam aplikasi Mahasiswa Anda.</p>
+
+</body>
+</html>

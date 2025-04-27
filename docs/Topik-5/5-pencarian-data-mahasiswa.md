@@ -1,4 +1,4 @@
-# Tutorial: Implementasi Pencarian Data Mahasiswa di Laravel
+# Implementasi Pencarian Data Mahasiswa di Laravel
 
 Berikut adalah tutorial langkah-demi-langkah untuk mengimplementasikan fitur pencarian data mahasiswa dalam aplikasi Laravel Anda.
 

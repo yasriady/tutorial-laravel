@@ -1,0 +1,1231 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>laravel-api-tutorial.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="tutorial-laravel-untuk-pemula-api-dan-json-response">Tutorial Laravel untuk Pemula: API dan JSON Response</h1>
+<h2 id="topik-11-api-dan-json-response">Topik 11: API dan JSON Response</h2>
+<h3 id="daftar-isi">Daftar Isi:</h3>
+<ol>
+<li><a href="#1-pengenalan-restful-api">Pengenalan RESTful API</a></li>
+<li><a href="#2-membuat-api-endpoint-untuk-data-mahasiswa">Membuat API endpoint untuk data Mahasiswa</a></li>
+<li><a href="#3-resource-dan-collection-di-laravel">Resource dan Collection di Laravel</a></li>
+<li><a href="#4-testing-api-dengan-postman">Testing API dengan Postman</a></li>
+<li><a href="#5-authentication-api-dengan-token">Authentication API dengan token</a></li>
+<li><a href="#6-praktik-membuat-api-sederhana-untuk-data-mahasiswa">Praktik: Membuat API sederhana untuk data Mahasiswa</a></li>
+</ol>
+<h2 id="1-pengenalan-restful-api">1. Pengenalan RESTful API</h2>
+<h3 id="apa-itu-api">Apa itu API?</h3>
+<p>API (Application Programming Interface) adalah serangkaian aturan dan protokol yang memungkinkan satu aplikasi berkomunikasi dengan aplikasi lain. API berfungsi sebagai perantara yang memungkinkan software yang berbeda untuk bertukar data dan fungsionalitas.</p>
+<h3 id="apa-itu-restful-api">Apa itu RESTful API?</h3>
+<p>REST (Representational State Transfer) adalah gaya arsitektur untuk merancang jaringan aplikasi yang memanfaatkan protokol HTTP. RESTful API mengikuti prinsip-prinsip REST dalam implementasinya.</p>
+<h4 id="karakteristik-restful-api">Karakteristik RESTful API:</h4>
+<ol>
+<li>
+<p><strong>Stateless (Tanpa Status)</strong> - Setiap permintaan dari klien ke server harus mengandung semua informasi yang diperlukan. Server tidak menyimpan konteks klien.</p>
+</li>
+<li>
+<p><strong>Client-Server Architecture</strong> - Pemisahan antarmuka pengguna (client) dan penyimpanan data (server).</p>
+</li>
+<li>
+<p><strong>Cacheable</strong> - Respon dapat disimpan dalam cache untuk meningkatkan performa.</p>
+</li>
+<li>
+<p><strong>Layered System</strong> - Klien tidak dapat membedakan apakah terhubung langsung ke server atau melalui perantara.</p>
+</li>
+<li>
+<p><strong>Uniform Interface</strong> - Menggunakan metode HTTP standar untuk operasi pada sumber daya.</p>
+</li>
+</ol>
+<h4 id="http-methods-dalam-restful-api">HTTP Methods dalam RESTful API:</h4>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Fungsi</th>
+<th>Contoh Penggunaan</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GET</td>
+<td>Mendapatkan/membaca data</td>
+<td>Mendapatkan daftar mahasiswa</td>
+</tr>
+<tr>
+<td>POST</td>
+<td>Membuat data baru</td>
+<td>Menambahkan mahasiswa baru</td>
+</tr>
+<tr>
+<td>PUT</td>
+<td>Mengupdate seluruh data</td>
+<td>Mengubah seluruh data mahasiswa</td>
+</tr>
+<tr>
+<td>PATCH</td>
+<td>Mengupdate sebagian data</td>
+<td>Mengubah sebagian data mahasiswa</td>
+</tr>
+<tr>
+<td>DELETE</td>
+<td>Menghapus data</td>
+<td>Menghapus data mahasiswa</td>
+</tr>
+</tbody>
+</table>
+<h4 id="format-response-api">Format Response API:</h4>
+<p>RESTful API umumnya mengembalikan data dalam format JSON (JavaScript Object Notation) atau XML. Di Laravel, JSON adalah format standar yang digunakan.</p>
+<h3 id="mengapa-menggunakan-restful-api">Mengapa Menggunakan RESTful API?</h3>
+<ol>
+<li>
+<p><strong>Pemisahan Front-end dan Back-end</strong> - Memungkinkan pengembangan aplikasi front-end (seperti aplikasi mobile atau web SPA) dan back-end secara independen.</p>
+</li>
+<li>
+<p><strong>Skalabilitas</strong> - Memudahkan aplikasi untuk berkembang tanpa mengubah struktur dasarnya.</p>
+</li>
+<li>
+<p><strong>Interoperabilitas</strong> - Memungkinkan sistem dengan platform berbeda untuk berkomunikasi.</p>
+</li>
+<li>
+<p><strong>Performa</strong> - Dengan caching dan optimasi lainnya, API dapat meningkatkan performa aplikasi.</p>
+</li>
+</ol>
+<h3 id="restful-api-dalam-laravel">RESTful API dalam Laravel</h3>
+<p>Laravel menyediakan dukungan luar biasa untuk membangun RESTful API:</p>
+<ol>
+<li>
+<p><strong>Routing API</strong> - Laravel memiliki file khusus untuk mendefinisikan rute API (<code>routes/api.php</code>).</p>
+</li>
+<li>
+<p><strong>Resource Controllers</strong> - Controller khusus untuk menangani operasi CRUD pada resource.</p>
+</li>
+<li>
+<p><strong>API Resources</strong> - Fitur untuk mentransformasi model dan koleksi data menjadi JSON.</p>
+</li>
+<li>
+<p><strong>Authentication</strong> - Berbagai metode untuk mengamankan API, termasuk token authentication dan Sanctum.</p>
+</li>
+</ol>
+<h3 id="alur-kerja-restful-api-di-laravel">Alur Kerja RESTful API di Laravel</h3>
+<pre><code class="language-mermaid"><div class="mermaid">sequenceDiagram
+    participant Client
+    participant API Routes
+    participant Controller
+    participant Model
+    participant Database
+    
+    Client->>API Routes: HTTP Request (GET, POST, PUT, DELETE)
+    API Routes->>Controller: Memanggil method controller
+    Controller->>Model: Melakukan operasi data
+    Model->>Database: Query database
+    Database-->>Model: Mengembalikan data
+    Model-->>Controller: Data hasil query
+    Controller-->>API Routes: JSON Response dengan status code
+    API Routes-->>Client: JSON Response
+</div></code></pre>
+<h3 id="struktur-endpoint-api-yang-baik">Struktur Endpoint API yang Baik</h3>
+<p>Struktur endpoint API yang baik mengikuti konvensi berikut:</p>
+<ul>
+<li><code>/api/mahasiswa</code> - GET untuk mendapatkan semua mahasiswa</li>
+<li><code>/api/mahasiswa/{id}</code> - GET untuk mendapatkan mahasiswa tertentu</li>
+<li><code>/api/mahasiswa</code> - POST untuk membuat mahasiswa baru</li>
+<li><code>/api/mahasiswa/{id}</code> - PUT/PATCH untuk mengupdate mahasiswa</li>
+<li><code>/api/mahasiswa/{id}</code> - DELETE untuk menghapus mahasiswa</li>
+</ul>
+<h3 id="status-code-http-yang-umum-digunakan">Status Code HTTP yang Umum Digunakan</h3>
+<table>
+<thead>
+<tr>
+<th>Status Code</th>
+<th>Arti</th>
+<th>Contoh Penggunaan</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>200</td>
+<td>OK</td>
+<td>Request berhasil</td>
+</tr>
+<tr>
+<td>201</td>
+<td>Created</td>
+<td>Resource berhasil dibuat</td>
+</tr>
+<tr>
+<td>400</td>
+<td>Bad Request</td>
+<td>Input tidak valid</td>
+</tr>
+<tr>
+<td>401</td>
+<td>Unauthorized</td>
+<td>Tidak ada otorisasi</td>
+</tr>
+<tr>
+<td>403</td>
+<td>Forbidden</td>
+<td>Tidak memiliki hak akses</td>
+</tr>
+<tr>
+<td>404</td>
+<td>Not Found</td>
+<td>Resource tidak ditemukan</td>
+</tr>
+<tr>
+<td>422</td>
+<td>Unprocessable Entity</td>
+<td>Validasi gagal</td>
+</tr>
+<tr>
+<td>500</td>
+<td>Internal Server Error</td>
+<td>Error pada server</td>
+</tr>
+</tbody>
+</table>
+<h2 id="2-membuat-api-endpoint-untuk-data-mahasiswa">2. Membuat API endpoint untuk data Mahasiswa</h2>
+<h3 id="mengatur-api-routes">Mengatur API Routes</h3>
+<p>Pada Laravel, semua rute API didefinisikan dalam file <code>routes/api.php</code>. Secara default, semua rute dalam file ini diawali dengan prefiks <code>/api</code>.</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// routes/api.php</span>
+
+<span class="hljs-keyword">use</span> <span class="hljs-title">App</span>\<span class="hljs-title">Http</span>\<span class="hljs-title">Controllers</span>\<span class="hljs-title">API</span>\<span class="hljs-title">MahasiswaController</span>;
+<span class="hljs-keyword">use</span> <span class="hljs-title">Illuminate</span>\<span class="hljs-title">Http</span>\<span class="hljs-title">Request</span>;
+<span class="hljs-keyword">use</span> <span class="hljs-title">Illuminate</span>\<span class="hljs-title">Support</span>\<span class="hljs-title">Facades</span>\<span class="hljs-title">Route</span>;
+
+<span class="hljs-comment">// Mendefinisikan rute API untuk mahasiswa</span>
+Route::apiResource(<span class="hljs-string">'mahasiswa'</span>, MahasiswaController::class);
+</div></code></pre>
+<p>Dengan menggunakan <code>apiResource</code>, Laravel secara otomatis membuat rute-rute berikut:</p>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>URI</th>
+<th>Action</th>
+<th>Route Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GET</td>
+<td>/api/mahasiswa</td>
+<td>index</td>
+<td>mahasiswa.index</td>
+</tr>
+<tr>
+<td>POST</td>
+<td>/api/mahasiswa</td>
+<td>store</td>
+<td>mahasiswa.store</td>
+</tr>
+<tr>
+<td>GET</td>
+<td>/api/mahasiswa/{mahasiswa}</td>
+<td>show</td>
+<td>mahasiswa.show</td>
+</tr>
+<tr>
+<td>PUT/PATCH</td>
+<td>/api/mahasiswa/{mahasiswa}</td>
+<td>update</td>
+<td>mahasiswa.update</td>
+</tr>
+<tr>
+<td>DELETE</td>
+<td>/api/mahasiswa/{mahasiswa}</td>
+<td>destroy</td>
+<td>mahasiswa.destroy</td>
+</tr>
+</tbody>
+</table>
+<h3 id="membuat-api-controller">Membuat API Controller</h3>
+<p>Buat controller khusus untuk API menggunakan perintah Artisan:</p>
+<pre class="hljs"><code><div>php artisan make:controller API/MahasiswaController --api
+</div></code></pre>
+<p>Dengan flag <code>--api</code>, Laravel akan membuat controller dengan method-method dasar untuk operasi API:</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// app/Http/Controllers/API/MahasiswaController.php</span>
+
+<span class="hljs-keyword">namespace</span> <span class="hljs-title">App</span>\<span class="hljs-title">Http</span>\<span class="hljs-title">Controllers</span>\<span class="hljs-title">API</span>;
+
+<span class="hljs-keyword">use</span> <span class="hljs-title">App</span>\<span class="hljs-title">Http</span>\<span class="hljs-title">Controllers</span>\<span class="hljs-title">Controller</span>;
+<span class="hljs-keyword">use</span> <span class="hljs-title">App</span>\<span class="hljs-title">Models</span>\<span class="hljs-title">Mahasiswa</span>;
+<span class="hljs-keyword">use</span> <span class="hljs-title">Illuminate</span>\<span class="hljs-title">Http</span>\<span class="hljs-title">Request</span>;
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MahasiswaController</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Controller</span>
+</span>{
+    <span class="hljs-comment">/**
+     * Display a listing of the resource.
+     *
+     * <span class="hljs-doctag">@return</span> \Illuminate\Http\Response
+     */</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">index</span><span class="hljs-params">()</span>
+    </span>{
+        $mahasiswa = Mahasiswa::all();
+        <span class="hljs-keyword">return</span> response()-&gt;json([
+            <span class="hljs-string">'success'</span> =&gt; <span class="hljs-keyword">true</span>,
+            <span class="hljs-string">'message'</span> =&gt; <span class="hljs-string">'Daftar data mahasiswa'</span>,
+            <span class="hljs-string">'data'</span> =&gt; $mahasiswa
+        ]);
+    }
+
+    <span class="hljs-comment">/**
+     * Store a newly created resource in storage.
+     *
+     * <span class="hljs-doctag">@param</span>  \Illuminate\Http\Request  $request
+     * <span class="hljs-doctag">@return</span> \Illuminate\Http\Response
+     */</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">store</span><span class="hljs-params">(Request $request)</span>
+    </span>{
+        $validated = $request-&gt;validate([
+            <span class="hljs-string">'nim'</span> =&gt; <span class="hljs-string">'required|string|max:10|unique:mahasiswa'</span>,
+            <span class="hljs-string">'nama'</span> =&gt; <span class="hljs-string">'required|string|max:255'</span>,
+            <span class="hljs-string">'jurusan_id'</span> =&gt; <span class="hljs-string">'required|exists:jurusan,id'</span>,
+            <span class="hljs-string">'alamat'</span> =&gt; <span class="hljs-string">'required|string'</span>,
+            <span class="hljs-string">'email'</span> =&gt; <span class="hljs-string">'required|email|unique:mahasiswa'</span>,
+            <span class="hljs-string">'no_hp'</span> =&gt; <span class="hljs-string">'required|string|max:15'</span>,
+        ]);
+
+        $mahasiswa = Mahasiswa::create($validated);
+
+        <span class="hljs-keyword">return</span> response()-&gt;json([
+            <span class="hljs-string">'success'</span> =&gt; <span class="hljs-keyword">true</span>,
+            <span class="hljs-string">'message'</span> =&gt; <span class="hljs-string">'Mahasiswa berhasil ditambahkan'</span>,
+            <span class="hljs-string">'data'</span> =&gt; $mahasiswa
+        ], <span class="hljs-number">201</span>);
+    }
+
+    <span class="hljs-comment">/**
+     * Display the specified resource.
+     *
+     * <span class="hljs-doctag">@param</span>  int  $id
+     * <span class="hljs-doctag">@return</span> \Illuminate\Http\Response
+     */</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">show</span><span class="hljs-params">($id)</span>
+    </span>{
+        $mahasiswa = Mahasiswa::find($id);
+        
+        <span class="hljs-keyword">if</span> (!$mahasiswa) {
+            <span class="hljs-keyword">return</span> response()-&gt;json([
+                <span class="hljs-string">'success'</span> =&gt; <span class="hljs-keyword">false</span>,
+                <span class="hljs-string">'message'</span> =&gt; <span class="hljs-string">'Mahasiswa tidak ditemukan'</span>
+            ], <span class="hljs-number">404</span>);
+        }
+        
+        <span class="hljs-keyword">return</span> response()-&gt;json([
+            <span class="hljs-string">'success'</span> =&gt; <span class="hljs-keyword">true</span>,
+            <span class="hljs-string">'message'</span> =&gt; <span class="hljs-string">'Detail mahasiswa'</span>,
+            <span class="hljs-string">'data'</span> =&gt; $mahasiswa
+        ]);
+    }
+
+    <span class="hljs-comment">/**
+     * Update the specified resource in storage.
+     *
+     * <span class="hljs-doctag">@param</span>  \Illuminate\Http\Request  $request
+     * <span class="hljs-doctag">@param</span>  int  $id
+     * <span class="hljs-doctag">@return</span> \Illuminate\Http\Response
+     */</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">update</span><span class="hljs-params">(Request $request, $id)</span>
+    </span>{
+        $mahasiswa = Mahasiswa::find($id);
+        
+        <span class="hljs-keyword">if</span> (!$mahasiswa) {
+            <span class="hljs-keyword">return</span> response()-&gt;json([
+                <span class="hljs-string">'success'</span> =&gt; <span class="hljs-keyword">false</span>,
+                <span class="hljs-string">'message'</span> =&gt; <span class="hljs-string">'Mahasiswa tidak ditemukan'</span>
+            ], <span class="hljs-number">404</span>);
+        }
+        
+        $validated = $request-&gt;validate([
+            <span class="hljs-string">'nim'</span> =&gt; <span class="hljs-string">'string|max:10|unique:mahasiswa,nim,'</span>.$id,
+            <span class="hljs-string">'nama'</span> =&gt; <span class="hljs-string">'string|max:255'</span>,
+            <span class="hljs-string">'jurusan_id'</span> =&gt; <span class="hljs-string">'exists:jurusan,id'</span>,
+            <span class="hljs-string">'alamat'</span> =&gt; <span class="hljs-string">'string'</span>,
+            <span class="hljs-string">'email'</span> =&gt; <span class="hljs-string">'email|unique:mahasiswa,email,'</span>.$id,
+            <span class="hljs-string">'no_hp'</span> =&gt; <span class="hljs-string">'string|max:15'</span>,
+        ]);
+        
+        $mahasiswa-&gt;update($validated);
+        
+        <span class="hljs-keyword">return</span> response()-&gt;json([
+            <span class="hljs-string">'success'</span> =&gt; <span class="hljs-keyword">true</span>,
+            <span class="hljs-string">'message'</span> =&gt; <span class="hljs-string">'Mahasiswa berhasil diupdate'</span>,
+            <span class="hljs-string">'data'</span> =&gt; $mahasiswa
+        ]);
+    }
+
+    <span class="hljs-comment">/**
+     * Remove the specified resource from storage.
+     *
+     * <span class="hljs-doctag">@param</span>  int  $id
+     * <span class="hljs-doctag">@return</span> \Illuminate\Http\Response
+     */</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">destroy</span><span class="hljs-params">($id)</span>
+    </span>{
+        $mahasiswa = Mahasiswa::find($id);
+        
+        <span class="hljs-keyword">if</span> (!$mahasiswa) {
+            <span class="hljs-keyword">return</span> response()-&gt;json([
+                <span class="hljs-string">'success'</span> =&gt; <span class="hljs-keyword">false</span>,
+                <span class="hljs-string">'message'</span> =&gt; <span class="hljs-string">'Mahasiswa tidak ditemukan'</span>
+            ], <span class="hljs-number">404</span>);
+        }
+        
+        $mahasiswa-&gt;delete();
+        
+        <span class="hljs-keyword">return</span> response()-&gt;json([
+            <span class="hljs-string">'success'</span> =&gt; <span class="hljs-keyword">true</span>,
+            <span class="hljs-string">'message'</span> =&gt; <span class="hljs-string">'Mahasiswa berhasil dihapus'</span>
+        ]);
+    }
+}
+</div></code></pre>
+<h3 id="format-json-response-yang-konsisten">Format JSON Response yang Konsisten</h3>
+<p>Penting untuk menjaga format response yang konsisten di seluruh API. Beberapa tips:</p>
+<ol>
+<li>Selalu sertakan field <code>success</code> (boolean) untuk menunjukkan apakah request berhasil atau tidak.</li>
+<li>Sertakan <code>message</code> yang menjelaskan hasil operasi.</li>
+<li>Sertakan <code>data</code> yang berisi informasi yang diminta atau hasil operasi.</li>
+<li>Gunakan status code HTTP yang sesuai.</li>
+</ol>
+<h3 id="menangani-validasi-dan-error">Menangani Validasi dan Error</h3>
+<p>Berikut adalah contoh bagaimana menangani validasi dan error dengan baik:</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">store</span><span class="hljs-params">(Request $request)</span>
+</span>{
+    <span class="hljs-keyword">try</span> {
+        $validated = $request-&gt;validate([
+            <span class="hljs-string">'nim'</span> =&gt; <span class="hljs-string">'required|string|max:10|unique:mahasiswa'</span>,
+            <span class="hljs-string">'nama'</span> =&gt; <span class="hljs-string">'required|string|max:255'</span>,
+            <span class="hljs-string">'jurusan_id'</span> =&gt; <span class="hljs-string">'required|exists:jurusan,id'</span>,
+            <span class="hljs-string">'alamat'</span> =&gt; <span class="hljs-string">'required|string'</span>,
+            <span class="hljs-string">'email'</span> =&gt; <span class="hljs-string">'required|email|unique:mahasiswa'</span>,
+            <span class="hljs-string">'no_hp'</span> =&gt; <span class="hljs-string">'required|string|max:15'</span>,
+        ]);
+
+        $mahasiswa = Mahasiswa::create($validated);
+
+        <span class="hljs-keyword">return</span> response()-&gt;json([
+            <span class="hljs-string">'success'</span> =&gt; <span class="hljs-keyword">true</span>,
+            <span class="hljs-string">'message'</span> =&gt; <span class="hljs-string">'Mahasiswa berhasil ditambahkan'</span>,
+            <span class="hljs-string">'data'</span> =&gt; $mahasiswa
+        ], <span class="hljs-number">201</span>);
+        
+    } <span class="hljs-keyword">catch</span> (\Illuminate\Validation\ValidationException $e) {
+        <span class="hljs-keyword">return</span> response()-&gt;json([
+            <span class="hljs-string">'success'</span> =&gt; <span class="hljs-keyword">false</span>,
+            <span class="hljs-string">'message'</span> =&gt; <span class="hljs-string">'Validasi gagal'</span>,
+            <span class="hljs-string">'errors'</span> =&gt; $e-&gt;errors()
+        ], <span class="hljs-number">422</span>);
+    } <span class="hljs-keyword">catch</span> (\<span class="hljs-keyword">Exception</span> $e) {
+        <span class="hljs-keyword">return</span> response()-&gt;json([
+            <span class="hljs-string">'success'</span> =&gt; <span class="hljs-keyword">false</span>,
+            <span class="hljs-string">'message'</span> =&gt; <span class="hljs-string">'Terjadi kesalahan pada server'</span>,
+            <span class="hljs-string">'error'</span> =&gt; $e-&gt;getMessage()
+        ], <span class="hljs-number">500</span>);
+    }
+}
+</div></code></pre>
+<h2 id="3-resource-dan-collection-di-laravel">3. Resource dan Collection di Laravel</h2>
+<h3 id="apa-itu-api-resource">Apa itu API Resource?</h3>
+<p>API Resource adalah fitur Laravel yang memungkinkan Anda dengan mudah mentransformasi model dan koleksi model menjadi JSON. Dengan resource, Anda dapat:</p>
+<ol>
+<li>Memformat data sesuai kebutuhan</li>
+<li>Menyembunyikan atribut tertentu</li>
+<li>Menambahkan atribut tambahan</li>
+<li>Melakukan transformasi data</li>
+</ol>
+<h3 id="membuat-resource-untuk-model-mahasiswa">Membuat Resource untuk Model Mahasiswa</h3>
+<p>Buat resource menggunakan perintah Artisan:</p>
+<pre class="hljs"><code><div>php artisan make:resource MahasiswaResource
+</div></code></pre>
+<p>Ini akan membuat file resource di <code>app/Http/Resources/MahasiswaResource.php</code>:</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// app/Http/Resources/MahasiswaResource.php</span>
+
+<span class="hljs-keyword">namespace</span> <span class="hljs-title">App</span>\<span class="hljs-title">Http</span>\<span class="hljs-title">Resources</span>;
+
+<span class="hljs-keyword">use</span> <span class="hljs-title">Illuminate</span>\<span class="hljs-title">Http</span>\<span class="hljs-title">Resources</span>\<span class="hljs-title">Json</span>\<span class="hljs-title">JsonResource</span>;
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MahasiswaResource</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">JsonResource</span>
+</span>{
+    <span class="hljs-comment">/**
+     * Transform the resource into an array.
+     *
+     * <span class="hljs-doctag">@param</span>  \Illuminate\Http\Request  $request
+     * <span class="hljs-doctag">@return</span> array|\Illuminate\Contracts\Support\Arrayable|\JsonSerializable
+     */</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">toArray</span><span class="hljs-params">($request)</span>
+    </span>{
+        <span class="hljs-keyword">return</span> [
+            <span class="hljs-string">'id'</span> =&gt; <span class="hljs-keyword">$this</span>-&gt;id,
+            <span class="hljs-string">'nim'</span> =&gt; <span class="hljs-keyword">$this</span>-&gt;nim,
+            <span class="hljs-string">'nama'</span> =&gt; <span class="hljs-keyword">$this</span>-&gt;nama,
+            <span class="hljs-string">'jurusan'</span> =&gt; <span class="hljs-keyword">$this</span>-&gt;jurusan-&gt;nama,
+            <span class="hljs-string">'alamat'</span> =&gt; <span class="hljs-keyword">$this</span>-&gt;alamat,
+            <span class="hljs-string">'email'</span> =&gt; <span class="hljs-keyword">$this</span>-&gt;email,
+            <span class="hljs-string">'no_hp'</span> =&gt; <span class="hljs-keyword">$this</span>-&gt;no_hp,
+            <span class="hljs-string">'created_at'</span> =&gt; <span class="hljs-keyword">$this</span>-&gt;created_at-&gt;format(<span class="hljs-string">'d-m-Y H:i:s'</span>),
+            <span class="hljs-string">'updated_at'</span> =&gt; <span class="hljs-keyword">$this</span>-&gt;updated_at-&gt;format(<span class="hljs-string">'d-m-Y H:i:s'</span>),
+        ];
+    }
+}
+</div></code></pre>
+<h3 id="membuat-resource-collection">Membuat Resource Collection</h3>
+<p>Untuk menangani koleksi (kumpulan) model, buat resource collection:</p>
+<pre class="hljs"><code><div>php artisan make:resource MahasiswaCollection --collection
+</div></code></pre>
+<pre class="hljs"><code><div><span class="hljs-comment">// app/Http/Resources/MahasiswaCollection.php</span>
+
+<span class="hljs-keyword">namespace</span> <span class="hljs-title">App</span>\<span class="hljs-title">Http</span>\<span class="hljs-title">Resources</span>;
+
+<span class="hljs-keyword">use</span> <span class="hljs-title">Illuminate</span>\<span class="hljs-title">Http</span>\<span class="hljs-title">Resources</span>\<span class="hljs-title">Json</span>\<span class="hljs-title">ResourceCollection</span>;
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MahasiswaCollection</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">ResourceCollection</span>
+</span>{
+    <span class="hljs-comment">/**
+     * Transform the resource collection into an array.
+     *
+     * <span class="hljs-doctag">@param</span>  \Illuminate\Http\Request  $request
+     * <span class="hljs-doctag">@return</span> array|\Illuminate\Contracts\Support\Arrayable|\JsonSerializable
+     */</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">toArray</span><span class="hljs-params">($request)</span>
+    </span>{
+        <span class="hljs-keyword">return</span> [
+            <span class="hljs-string">'data'</span> =&gt; <span class="hljs-keyword">$this</span>-&gt;collection,
+            <span class="hljs-string">'meta'</span> =&gt; [
+                <span class="hljs-string">'total'</span> =&gt; <span class="hljs-keyword">$this</span>-&gt;collection-&gt;count(),
+                <span class="hljs-string">'per_page'</span> =&gt; <span class="hljs-number">15</span>,
+                <span class="hljs-string">'current_page'</span> =&gt; <span class="hljs-number">1</span>,
+                <span class="hljs-string">'last_page'</span> =&gt; <span class="hljs-number">1</span>,
+                <span class="hljs-string">'from'</span> =&gt; <span class="hljs-number">1</span>,
+                <span class="hljs-string">'to'</span> =&gt; <span class="hljs-keyword">$this</span>-&gt;collection-&gt;count()
+            ],
+        ];
+    }
+}
+</div></code></pre>
+<h3 id="menggunakan-resource-di-controller">Menggunakan Resource di Controller</h3>
+<p>Update controller untuk menggunakan resource:</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// app/Http/Controllers/API/MahasiswaController.php</span>
+
+<span class="hljs-keyword">use</span> <span class="hljs-title">App</span>\<span class="hljs-title">Http</span>\<span class="hljs-title">Resources</span>\<span class="hljs-title">MahasiswaResource</span>;
+<span class="hljs-keyword">use</span> <span class="hljs-title">App</span>\<span class="hljs-title">Http</span>\<span class="hljs-title">Resources</span>\<span class="hljs-title">MahasiswaCollection</span>;
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MahasiswaController</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Controller</span>
+</span>{
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">index</span><span class="hljs-params">()</span>
+    </span>{
+        $mahasiswa = Mahasiswa::all();
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> MahasiswaCollection($mahasiswa);
+    }
+
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">show</span><span class="hljs-params">($id)</span>
+    </span>{
+        $mahasiswa = Mahasiswa::find($id);
+        
+        <span class="hljs-keyword">if</span> (!$mahasiswa) {
+            <span class="hljs-keyword">return</span> response()-&gt;json([
+                <span class="hljs-string">'success'</span> =&gt; <span class="hljs-keyword">false</span>,
+                <span class="hljs-string">'message'</span> =&gt; <span class="hljs-string">'Mahasiswa tidak ditemukan'</span>
+            ], <span class="hljs-number">404</span>);
+        }
+        
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> MahasiswaResource($mahasiswa);
+    }
+    
+    <span class="hljs-comment">// Metode lain...</span>
+}
+</div></code></pre>
+<h3 id="pagination-dengan-resource">Pagination dengan Resource</h3>
+<p>Laravel menyediakan kemudahan untuk pagination pada resource:</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">index</span><span class="hljs-params">()</span>
+</span>{
+    $mahasiswa = Mahasiswa::paginate(<span class="hljs-number">15</span>);
+    <span class="hljs-keyword">return</span> MahasiswaResource::collection($mahasiswa);
+}
+</div></code></pre>
+<p>Response akan otomatis menyertakan data pagination seperti total halaman, next page URL, dll.</p>
+<h2 id="4-testing-api-dengan-postman">4. Testing API dengan Postman</h2>
+<h3 id="pengenalan-postman">Pengenalan Postman</h3>
+<p>Postman adalah aplikasi yang memungkinkan Anda menguji API dengan mudah. Dengan Postman, Anda dapat:</p>
+<ol>
+<li>Mengirim request HTTP (GET, POST, PUT, DELETE, dll)</li>
+<li>Menyimpan koleksi request</li>
+<li>Membuat environment (untuk development, testing, production)</li>
+<li>Melihat respon API dengan format yang mudah dibaca</li>
+<li>Otomatisasi testing API</li>
+</ol>
+<h3 id="langkah-langkah-testing-api-dengan-postman">Langkah-langkah Testing API dengan Postman</h3>
+<h4 id="1-menginstal-postman">1. Menginstal Postman</h4>
+<p>Download Postman dari <a href="https://www.postman.com/downloads/">https://www.postman.com/downloads/</a> dan instal di komputer Anda.</p>
+<h4 id="2-membuat-collection">2. Membuat Collection</h4>
+<p>Collection adalah kumpulan request yang berkaitan. Buat collection baru untuk API Mahasiswa:</p>
+<ol>
+<li>Klik tombol &quot;New&quot; -&gt; &quot;Collection&quot;</li>
+<li>Beri nama &quot;API Mahasiswa Laravel&quot;</li>
+<li>Klik &quot;Create&quot;</li>
+</ol>
+<h4 id="3-menambahkan-request">3. Menambahkan Request</h4>
+<p>Tambahkan request untuk setiap endpoint API:</p>
+<h5 id="get-apimahasiswa">GET /api/mahasiswa</h5>
+<ol>
+<li>Klik kanan pada collection -&gt; &quot;Add Request&quot;</li>
+<li>Beri nama &quot;Get All Mahasiswa&quot;</li>
+<li>Pilih metode GET</li>
+<li>Masukkan URL: <code>http://mahasiswa-app.test/api/mahasiswa</code> (sesuaikan dengan URL project Anda)</li>
+<li>Klik &quot;Save&quot;</li>
+</ol>
+<h5 id="get-apimahasiswaid">GET /api/mahasiswa/{id}</h5>
+<ol>
+<li>Buat request baru dengan nama &quot;Get Mahasiswa by ID&quot;</li>
+<li>Pilih metode GET</li>
+<li>Masukkan URL: <code>http://mahasiswa-app.test/api/mahasiswa/1</code> (sesuaikan ID sesuai kebutuhan)</li>
+<li>Klik &quot;Save&quot;</li>
+</ol>
+<h5 id="post-apimahasiswa">POST /api/mahasiswa</h5>
+<ol>
+<li>Buat request baru dengan nama &quot;Create Mahasiswa&quot;</li>
+<li>Pilih metode POST</li>
+<li>Masukkan URL: <code>http://mahasiswa-app.test/api/mahasiswa</code></li>
+<li>Pada tab &quot;Body&quot;, pilih &quot;raw&quot; dan format &quot;JSON&quot;</li>
+<li>Masukkan data JSON:</li>
+</ol>
+<pre class="hljs"><code><div>{
+    <span class="hljs-attr">"nim"</span>: <span class="hljs-string">"1234567890"</span>,
+    <span class="hljs-attr">"nama"</span>: <span class="hljs-string">"Budi Santoso"</span>,
+    <span class="hljs-attr">"jurusan_id"</span>: <span class="hljs-number">1</span>,
+    <span class="hljs-attr">"alamat"</span>: <span class="hljs-string">"Jl. Contoh No. 123"</span>,
+    <span class="hljs-attr">"email"</span>: <span class="hljs-string">"budi@example.com"</span>,
+    <span class="hljs-attr">"no_hp"</span>: <span class="hljs-string">"081234567890"</span>
+}
+</div></code></pre>
+<ol start="6">
+<li>Klik &quot;Save&quot;</li>
+</ol>
+<h5 id="put-apimahasiswaid">PUT /api/mahasiswa/{id}</h5>
+<ol>
+<li>Buat request baru dengan nama &quot;Update Mahasiswa&quot;</li>
+<li>Pilih metode PUT</li>
+<li>Masukkan URL: <code>http://mahasiswa-app.test/api/mahasiswa/1</code></li>
+<li>Pada tab &quot;Body&quot;, pilih &quot;raw&quot; dan format &quot;JSON&quot;</li>
+<li>Masukkan data JSON:</li>
+</ol>
+<pre class="hljs"><code><div>{
+    <span class="hljs-attr">"nama"</span>: <span class="hljs-string">"Budi Santoso Updated"</span>,
+    <span class="hljs-attr">"alamat"</span>: <span class="hljs-string">"Jl. Contoh Updated No. 123"</span>
+}
+</div></code></pre>
+<ol start="6">
+<li>Klik &quot;Save&quot;</li>
+</ol>
+<h5 id="delete-apimahasiswaid">DELETE /api/mahasiswa/{id}</h5>
+<ol>
+<li>Buat request baru dengan nama &quot;Delete Mahasiswa&quot;</li>
+<li>Pilih metode DELETE</li>
+<li>Masukkan URL: <code>http://mahasiswa-app.test/api/mahasiswa/1</code></li>
+<li>Klik &quot;Save&quot;</li>
+</ol>
+<h3 id="menangani-headers-dan-auth-token">Menangani Headers dan Auth Token</h3>
+<p>Jika API Anda menggunakan authentication, Anda perlu menambahkan header Authorization:</p>
+<ol>
+<li>Pada tab &quot;Headers&quot;, tambahkan key &quot;Authorization&quot;</li>
+<li>Value diisi dengan token (misalnya: &quot;Bearer your-token-here&quot;)</li>
+</ol>
+<h3 id="automation-testing-dengan-postman">Automation Testing dengan Postman</h3>
+<p>Postman memungkinkan Anda membuat tes otomatis untuk API:</p>
+<ol>
+<li>Pada request, klik tab &quot;Tests&quot;</li>
+<li>Tambahkan kode JavaScript untuk menguji respon:</li>
+</ol>
+<pre class="hljs"><code><div><span class="hljs-comment">// Test apakah response status code 200</span>
+pm.test(<span class="hljs-string">"Status code is 200"</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
+    pm.response.to.have.status(<span class="hljs-number">200</span>);
+});
+
+<span class="hljs-comment">// Test apakah response berisi data yang diharapkan</span>
+pm.test(<span class="hljs-string">"Response has expected data"</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
+    <span class="hljs-keyword">var</span> jsonData = pm.response.json();
+    pm.expect(jsonData.success).to.be.true;
+    pm.expect(jsonData.data).to.be.an(<span class="hljs-string">'array'</span>);
+});
+</div></code></pre>
+<h3 id="export-dan-import-collection">Export dan Import Collection</h3>
+<p>Anda dapat membagikan collection Postman dengan tim Anda:</p>
+<ol>
+<li>Klik kanan pada collection -&gt; &quot;Export&quot;</li>
+<li>Pilih format dan lokasi penyimpanan</li>
+<li>Share file collection dengan tim</li>
+<li>Tim dapat mengimport collection melalui &quot;Import&quot; -&gt; &quot;Upload Files&quot;</li>
+</ol>
+<h2 id="5-authentication-api-dengan-token">5. Authentication API dengan Token</h2>
+<h3 id="pengenalan-authentication-api">Pengenalan Authentication API</h3>
+<p>Authentication (otentikasi) adalah proses verifikasi identitas pengguna. Dalam konteks API, authentication sangat penting untuk:</p>
+<ol>
+<li>Melindungi data sensitif</li>
+<li>Membatasi akses ke endpoint tertentu</li>
+<li>Melacak penggunaan API</li>
+<li>Personalisasi response</li>
+</ol>
+<h3 id="laravel-sanctum">Laravel Sanctum</h3>
+<p>Laravel Sanctum adalah paket official dari Laravel untuk menangani API authentication dengan token. Sanctum menyediakan:</p>
+<ol>
+<li>API token authentication sederhana</li>
+<li>SPA authentication</li>
+<li>Protection terhadap CSRF</li>
+</ol>
+<h3 id="menginstal-laravel-sanctum">Menginstal Laravel Sanctum</h3>
+<ol>
+<li>Install Sanctum via Composer:</li>
+</ol>
+<pre class="hljs"><code><div>composer require laravel/sanctum
+</div></code></pre>
+<ol start="2">
+<li>Publish konfigurasi Sanctum:</li>
+</ol>
+<pre class="hljs"><code><div>php artisan vendor:publish --provider=<span class="hljs-string">"Laravel\Sanctum\SanctumServiceProvider"</span>
+</div></code></pre>
+<ol start="3">
+<li>Jalankan migrasi:</li>
+</ol>
+<pre class="hljs"><code><div>php artisan migrate
+</div></code></pre>
+<ol start="4">
+<li>Tambahkan middleware Sanctum ke Kernel:</li>
+</ol>
+<pre class="hljs"><code><div><span class="hljs-comment">// app/Http/Kernel.php</span>
+
+<span class="hljs-keyword">protected</span> $middlewareGroups = [
+    <span class="hljs-comment">// ...</span>
+    <span class="hljs-string">'api'</span> =&gt; [
+        \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
+        <span class="hljs-string">'throttle:api'</span>,
+        \Illuminate\Routing\Middleware\SubstituteBindings::class,
+    ],
+    <span class="hljs-comment">// ...</span>
+];
+</div></code></pre>
+<h3 id="mengatur-model-user-untuk-token">Mengatur Model User untuk Token</h3>
+<p>Edit model User untuk menggunakan trait HasApiTokens:</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// app/Models/User.php</span>
+
+<span class="hljs-keyword">namespace</span> <span class="hljs-title">App</span>\<span class="hljs-title">Models</span>;
+
+<span class="hljs-keyword">use</span> <span class="hljs-title">Illuminate</span>\<span class="hljs-title">Foundation</span>\<span class="hljs-title">Auth</span>\<span class="hljs-title">User</span> <span class="hljs-title">as</span> <span class="hljs-title">Authenticatable</span>;
+<span class="hljs-keyword">use</span> <span class="hljs-title">Illuminate</span>\<span class="hljs-title">Notifications</span>\<span class="hljs-title">Notifiable</span>;
+<span class="hljs-keyword">use</span> <span class="hljs-title">Laravel</span>\<span class="hljs-title">Sanctum</span>\<span class="hljs-title">HasApiTokens</span>;
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">User</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Authenticatable</span>
+</span>{
+    <span class="hljs-keyword">use</span> <span class="hljs-title">HasApiTokens</span>, <span class="hljs-title">Notifiable</span>;
+    
+    <span class="hljs-comment">// ...</span>
+}
+</div></code></pre>
+<h3 id="membuat-controller-untuk-authentication">Membuat Controller untuk Authentication</h3>
+<p>Buat controller khusus untuk authentication:</p>
+<pre class="hljs"><code><div>php artisan make:controller API/AuthController
+</div></code></pre>
+<pre class="hljs"><code><div><span class="hljs-comment">// app/Http/Controllers/API/AuthController.php</span>
+
+<span class="hljs-keyword">namespace</span> <span class="hljs-title">App</span>\<span class="hljs-title">Http</span>\<span class="hljs-title">Controllers</span>\<span class="hljs-title">API</span>;
+
+<span class="hljs-keyword">use</span> <span class="hljs-title">App</span>\<span class="hljs-title">Http</span>\<span class="hljs-title">Controllers</span>\<span class="hljs-title">Controller</span>;
+<span class="hljs-keyword">use</span> <span class="hljs-title">App</span>\<span class="hljs-title">Models</span>\<span class="hljs-title">User</span>;
+<span class="hljs-keyword">use</span> <span class="hljs-title">Illuminate</span>\<span class="hljs-title">Http</span>\<span class="hljs-title">Request</span>;
+<span class="hljs-keyword">use</span> <span class="hljs-title">Illuminate</span>\<span class="hljs-title">Support</span>\<span class="hljs-title">Facades</span>\<span class="hljs-title">Auth</span>;
+<span class="hljs-keyword">use</span> <span class="hljs-title">Illuminate</span>\<span class="hljs-title">Support</span>\<span class="hljs-title">Facades</span>\<span class="hljs-title">Hash</span>;
+<span class="hljs-keyword">use</span> <span class="hljs-title">Illuminate</span>\<span class="hljs-title">Validation</span>\<span class="hljs-title">ValidationException</span>;
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">AuthController</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Controller</span>
+</span>{
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">register</span><span class="hljs-params">(Request $request)</span>
+    </span>{
+        $request-&gt;validate([
+            <span class="hljs-string">'name'</span> =&gt; <span class="hljs-string">'required|string|max:255'</span>,
+            <span class="hljs-string">'email'</span> =&gt; <span class="hljs-string">'required|string|email|max:255|unique:users'</span>,
+            <span class="hljs-string">'password'</span> =&gt; <span class="hljs-string">'required|string|min:8|confirmed'</span>,
+        ]);
+
+        $user = User::create([
+            <span class="hljs-string">'name'</span> =&gt; $request-&gt;name,
+            <span class="hljs-string">'email'</span> =&gt; $request-&gt;email,
+            <span class="hljs-string">'password'</span> =&gt; Hash::make($request-&gt;password),
+        ]);
+
+        $token = $user-&gt;createToken(<span class="hljs-string">'auth_token'</span>)-&gt;plainTextToken;
+
+        <span class="hljs-keyword">return</span> response()-&gt;json([
+            <span class="hljs-string">'success'</span> =&gt; <span class="hljs-keyword">true</span>,
+            <span class="hljs-string">'message'</span> =&gt; <span class="hljs-string">'User berhasil registrasi'</span>,
+            <span class="hljs-string">'data'</span> =&gt; $user,
+            <span class="hljs-string">'access_token'</span> =&gt; $token,
+            <span class="hljs-string">'token_type'</span> =&gt; <span class="hljs-string">'Bearer'</span>,
+        ], <span class="hljs-number">201</span>);
+    }
+
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">login</span><span class="hljs-params">(Request $request)</span>
+    </span>{
+        $request-&gt;validate([
+            <span class="hljs-string">'email'</span> =&gt; <span class="hljs-string">'required|email'</span>,
+            <span class="hljs-string">'password'</span> =&gt; <span class="hljs-string">'required'</span>,
+        ]);
+
+        $user = User::where(<span class="hljs-string">'email'</span>, $request-&gt;email)-&gt;first();
+
+        <span class="hljs-keyword">if</span> (! $user || ! Hash::check($request-&gt;password, $user-&gt;password)) {
+            <span class="hljs-keyword">throw</span> ValidationException::withMessages([
+                <span class="hljs-string">'email'</span> =&gt; [<span class="hljs-string">'The provided credentials are incorrect.'</span>],
+            ]);
+        }
+
+        $token = $user-&gt;createToken(<span class="hljs-string">'auth_token'</span>)-&gt;plainTextToken;
+
+        <span class="hljs-keyword">return</span> response()-&gt;json([
+            <span class="hljs-string">'success'</span> =&gt; <span class="hljs-keyword">true</span>,
+            <span class="hljs-string">'message'</span> =&gt; <span class="hljs-string">'Login berhasil'</span>,
+            <span class="hljs-string">'data'</span> =&gt; $user,
+            <span class="hljs-string">'access_token'</span> =&gt; $token,
+            <span class="hljs-string">'token_type'</span> =&gt; <span class="hljs-string">'Bearer'</span>,
+        ]);
+    }
+
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">logout</span><span class="hljs-params">(Request $request)</span>
+    </span>{
+        $request-&gt;user()-&gt;currentAccessToken()-&gt;delete();
+
+        <span class="hljs-keyword">return</span> response()-&gt;json([
+            <span class="hljs-string">'success'</span> =&gt; <span class="hljs-keyword">true</span>,
+            <span class="hljs-string">'message'</span> =&gt; <span class="hljs-string">'Logout berhasil'</span>
+        ]);
+    }
+
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">me</span><span class="hljs-params">(Request $request)</span>
+    </span>{
+        <span class="hljs-keyword">return</span> response()-&gt;json([
+            <span class="hljs-string">'success'</span> =&gt; <span class="hljs-keyword">true</span>,
+            <span class="hljs-string">'message'</span> =&gt; <span class="hljs-string">'Data user'</span>,
+            <span class="hljs-string">'data'</span> =&gt; $request-&gt;user()
+        ]);
+    }
+}
+</div></code></pre>
+<h3 id="menambahkan-route-untuk-authentication">Menambahkan Route untuk Authentication</h3>
+<pre class="hljs"><code><div><span class="hljs-comment">// routes/api.php</span>
+
+<span class="hljs-comment">// Route authentication</span>
+Route::post(<span class="hljs-string">'register'</span>, [AuthController::class, <span class="hljs-string">'register'</span>]);
+Route::post(<span class="hljs-string">'login'</span>, [AuthController::class, <span class="hljs-string">'login'</span>]);
+
+<span class="hljs-comment">// Route yang memerlukan authentication</span>
+Route::middleware(<span class="hljs-string">'auth:sanctum'</span>)-&gt;group(<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">()</span> </span>{
+    Route::post(<span class="hljs-string">'logout'</span>, [AuthController::class, <span class="hljs-string">'logout'</span>]);
+    Route::get(<span class="hljs-string">'me'</span>, [AuthController::class, <span class="hljs-string">'me'</span>]);
+    
+    <span class="hljs-comment">// Route API mahasiswa yang dilindungi</span>
+    Route::apiResource(<span class="hljs-string">'mahasiswa'</span>, MahasiswaController::class);
+});
+</div></code></pre>
+<h3 id="alur-authentication-api">Alur Authentication API</h3>
+<pre><code class="language-mermaid"><div class="mermaid">sequenceDiagram
+    participant Client
+    participant API
+    participant Database
+    
+    Client->>API: Register (POST /api/register)
+    API->>Database: Simpan user baru
+    Database-->>API: User berhasil disimpan
+    API-->>Client: Response dengan token
+    
+    Client->>API: Login (POST /api/login)
+    API->>Database: Verifikasi kredensial
+    Database-->>API: Verifikasi berhasil
+    API-->>Client: Response dengan token
+    
+    Client->>API: Request dengan token (Header: Authorization: Bearer token)
+    API->>API: Validasi token
+    API->>Database: Fetch data sesuai request
+    Database-->>API: Data
+    API-->>Client: Response data
+    
+    Client->>API: Logout (POST /api/logout)
+    API->>Database: Hapus token
+    Database-->>API: Token berhasil dihapus
+    API-->>Client: Response sukses
+</div></code></pre>
+<h3 id="testing-authentication-di-postman">Testing Authentication di Postman</h3>
+<ol>
+<li>Buat request untuk register dan login</li>
+<li>Dapatkan token dari response</li>
+<li>Gunakan token untuk request yang memerlukan authentication:
+<ul>
+<li>Pada tab &quot;Authorization&quot;, pilih tipe &quot;Bearer Token&quot;</li>
+<li>Masukkan token yang didapat</li>
+</ul>
+</li>
+</ol>
+
+</body>
+</html>

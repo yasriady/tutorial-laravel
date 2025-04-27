@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>3-request-lifecycle-laravel.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="tutorial-pengenalan-request-lifecycle-di-laravel">Tutorial: Pengenalan Request Lifecycle di Laravel</h1>
+<h2 id="pengantar">Pengantar</h2>
+<p>Request Lifecycle (Siklus Permintaan) dalam Laravel adalah rangkaian proses yang terjadi ketika aplikasi menerima permintaan HTTP dari pengguna hingga mengirimkan respons kembali. Memahami siklus ini akan membantu Anda mengetahui bagaimana Laravel menangani permintaan dan di mana Anda dapat melakukan intervensi dalam siklus tersebut.</p>
+<h2 id="langkah-langkah-siklus-permintaan-laravel">Langkah-langkah Siklus Permintaan Laravel</h2>
+<h3 id="1-permintaan-http-masuk">1. Permintaan HTTP Masuk</h3>
+<p>Setiap interaksi dengan aplikasi Laravel dimulai ketika pengguna mengirimkan permintaan HTTP ke server Anda (misalnya ketika membuka halaman atau mengirim formulir).</p>
+<pre class="hljs"><code><div>https://aplikasi-anda.com/mahasiswa
+</div></code></pre>
+<h3 id="2-entry-point-indexphp">2. Entry Point: index.php</h3>
+<p>Semua permintaan masuk ke file <code>public/index.php</code>, yang berfungsi sebagai entry point aplikasi Laravel Anda.</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// public/index.php</span>
+<span class="hljs-meta">&lt;?php</span>
+
+<span class="hljs-comment">// Memuat autoloader Composer</span>
+<span class="hljs-keyword">require</span> <span class="hljs-keyword">__DIR__</span>.<span class="hljs-string">'/../vendor/autoload.php'</span>;
+
+<span class="hljs-comment">// Bootstrap aplikasi Laravel</span>
+$app = <span class="hljs-keyword">require_once</span> <span class="hljs-keyword">__DIR__</span>.<span class="hljs-string">'/../bootstrap/app.php'</span>;
+
+<span class="hljs-comment">// Mendapatkan kernel HTTP</span>
+$kernel = $app-&gt;make(Illuminate\Contracts\Http\Kernel::class);
+
+<span class="hljs-comment">// Menjalankan aplikasi dan mendapatkan respons</span>
+$response = $kernel-&gt;handle(
+    $request = Illuminate\Http\Request::capture()
+);
+
+<span class="hljs-comment">// Mengirim respons ke browser</span>
+$response-&gt;send();
+
+<span class="hljs-comment">// Menjalankan tugas-tugas akhir</span>
+$kernel-&gt;terminate($request, $response);
+</div></code></pre>
+<h3 id="3-bootstrap-aplikasi">3. Bootstrap Aplikasi</h3>
+<p>Laravel memuat file <code>bootstrap/app.php</code> yang menciptakan instance aplikasi Laravel dan mendaftarkan komponen-komponen utama seperti:</p>
+<ul>
+<li>Service Container</li>
+<li>Service Providers</li>
+<li>Facades</li>
+</ul>
+<h3 id="4-http-kernel">4. HTTP Kernel</h3>
+<p>Permintaan HTTP masuk diproses oleh HTTP Kernel (<code>app/Http/Kernel.php</code>), yang menjalankan middleware global sebelum permintaan diproses lebih lanjut.</p>
+<p>Middleware global biasanya mencakup:</p>
+<ul>
+<li>Pengecekan CSRF token</li>
+<li>Session handling</li>
+<li>Enkripsi cookies</li>
+<li>dll.</li>
+</ul>
+<h3 id="5-routing">5. Routing</h3>
+<p>Setelah melewati middleware global, Laravel mencocokkan URL permintaan dengan rute yang didefinisikan dalam file rute Anda (<code>routes/web.php</code> atau <code>routes/api.php</code>).</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// routes/web.php</span>
+Route::get(<span class="hljs-string">'/mahasiswa'</span>, [MahasiswaController::class, <span class="hljs-string">'index'</span>]);
+</div></code></pre>
+<h3 id="6-middleware-rute">6. Middleware Rute</h3>
+<p>Jika rute cocok ditemukan, Laravel menjalankan middleware khusus yang terkait dengan rute tersebut.</p>
+<pre class="hljs"><code><div>Route::get(<span class="hljs-string">'/mahasiswa'</span>, [MahasiswaController::class, <span class="hljs-string">'index'</span>])
+    -&gt;middleware(<span class="hljs-string">'auth'</span>);  <span class="hljs-comment">// Middleware yang memastikan pengguna sudah login</span>
+</div></code></pre>
+<h3 id="7-controllerclosure">7. Controller/Closure</h3>
+<p>Setelah melewati middleware rute, Laravel menjalankan controller atau closure yang ditentukan pada rute tersebut.</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// app/Http/Controllers/MahasiswaController.php</span>
+<span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">index</span><span class="hljs-params">()</span>
+</span>{
+    $mahasiswa = Mahasiswa::all();
+    <span class="hljs-keyword">return</span> view(<span class="hljs-string">'mahasiswa.index'</span>, compact(<span class="hljs-string">'mahasiswa'</span>));
+}
+</div></code></pre>
+<h3 id="8-model-dan-database-opsional">8. Model dan Database (Opsional)</h3>
+<p>Controller biasanya berinteraksi dengan model untuk mengakses database.</p>
+<pre class="hljs"><code><div>$mahasiswa = Mahasiswa::all();  <span class="hljs-comment">// Mengambil semua data mahasiswa dari database</span>
+</div></code></pre>
+<h3 id="9-view-opsional">9. View (Opsional)</h3>
+<p>Controller biasanya mengembalikan view yang berisi respons HTML untuk browser.</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">return</span> view(<span class="hljs-string">'mahasiswa.index'</span>, compact(<span class="hljs-string">'mahasiswa'</span>));
+</div></code></pre>
+<h3 id="10-response">10. Response</h3>
+<p>Laravel mengubah hasil dari controller menjadi objek Response, yang kemudian diproses melalui middleware output.</p>
+<h3 id="11-middleware-output">11. Middleware Output</h3>
+<p>Response melalui middleware dalam urutan terbalik, memungkinkan transformasi response sebelum dikirim ke browser.</p>
+<h3 id="12-pengiriman-response">12. Pengiriman Response</h3>
+<p>Akhirnya, response dikirim kembali ke browser pengguna.</p>
+<h2 id="visualisasi-siklus-permintaan">Visualisasi Siklus Permintaan</h2>
+<pre class="hljs"><code><div>Request -&gt; index.php -&gt; Bootstrap -&gt; HTTP Kernel -&gt; Middleware Global -&gt; 
+Routing -&gt; Middleware Rute -&gt; Controller -&gt; Model -&gt; View -&gt; Response -&gt; 
+Middleware Output -&gt; Browser
+</div></code></pre>
+<h2 id="contoh-praktis">Contoh Praktis</h2>
+<p>Misalkan pengguna mengakses halaman daftar mahasiswa:</p>
+<ol>
+<li>Pengguna mengakses URL <code>http://aplikasi-anda.com/mahasiswa</code></li>
+<li>Permintaan diarahkan ke <code>public/index.php</code></li>
+<li>Laravel bootstrap aplikasi</li>
+<li>HTTP Kernel memproses middleware global</li>
+<li>Router mencocokkan URL dengan rute <code>/mahasiswa</code></li>
+<li>Middleware <code>auth</code> memastikan pengguna sudah login</li>
+<li><code>MahasiswaController@index</code> dijalankan</li>
+<li>Model <code>Mahasiswa</code> mengambil data dari database</li>
+<li>View <code>mahasiswa.index</code> dirender dengan data</li>
+<li>Response HTML dihasilkan</li>
+<li>Response diproses melalui middleware output</li>
+<li>HTML dikirim ke browser pengguna</li>
+</ol>
+<h2 id="bagaimana-anda-bisa-memanfaatkan-siklus-ini">Bagaimana Anda Bisa Memanfaatkan Siklus Ini?</h2>
+<ol>
+<li><strong>Middleware</strong>: Tambahkan logika yang perlu dijalankan sebelum atau sesudah permintaan diproses</li>
+<li><strong>Service Providers</strong>: Daftarkan layanan yang diperlukan aplikasi</li>
+<li><strong>Event Listeners</strong>: Tangani peristiwa tertentu selama siklus permintaan</li>
+<li><strong>Middleware Terminable</strong>: Jalankan kode setelah respons dikirim ke browser</li>
+</ol>
+<h2 id="latihan-praktik">Latihan Praktik</h2>
+<p>Buatlah middleware sederhana yang mencatat semua permintaan ke aplikasi Anda:</p>
+<ol>
+<li>Buat middleware baru menggunakan perintah Artisan:</li>
+</ol>
+<pre class="hljs"><code><div>php artisan make:middleware LogRequests
+</div></code></pre>
+<ol start="2">
+<li>Edit file <code>app/Http/Middleware/LogRequests.php</code>:</li>
+</ol>
+<pre class="hljs"><code><div><span class="hljs-meta">&lt;?php</span>
+
+<span class="hljs-keyword">namespace</span> <span class="hljs-title">App</span>\<span class="hljs-title">Http</span>\<span class="hljs-title">Middleware</span>;
+
+<span class="hljs-keyword">use</span> <span class="hljs-title">Closure</span>;
+<span class="hljs-keyword">use</span> <span class="hljs-title">Illuminate</span>\<span class="hljs-title">Support</span>\<span class="hljs-title">Facades</span>\<span class="hljs-title">Log</span>;
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">LogRequests</span>
+</span>{
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">handle</span><span class="hljs-params">($request, Closure $next)</span>
+    </span>{
+        <span class="hljs-comment">// Mencatat informasi permintaan</span>
+        Log::info(<span class="hljs-string">'Request URL: '</span> . $request-&gt;fullUrl());
+        
+        <span class="hljs-keyword">return</span> $next($request);
+    }
+}
+</div></code></pre>
+<ol start="3">
+<li>Daftarkan middleware di <code>app/Http/Kernel.php</code> dalam array <code>$middleware</code>:</li>
+</ol>
+<pre class="hljs"><code><div><span class="hljs-keyword">protected</span> $middleware = [
+    <span class="hljs-comment">// Middleware lainnya...</span>
+    \App\Http\Middleware\LogRequests::class,
+];
+</div></code></pre>
+<p>Sekarang setiap permintaan ke aplikasi Anda akan dicatat dalam log, memberi Anda informasi berharga tentang traffic aplikasi.</p>
+<h2 id="kesimpulan">Kesimpulan</h2>
+<p>Memahami Request Lifecycle Laravel sangat penting bagi pengembang untuk:</p>
+<ul>
+<li>Melakukan intervensi tepat pada titik yang tepat dalam siklus</li>
+<li>Mengoptimalkan performa aplikasi</li>
+<li>Memecahkan masalah dengan lebih efektif</li>
+<li>Mengembangkan fitur yang lebih canggih</li>
+</ul>
+<p>Dengan pengetahuan ini, Anda dapat mengembangkan aplikasi Laravel yang lebih baik dan efisien.</p>
+
+</body>
+</html>

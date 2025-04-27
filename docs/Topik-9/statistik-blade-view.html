@@ -1,0 +1,222 @@
+@extends('layouts.app')
+
+@section('content')
+<div class="container">
+    <h2>Statistik Akademik - {{ $mahasiswa->nama }}</h2>
+    
+    <div class="row">
+        <div class="col-md-6 mb-4">
+            <div class="card h-100">
+                <div class="card-header">
+                    <h5 class="mb-0">Distribusi Nilai</h5>
+                </div>
+                <div class="card-body">
+                    <canvas id="chartNilai" width="400" height="300"></canvas>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-6 mb-4">
+            <div class="card h-100">
+                <div class="card-header">
+                    <h5 class="mb-0">IP Per Semester</h5>
+                </div>
+                <div class="card-body">
+                    <canvas id="chartIpSemester" width="400" height="300"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col-md-12 mb-4">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">Total SKS Per Semester</h5>
+                </div>
+                <div class="card-body">
+                    <canvas id="chartSksSemester" width="400" height="200"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="card mb-4">
+        <div class="card-header">
+            <h5 class="mb-0">Ringkasan Akademik</h5>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-3 mb-3">
+                    <div class="card bg-primary text-white">
+                        <div class="card-body text-center">
+                            <h5>IPK</h5>
+                            <h3>{{ $mahasiswa->hitungIPK() }}</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <div class="card bg-success text-white">
+                        <div class="card-body text-center">
+                            <h5>Total SKS</h5>
+                            <h3>{{ array_sum($sksSemester) }}</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <div class="card bg-info text-white">
+                        <div class="card-body text-center">
+                            <h5>Mata Kuliah</h5>
+                            <h3>{{ $mahasiswa->mataKuliahs->count() }}</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <div class="card bg-warning text-white">
+                        <div class="card-body text-center">
+                            <h5>Semester Aktif</h5>
+                            <h3>{{ count(array_filter($sksSemester)) }}</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer">
+            <a href="{{ route('mahasiswas.mata_kuliah.index', $mahasiswa->id) }}" class="btn btn-secondary">Kembali ke Daftar Mata Kuliah</a>
+            <a href="{{ route('mahasiswas.transkrip', $mahasiswa->id) }}" class="btn btn-primary">Lihat Transkrip</a>
+        </div>
+    </div>
+</div>
+
+@endsection
+
+@section('scripts')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Data untuk grafik
+    const nilaiLabels = ['A', 'B', 'C', 'D', 'E', 'Belum Nilai'];
+    const nilaiData = [
+        {{ $nilaiDistribusi['A'] }}, 
+        {{ $nilaiDistribusi['B'] }}, 
+        {{ $nilaiDistribusi['C'] }}, 
+        {{ $nilaiDistribusi['D'] }}, 
+        {{ $nilaiDistribusi['E'] }}, 
+        {{ $nilaiDistribusi['Belum Nilai'] }}
+    ];
+    
+    const semesterLabels = Array.from({length: 8}, (_, i) => `Semester ${i+1}`);
+    const ipData = [
+        {{ $ipSemester[1] }}, 
+        {{ $ipSemester[2] }}, 
+        {{ $ipSemester[3] }}, 
+        {{ $ipSemester[4] }}, 
+        {{ $ipSemester[5] }}, 
+        {{ $ipSemester[6] }}, 
+        {{ $ipSemester[7] }}, 
+        {{ $ipSemester[8] }}
+    ];
+    
+    const sksData = [
+        {{ $sksSemester[1] }}, 
+        {{ $sksSemester[2] }}, 
+        {{ $sksSemester[3] }}, 
+        {{ $sksSemester[4] }}, 
+        {{ $sksSemester[5] }}, 
+        {{ $sksSemester[6] }}, 
+        {{ $sksSemester[7] }}, 
+        {{ $sksSemester[8] }}
+    ];
+    
+    // Chart Distribusi Nilai
+    const ctxNilai = document.getElementById('chartNilai').getContext('2d');
+    new Chart(ctxNilai, {
+        type: 'pie',
+        data: {
+            labels: nilaiLabels,
+            datasets: [{
+                data: nilaiData,
+                backgroundColor: [
+                    'rgba(52, 152, 219, 0.7)',
+                    'rgba(46, 204, 113, 0.7)',
+                    'rgba(241, 196, 15, 0.7)',
+                    'rgba(230, 126, 34, 0.7)',
+                    'rgba(231, 76, 60, 0.7)',
+                    'rgba(189, 195, 199, 0.7)'
+                ],
+                borderColor: [
+                    'rgba(52, 152, 219, 1)',
+                    'rgba(46, 204, 113, 1)',
+                    'rgba(241, 196, 15, 1)',
+                    'rgba(230, 126, 34, 1)',
+                    'rgba(231, 76, 60, 1)',
+                    'rgba(189, 195, 199, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'right',
+                },
+                title: {
+                    display: true,
+                    text: 'Distribusi Nilai'
+                }
+            }
+        }
+    });
+    
+    // Chart IP Semester
+    const ctxIp = document.getElementById('chartIpSemester').getContext('2d');
+    new Chart(ctxIp, {
+        type: 'line',
+        data: {
+            labels: semesterLabels,
+            datasets: [{
+                label: 'IP Semester',
+                data: ipData,
+                fill: false,
+                borderColor: 'rgb(75, 192, 192)',
+                tension: 0.1
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    max: 4
+                }
+            }
+        }
+    });
+    
+    // Chart SKS per Semester
+    const ctxSks = document.getElementById('chartSksSemester').getContext('2d');
+    new Chart(ctxSks, {
+        type: 'bar',
+        data: {
+            labels: semesterLabels,
+            datasets: [{
+                label: 'Total SKS',
+                data: sksData,
+                backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                borderColor: 'rgba(54, 162, 235, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+});
+</script>
+@endsection

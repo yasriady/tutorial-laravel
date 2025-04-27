@@ -1,4 +1,4 @@
-# Tutorial: Menampilkan Daftar Mahasiswa di Laravel
+# Menampilkan Daftar Mahasiswa di Laravel
 
 ## Langkah 1: Persiapkan Model dan Migrasi
 

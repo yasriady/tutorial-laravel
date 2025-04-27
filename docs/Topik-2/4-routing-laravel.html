@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>4-routing-laravel.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="tutorial-routing-di-laravel">Tutorial: Routing di Laravel</h1>
+<h2 id="pengantar">Pengantar</h2>
+<p>Routing adalah salah satu konsep fundamental dalam Laravel yang menentukan bagaimana aplikasi Anda merespons permintaan pada URL tertentu. Dengan routing, Anda dapat mengatur endpoint aplikasi yang akan mengarahkan pengguna ke controller dan tindakan yang tepat.</p>
+<h2 id="dasar-dasar-routing">Dasar-Dasar Routing</h2>
+<h3 id="1-lokasi-file-route">1. Lokasi File Route</h3>
+<p>Di Laravel, semua konfigurasi route didefinisikan di dalam direktori <code>routes</code>. File-file utama yang perlu Anda perhatikan:</p>
+<ul>
+<li><code>routes/web.php</code> - untuk route yang diakses melalui browser (biasanya mengembalikan view)</li>
+<li><code>routes/api.php</code> - untuk API endpoint</li>
+<li><code>routes/console.php</code> - untuk perintah console</li>
+<li><code>routes/channels.php</code> - untuk broadcast channels</li>
+</ul>
+<h3 id="2-membuat-route-dasar">2. Membuat Route Dasar</h3>
+<p>Mari kita mulai dengan membuat route sederhana di file <code>routes/web.php</code>:</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// routes/web.php</span>
+<span class="hljs-keyword">use</span> <span class="hljs-title">Illuminate</span>\<span class="hljs-title">Support</span>\<span class="hljs-title">Facades</span>\<span class="hljs-title">Route</span>;
+
+Route::get(<span class="hljs-string">'/mahasiswa'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">()</span> </span>{
+    <span class="hljs-keyword">return</span> <span class="hljs-string">'Daftar Mahasiswa'</span>;
+});
+</div></code></pre>
+<p>Route di atas akan mengembalikan teks &quot;Daftar Mahasiswa&quot; ketika pengguna mengakses URL <code>http://aplikasi-anda.com/mahasiswa</code>.</p>
+<h3 id="3-http-verbs">3. HTTP Verbs</h3>
+<p>Laravel mendukung berbagai HTTP verbs untuk route:</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// GET Request</span>
+Route::get(<span class="hljs-string">'/mahasiswa'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">()</span> </span>{
+    <span class="hljs-keyword">return</span> <span class="hljs-string">'Daftar Mahasiswa'</span>;
+});
+
+<span class="hljs-comment">// POST Request (untuk form submit)</span>
+Route::post(<span class="hljs-string">'/mahasiswa'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">()</span> </span>{
+    <span class="hljs-keyword">return</span> <span class="hljs-string">'Mahasiswa berhasil ditambahkan'</span>;
+});
+
+<span class="hljs-comment">// PUT/PATCH Request (untuk update)</span>
+Route::put(<span class="hljs-string">'/mahasiswa/{id}'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">($id)</span> </span>{
+    <span class="hljs-keyword">return</span> <span class="hljs-string">'Mahasiswa dengan ID '</span> . $id . <span class="hljs-string">' berhasil diperbarui'</span>;
+});
+
+<span class="hljs-comment">// DELETE Request</span>
+Route::delete(<span class="hljs-string">'/mahasiswa/{id}'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">($id)</span> </span>{
+    <span class="hljs-keyword">return</span> <span class="hljs-string">'Mahasiswa dengan ID '</span> . $id . <span class="hljs-string">' berhasil dihapus'</span>;
+});
+</div></code></pre>
+<h3 id="4-route-parameter">4. Route Parameter</h3>
+<p>Anda dapat menentukan parameter dinamis dalam URL route:</p>
+<pre class="hljs"><code><div>Route::get(<span class="hljs-string">'/mahasiswa/{id}'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">($id)</span> </span>{
+    <span class="hljs-keyword">return</span> <span class="hljs-string">'Detail Mahasiswa dengan ID: '</span> . $id;
+});
+</div></code></pre>
+<h4 id="parameter-opsional">Parameter Opsional</h4>
+<p>Tambahkan <code>?</code> setelah nama parameter dan berikan nilai default:</p>
+<pre class="hljs"><code><div>Route::get(<span class="hljs-string">'/mahasiswa/{id?}'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">($id = null)</span> </span>{
+    <span class="hljs-keyword">if</span> ($id) {
+        <span class="hljs-keyword">return</span> <span class="hljs-string">'Detail Mahasiswa dengan ID: '</span> . $id;
+    }
+    <span class="hljs-keyword">return</span> <span class="hljs-string">'Daftar Semua Mahasiswa'</span>;
+});
+</div></code></pre>
+<h3 id="5-constraint-parameter-dengan-regular-expression">5. Constraint Parameter dengan Regular Expression</h3>
+<p>Anda dapat membatasi format parameter menggunakan metode <code>where</code>:</p>
+<pre class="hljs"><code><div>Route::get(<span class="hljs-string">'/mahasiswa/{id}'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">($id)</span> </span>{
+    <span class="hljs-keyword">return</span> <span class="hljs-string">'Detail Mahasiswa dengan ID: '</span> . $id;
+})-&gt;where(<span class="hljs-string">'id'</span>, <span class="hljs-string">'[0-9]+'</span>); <span class="hljs-comment">// Hanya menerima angka</span>
+</div></code></pre>
+<p>Untuk constraint yang sering digunakan:</p>
+<pre class="hljs"><code><div>Route::get(<span class="hljs-string">'/mahasiswa/{nim}'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">($nim)</span> </span>{
+    <span class="hljs-keyword">return</span> <span class="hljs-string">'Mahasiswa dengan NIM: '</span> . $nim;
+})-&gt;whereAlphaNumeric(<span class="hljs-string">'nim'</span>); <span class="hljs-comment">// Hanya menerima karakter alpha-numeric</span>
+</div></code></pre>
+<h2 id="routing-ke-controller">Routing ke Controller</h2>
+<h3 id="1-membuat-controller">1. Membuat Controller</h3>
+<p>Sebelum melanjutkan, buatlah controller untuk mahasiswa:</p>
+<pre class="hljs"><code><div>php artisan make:controller MahasiswaController
+</div></code></pre>
+<h3 id="2-routing-ke-method-controller">2. Routing ke Method Controller</h3>
+<pre class="hljs"><code><div><span class="hljs-comment">// routes/web.php</span>
+<span class="hljs-keyword">use</span> <span class="hljs-title">App</span>\<span class="hljs-title">Http</span>\<span class="hljs-title">Controllers</span>\<span class="hljs-title">MahasiswaController</span>;
+
+Route::get(<span class="hljs-string">'/mahasiswa'</span>, [MahasiswaController::class, <span class="hljs-string">'index'</span>]);
+Route::get(<span class="hljs-string">'/mahasiswa/{id}'</span>, [MahasiswaController::class, <span class="hljs-string">'show'</span>]);
+Route::post(<span class="hljs-string">'/mahasiswa'</span>, [MahasiswaController::class, <span class="hljs-string">'store'</span>]);
+Route::put(<span class="hljs-string">'/mahasiswa/{id}'</span>, [MahasiswaController::class, <span class="hljs-string">'update'</span>]);
+Route::delete(<span class="hljs-string">'/mahasiswa/{id}'</span>, [MahasiswaController::class, <span class="hljs-string">'destroy'</span>]);
+</div></code></pre>
+<h3 id="3-implementasi-controller">3. Implementasi Controller</h3>
+<pre class="hljs"><code><div><span class="hljs-comment">// app/Http/Controllers/MahasiswaController.php</span>
+<span class="hljs-keyword">namespace</span> <span class="hljs-title">App</span>\<span class="hljs-title">Http</span>\<span class="hljs-title">Controllers</span>;
+
+<span class="hljs-keyword">use</span> <span class="hljs-title">Illuminate</span>\<span class="hljs-title">Http</span>\<span class="hljs-title">Request</span>;
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MahasiswaController</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Controller</span>
+</span>{
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">index</span><span class="hljs-params">()</span>
+    </span>{
+        <span class="hljs-keyword">return</span> <span class="hljs-string">'Daftar semua mahasiswa'</span>;
+    }
+
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">show</span><span class="hljs-params">($id)</span>
+    </span>{
+        <span class="hljs-keyword">return</span> <span class="hljs-string">'Menampilkan detail mahasiswa dengan ID: '</span> . $id;
+    }
+
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">store</span><span class="hljs-params">(Request $request)</span>
+    </span>{
+        <span class="hljs-comment">// Logic untuk menyimpan data mahasiswa baru</span>
+        <span class="hljs-keyword">return</span> <span class="hljs-string">'Mahasiswa baru berhasil ditambahkan'</span>;
+    }
+
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">update</span><span class="hljs-params">(Request $request, $id)</span>
+    </span>{
+        <span class="hljs-comment">// Logic untuk memperbarui data mahasiswa</span>
+        <span class="hljs-keyword">return</span> <span class="hljs-string">'Data mahasiswa dengan ID '</span> . $id . <span class="hljs-string">' berhasil diperbarui'</span>;
+    }
+
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">destroy</span><span class="hljs-params">($id)</span>
+    </span>{
+        <span class="hljs-comment">// Logic untuk menghapus data mahasiswa</span>
+        <span class="hljs-keyword">return</span> <span class="hljs-string">'Mahasiswa dengan ID '</span> . $id . <span class="hljs-string">' berhasil dihapus'</span>;
+    }
+}
+</div></code></pre>
+<h2 id="route-groups">Route Groups</h2>
+<h3 id="1-group-berdasarkan-prefix">1. Group Berdasarkan Prefix</h3>
+<pre class="hljs"><code><div>Route::prefix(<span class="hljs-string">'admin'</span>)-&gt;group(<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">()</span> </span>{
+    Route::get(<span class="hljs-string">'/mahasiswa'</span>, [MahasiswaController::class, <span class="hljs-string">'index'</span>]); <span class="hljs-comment">// URL: /admin/mahasiswa</span>
+    Route::get(<span class="hljs-string">'/mahasiswa/{id}'</span>, [MahasiswaController::class, <span class="hljs-string">'show'</span>]); <span class="hljs-comment">// URL: /admin/mahasiswa/{id}</span>
+    <span class="hljs-comment">// ...</span>
+});
+</div></code></pre>
+<h3 id="2-group-berdasarkan-middleware">2. Group Berdasarkan Middleware</h3>
+<pre class="hljs"><code><div>Route::middleware([<span class="hljs-string">'auth'</span>])-&gt;group(<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">()</span> </span>{
+    Route::get(<span class="hljs-string">'/mahasiswa'</span>, [MahasiswaController::class, <span class="hljs-string">'index'</span>]);
+    Route::post(<span class="hljs-string">'/mahasiswa'</span>, [MahasiswaController::class, <span class="hljs-string">'store'</span>]);
+    <span class="hljs-comment">// ...</span>
+});
+</div></code></pre>
+<h3 id="3-group-berdasarkan-namespace-laravel-8">3. Group Berdasarkan Namespace (Laravel 8+)</h3>
+<pre class="hljs"><code><div><span class="hljs-comment">// Laravel 8+ menggunakan pendekatan yang berbeda</span>
+Route::group([<span class="hljs-string">'namespace'</span> =&gt; <span class="hljs-string">'App\Http\Controllers\Admin'</span>], <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">()</span> </span>{
+    Route::get(<span class="hljs-string">'/dashboard'</span>, [DashboardController::class, <span class="hljs-string">'index'</span>]);
+});
+</div></code></pre>
+<h3 id="4-group-berdasarkan-nama">4. Group Berdasarkan Nama</h3>
+<pre class="hljs"><code><div>Route::name(<span class="hljs-string">'mahasiswa.'</span>)-&gt;group(<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">()</span> </span>{
+    Route::get(<span class="hljs-string">'/mahasiswa'</span>, [MahasiswaController::class, <span class="hljs-string">'index'</span>])-&gt;name(<span class="hljs-string">'index'</span>);
+    Route::get(<span class="hljs-string">'/mahasiswa/{id}'</span>, [MahasiswaController::class, <span class="hljs-string">'show'</span>])-&gt;name(<span class="hljs-string">'show'</span>);
+});
+</div></code></pre>
+<h2 id="route-dengan-nama-named-routes">Route dengan Nama (Named Routes)</h2>
+<h3 id="1-memberikan-nama-pada-route">1. Memberikan Nama pada Route</h3>
+<pre class="hljs"><code><div>Route::get(<span class="hljs-string">'/mahasiswa'</span>, [MahasiswaController::class, <span class="hljs-string">'index'</span>])-&gt;name(<span class="hljs-string">'mahasiswa.index'</span>);
+</div></code></pre>
+<h3 id="2-menggunakan-named-route-dalam-aplikasi">2. Menggunakan Named Route dalam Aplikasi</h3>
+<p>Dalam controller:</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">return</span> redirect()-&gt;route(<span class="hljs-string">'mahasiswa.index'</span>);
+</div></code></pre>
+<p>Dalam Blade view:</p>
+<pre class="hljs"><code><div>&lt;a href=<span class="hljs-string">"{{ route('mahasiswa.index') }}"</span>&gt;Daftar Mahasiswa&lt;/a&gt;
+</div></code></pre>
+<p>Dengan parameter:</p>
+<pre class="hljs"><code><div>&lt;a href=<span class="hljs-string">"{{ route('mahasiswa.show', ['id' =&gt; $mahasiswa-&gt;id]) }}"</span>&gt;Detail&lt;/a&gt;
+</div></code></pre>
+<h2 id="resource-controller">Resource Controller</h2>
+<h3 id="1-membuat-resource-controller">1. Membuat Resource Controller</h3>
+<pre class="hljs"><code><div>php artisan make:controller MahasiswaController --resource
+</div></code></pre>
+<h3 id="2-mendaftarkan-resource-route">2. Mendaftarkan Resource Route</h3>
+<pre class="hljs"><code><div>Route::resource(<span class="hljs-string">'mahasiswa'</span>, MahasiswaController::class);
+</div></code></pre>
+<p>Perintah di atas akan secara otomatis menghasilkan 7 route untuk operasi CRUD:</p>
+<table>
+<thead>
+<tr>
+<th>Verb</th>
+<th>URI</th>
+<th>Action</th>
+<th>Route Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GET</td>
+<td>/mahasiswa</td>
+<td>index</td>
+<td>mahasiswa.index</td>
+</tr>
+<tr>
+<td>GET</td>
+<td>/mahasiswa/create</td>
+<td>create</td>
+<td>mahasiswa.create</td>
+</tr>
+<tr>
+<td>POST</td>
+<td>/mahasiswa</td>
+<td>store</td>
+<td>mahasiswa.store</td>
+</tr>
+<tr>
+<td>GET</td>
+<td>/mahasiswa/{id}</td>
+<td>show</td>
+<td>mahasiswa.show</td>
+</tr>
+<tr>
+<td>GET</td>
+<td>/mahasiswa/{id}/edit</td>
+<td>edit</td>
+<td>mahasiswa.edit</td>
+</tr>
+<tr>
+<td>PUT/PATCH</td>
+<td>/mahasiswa/{id}</td>
+<td>update</td>
+<td>mahasiswa.update</td>
+</tr>
+<tr>
+<td>DELETE</td>
+<td>/mahasiswa/{id}</td>
+<td>destroy</td>
+<td>mahasiswa.destroy</td>
+</tr>
+</tbody>
+</table>
+<h3 id="3-membatasi-resource-route">3. Membatasi Resource Route</h3>
+<pre class="hljs"><code><div><span class="hljs-comment">// Hanya beberapa method</span>
+Route::resource(<span class="hljs-string">'mahasiswa'</span>, MahasiswaController::class)-&gt;only([<span class="hljs-string">'index'</span>, <span class="hljs-string">'show'</span>]);
+
+<span class="hljs-comment">// Kecuali beberapa method</span>
+Route::resource(<span class="hljs-string">'mahasiswa'</span>, MahasiswaController::class)-&gt;except([<span class="hljs-string">'destroy'</span>]);
+</div></code></pre>
+<h2 id="melihat-semua-route">Melihat Semua Route</h2>
+<p>Untuk melihat semua route yang terdaftar di aplikasi Laravel Anda:</p>
+<pre class="hljs"><code><div>php artisan route:list
+</div></code></pre>
+<h2 id="contoh-praktis-sistem-manajemen-mahasiswa">Contoh Praktis: Sistem Manajemen Mahasiswa</h2>
+<p>Mari kita buat contoh sistem routing lengkap untuk manajemen data mahasiswa:</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// routes/web.php</span>
+<span class="hljs-keyword">use</span> <span class="hljs-title">App</span>\<span class="hljs-title">Http</span>\<span class="hljs-title">Controllers</span>\<span class="hljs-title">MahasiswaController</span>;
+<span class="hljs-keyword">use</span> <span class="hljs-title">App</span>\<span class="hljs-title">Http</span>\<span class="hljs-title">Controllers</span>\<span class="hljs-title">JurusanController</span>;
+<span class="hljs-keyword">use</span> <span class="hljs-title">Illuminate</span>\<span class="hljs-title">Support</span>\<span class="hljs-title">Facades</span>\<span class="hljs-title">Route</span>;
+
+<span class="hljs-comment">// Route untuk halaman beranda</span>
+Route::get(<span class="hljs-string">'/'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">()</span> </span>{
+    <span class="hljs-keyword">return</span> view(<span class="hljs-string">'welcome'</span>);
+});
+
+<span class="hljs-comment">// Route untuk autentikasi</span>
+Route::middleware([<span class="hljs-string">'auth'</span>])-&gt;group(<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">()</span> </span>{
+    <span class="hljs-comment">// Dashboard</span>
+    Route::get(<span class="hljs-string">'/dashboard'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">()</span> </span>{
+        <span class="hljs-keyword">return</span> view(<span class="hljs-string">'dashboard'</span>);
+    })-&gt;name(<span class="hljs-string">'dashboard'</span>);
+    
+    <span class="hljs-comment">// Manajemen Mahasiswa</span>
+    Route::resource(<span class="hljs-string">'mahasiswa'</span>, MahasiswaController::class);
+    
+    <span class="hljs-comment">// Pencarian Mahasiswa</span>
+    Route::get(<span class="hljs-string">'/mahasiswa/search'</span>, [MahasiswaController::class, <span class="hljs-string">'search'</span>])-&gt;name(<span class="hljs-string">'mahasiswa.search'</span>);
+    
+    <span class="hljs-comment">// Export Data Mahasiswa</span>
+    Route::get(<span class="hljs-string">'/mahasiswa/export'</span>, [MahasiswaController::class, <span class="hljs-string">'export'</span>])-&gt;name(<span class="hljs-string">'mahasiswa.export'</span>);
+    
+    <span class="hljs-comment">// Jurusan Mahasiswa</span>
+    Route::resource(<span class="hljs-string">'jurusan'</span>, JurusanController::class);
+    
+    <span class="hljs-comment">// Mahasiswa berdasarkan Jurusan</span>
+    Route::get(<span class="hljs-string">'/jurusan/{jurusan}/mahasiswa'</span>, [JurusanController::class, <span class="hljs-string">'mahasiswa'</span>])
+        -&gt;name(<span class="hljs-string">'jurusan.mahasiswa'</span>);
+});
+</div></code></pre>
+<h2 id="kesimpulan">Kesimpulan</h2>
+<p>Routing di Laravel menyediakan cara yang kuat dan fleksibel untuk menangani permintaan ke aplikasi Anda. Dengan memahami konsep-konsep dasar routing, Anda dapat dengan mudah membangun aplikasi web yang terstruktur dan mudah dipelihara.</p>
+<p>Beberapa poin penting untuk diingat:</p>
+<ul>
+<li>Route didefinisikan di direktori <code>routes/</code></li>
+<li>Gunakan HTTP verbs yang sesuai (GET, POST, PUT, DELETE)</li>
+<li>Manfaatkan parameter untuk data dinamis</li>
+<li>Gunakan route groups untuk mengorganisasi route</li>
+<li>Berikan nama pada route untuk referensi yang lebih mudah</li>
+<li>Gunakan resource controller untuk operasi CRUD standar</li>
+</ul>
+<p>Dengan pemahaman yang baik tentang routing, Anda memiliki dasar yang kuat untuk mengembangkan aplikasi Laravel yang kompleks dan terstruktur dengan baik.</p>
+
+</body>
+</html>

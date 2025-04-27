@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>1-pengenalan-model-laravel.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="pengenalan-model-pada-laravel">Pengenalan Model pada Laravel</h1>
+<p>Model adalah salah satu komponen utama dalam arsitektur MVC (Model-View-Controller) Laravel. Model berfungsi sebagai lapisan abstraksi untuk berinteraksi dengan database. Dalam tutorial ini, kita akan membahas cara membuat dan menggunakan model Laravel untuk aplikasi manajemen data mahasiswa.</p>
+<h2 id="alur-kerja-model-dalam-laravel">Alur Kerja Model dalam Laravel</h2>
+<pre><code class="language-mermaid"><div class="mermaid">flowchart TD
+    A[Controller] --> B[Model]
+    B <--> C[(Database)]
+    B --> D[Eloquent ORM]
+    D --> E[Query Builder]
+    E --> C
+    B --> F[Relationship]
+    F --> G[Mahasiswa]
+    F --> H[Jurusan]
+    F --> I[Mata Kuliah]
+    J[Migration] --> C
+
+</div></code></pre>
+<h2 id="1-apa-itu-model-dalam-laravel">1. Apa itu Model dalam Laravel?</h2>
+<p>Model di Laravel merupakan kelas PHP yang mewakili tabel dalam database. Laravel menggunakan Eloquent ORM (Object-Relational Mapping) yang membuat interaksi dengan database menjadi lebih intuitif dan berorientasi objek. Dengan Eloquent, setiap model terhubung dengan tabel spesifik dalam database.</p>
+<h2 id="2-membuat-model-pertama">2. Membuat Model Pertama</h2>
+<h3 id="langkah-1-membuat-model-menggunakan-artisan-cli">Langkah 1: Membuat Model menggunakan Artisan CLI</h3>
+<p>Artisan adalah command-line interface yang disediakan Laravel untuk membantu pengembangan. Untuk membuat model Mahasiswa, jalankan perintah berikut di terminal:</p>
+<pre class="hljs"><code><div>php artisan make:model Mahasiswa
+</div></code></pre>
+<p>Perintah di atas akan membuat file <code>app/Models/Mahasiswa.php</code> dengan kode dasar:</p>
+<pre class="hljs"><code><div><span class="hljs-meta">&lt;?php</span>
+
+<span class="hljs-keyword">namespace</span> <span class="hljs-title">App</span>\<span class="hljs-title">Models</span>;
+
+<span class="hljs-keyword">use</span> <span class="hljs-title">Illuminate</span>\<span class="hljs-title">Database</span>\<span class="hljs-title">Eloquent</span>\<span class="hljs-title">Factories</span>\<span class="hljs-title">HasFactory</span>;
+<span class="hljs-keyword">use</span> <span class="hljs-title">Illuminate</span>\<span class="hljs-title">Database</span>\<span class="hljs-title">Eloquent</span>\<span class="hljs-title">Model</span>;
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Mahasiswa</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Model</span>
+</span>{
+    <span class="hljs-keyword">use</span> <span class="hljs-title">HasFactory</span>;
+}
+</div></code></pre>
+<h3 id="langkah-2-membuat-model-dengan-migration-dan-controller-sekaligus">Langkah 2: Membuat Model dengan Migration dan Controller sekaligus</h3>
+<p>Jika Anda ingin membuat model beserta migration dan controller dalam satu perintah:</p>
+<pre class="hljs"><code><div>php artisan make:model Mahasiswa -mc
+</div></code></pre>
+<p>Flag <code>-m</code> akan membuat migration dan <code>-c</code> akan membuat controller.</p>
+<h2 id="3-konfigurasi-model">3. Konfigurasi Model</h2>
+<h3 id="langkah-1-tentukan-nama-tabel">Langkah 1: Tentukan Nama Tabel</h3>
+<p>Secara default, Laravel akan menggunakan bentuk jamak (plural) dari nama model sebagai nama tabel. Misalnya, model <code>Mahasiswa</code> akan terhubung dengan tabel <code>mahasiswas</code>. Jika nama tabel berbeda, tentukan secara manual:</p>
+<pre class="hljs"><code><div><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Mahasiswa</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Model</span>
+</span>{
+    <span class="hljs-keyword">use</span> <span class="hljs-title">HasFactory</span>;
+    
+    <span class="hljs-comment">// Tentukan nama tabel yang digunakan</span>
+    <span class="hljs-keyword">protected</span> $table = <span class="hljs-string">'mahasiswa'</span>;
+}
+</div></code></pre>
+<h3 id="langkah-2-tentukan-primary-key">Langkah 2: Tentukan Primary Key</h3>
+<p>Secara default, Eloquent mengasumsikan bahwa setiap tabel memiliki primary key bernama <code>id</code>. Jika berbeda:</p>
+<pre class="hljs"><code><div><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Mahasiswa</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Model</span>
+</span>{
+    <span class="hljs-keyword">use</span> <span class="hljs-title">HasFactory</span>;
+    
+    <span class="hljs-keyword">protected</span> $table = <span class="hljs-string">'mahasiswa'</span>;
+    <span class="hljs-keyword">protected</span> $primaryKey = <span class="hljs-string">'mahasiswa_id'</span>; <span class="hljs-comment">// Jika primary key bukan 'id'</span>
+}
+</div></code></pre>
+<h3 id="langkah-3-timestamps">Langkah 3: Timestamps</h3>
+<p>Laravel secara otomatis mengelola kolom <code>created_at</code> dan <code>updated_at</code>. Jika tidak ingin menggunakan timestamps:</p>
+<pre class="hljs"><code><div><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Mahasiswa</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Model</span>
+</span>{
+    <span class="hljs-keyword">use</span> <span class="hljs-title">HasFactory</span>;
+    
+    <span class="hljs-keyword">public</span> $timestamps = <span class="hljs-keyword">false</span>;
+}
+</div></code></pre>
+<h3 id="langkah-4-mass-assignment-protection">Langkah 4: Mass Assignment Protection</h3>
+<p>Mass Assignment adalah teknik untuk menyimpan banyak data sekaligus ke database. Untuk keamanan, Laravel membatasi kolom apa saja yang boleh diisi secara massal:</p>
+<pre class="hljs"><code><div><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Mahasiswa</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Model</span>
+</span>{
+    <span class="hljs-keyword">use</span> <span class="hljs-title">HasFactory</span>;
+    
+    <span class="hljs-comment">// Kolom yang diizinkan untuk mass assignment</span>
+    <span class="hljs-keyword">protected</span> $fillable = [
+        <span class="hljs-string">'nim'</span>, <span class="hljs-string">'nama'</span>, <span class="hljs-string">'email'</span>, <span class="hljs-string">'jenis_kelamin'</span>, <span class="hljs-string">'jurusan_id'</span>, <span class="hljs-string">'alamat'</span>, <span class="hljs-string">'no_telp'</span>
+    ];
+    
+    <span class="hljs-comment">// ATAU: Kolom yang dikecualikan dari mass assignment</span>
+    <span class="hljs-comment">// protected $guarded = ['id'];</span>
+}
+</div></code></pre>
+<h2 id="4-menggunakan-model-untuk-crud">4. Menggunakan Model untuk CRUD</h2>
+<h3 id="create-menambah-data-mahasiswa">Create: Menambah Data Mahasiswa</h3>
+<pre class="hljs"><code><div><span class="hljs-comment">// Cara 1: Instance baru</span>
+$mahasiswa = <span class="hljs-keyword">new</span> Mahasiswa;
+$mahasiswa-&gt;nim = <span class="hljs-string">'20210001'</span>;
+$mahasiswa-&gt;nama = <span class="hljs-string">'Budi Santoso'</span>;
+$mahasiswa-&gt;email = <span class="hljs-string">'budi@example.com'</span>;
+$mahasiswa-&gt;jenis_kelamin = <span class="hljs-string">'L'</span>;
+$mahasiswa-&gt;jurusan_id = <span class="hljs-number">1</span>;
+$mahasiswa-&gt;alamat = <span class="hljs-string">'Jl. Mangga No. 10'</span>;
+$mahasiswa-&gt;no_telp = <span class="hljs-string">'08123456789'</span>;
+$mahasiswa-&gt;save();
+
+<span class="hljs-comment">// Cara 2: Mass Assignment</span>
+Mahasiswa::create([
+    <span class="hljs-string">'nim'</span> =&gt; <span class="hljs-string">'20210002'</span>,
+    <span class="hljs-string">'nama'</span> =&gt; <span class="hljs-string">'Siti Rahma'</span>,
+    <span class="hljs-string">'email'</span> =&gt; <span class="hljs-string">'siti@example.com'</span>,
+    <span class="hljs-string">'jenis_kelamin'</span> =&gt; <span class="hljs-string">'P'</span>,
+    <span class="hljs-string">'jurusan_id'</span> =&gt; <span class="hljs-number">2</span>,
+    <span class="hljs-string">'alamat'</span> =&gt; <span class="hljs-string">'Jl. Apel No. 15'</span>,
+    <span class="hljs-string">'no_telp'</span> =&gt; <span class="hljs-string">'08987654321'</span>
+]);
+</div></code></pre>
+<h3 id="read-mengambil-data-mahasiswa">Read: Mengambil Data Mahasiswa</h3>
+<pre class="hljs"><code><div><span class="hljs-comment">// Mengambil semua mahasiswa</span>
+$semua_mahasiswa = Mahasiswa::all();
+
+<span class="hljs-comment">// Mengambil satu mahasiswa berdasarkan ID</span>
+$mahasiswa = Mahasiswa::find(<span class="hljs-number">1</span>);
+
+<span class="hljs-comment">// Mengambil mahasiswa pertama yang sesuai dengan kondisi</span>
+$mahasiswa = Mahasiswa::where(<span class="hljs-string">'nim'</span>, <span class="hljs-string">'20210001'</span>)-&gt;first();
+
+<span class="hljs-comment">// Mengambil semua mahasiswa yang sesuai dengan kondisi</span>
+$mahasiswa_TI = Mahasiswa::where(<span class="hljs-string">'jurusan_id'</span>, <span class="hljs-number">1</span>)-&gt;get();
+
+<span class="hljs-comment">// Menangani jika data tidak ditemukan</span>
+$mahasiswa = Mahasiswa::findOrFail(<span class="hljs-number">5</span>); <span class="hljs-comment">// Throws ModelNotFoundException jika tidak ada</span>
+</div></code></pre>
+<h3 id="update-mengubah-data-mahasiswa">Update: Mengubah Data Mahasiswa</h3>
+<pre class="hljs"><code><div><span class="hljs-comment">// Cara 1: Find dan save</span>
+$mahasiswa = Mahasiswa::find(<span class="hljs-number">1</span>);
+$mahasiswa-&gt;nama = <span class="hljs-string">'Budi Setiawan'</span>;
+$mahasiswa-&gt;save();
+
+<span class="hljs-comment">// Cara 2: Mass update</span>
+Mahasiswa::where(<span class="hljs-string">'jurusan_id'</span>, <span class="hljs-number">1</span>)-&gt;update([<span class="hljs-string">'alamat'</span> =&gt; <span class="hljs-string">'Kampus A'</span>]);
+</div></code></pre>
+<h3 id="delete-menghapus-data-mahasiswa">Delete: Menghapus Data Mahasiswa</h3>
+<pre class="hljs"><code><div><span class="hljs-comment">// Cara 1: Find dan delete</span>
+$mahasiswa = Mahasiswa::find(<span class="hljs-number">1</span>);
+$mahasiswa-&gt;delete();
+
+<span class="hljs-comment">// Cara 2: Delete langsung</span>
+Mahasiswa::destroy(<span class="hljs-number">1</span>); <span class="hljs-comment">// Hapus berdasarkan ID</span>
+Mahasiswa::destroy([<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>]); <span class="hljs-comment">// Hapus beberapa ID sekaligus</span>
+
+<span class="hljs-comment">// Cara 3: Delete berdasarkan kondisi</span>
+Mahasiswa::where(<span class="hljs-string">'jurusan_id'</span>, <span class="hljs-number">3</span>)-&gt;delete();
+</div></code></pre>
+<h2 id="5-relationships-relasi">5. Relationships (Relasi)</h2>
+<p>Model Laravel memungkinkan Anda mendefinisikan relasi antar tabel. Berikut contoh relasi yang umum digunakan:</p>
+<h3 id="one-to-many-jurusan-memiliki-banyak-mahasiswa">One-to-Many: Jurusan memiliki banyak Mahasiswa</h3>
+<p>Di model <code>Jurusan</code>:</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">mahasiswa</span><span class="hljs-params">()</span>
+</span>{
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">$this</span>-&gt;hasMany(Mahasiswa::class);
+}
+</div></code></pre>
+<p>Di model <code>Mahasiswa</code>:</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">jurusan</span><span class="hljs-params">()</span>
+</span>{
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">$this</span>-&gt;belongsTo(Jurusan::class);
+}
+</div></code></pre>
+<h3 id="many-to-many-mahasiswa-mengambil-banyak-mata-kuliah">Many-to-Many: Mahasiswa mengambil banyak Mata Kuliah</h3>
+<p>Kita perlu tabel pivot <code>mahasiswa_matakuliah</code>:</p>
+<p>Di model <code>Mahasiswa</code>:</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">matakuliah</span><span class="hljs-params">()</span>
+</span>{
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">$this</span>-&gt;belongsToMany(MataKuliah::class, <span class="hljs-string">'mahasiswa_matakuliah'</span>);
+}
+</div></code></pre>
+<p>Di model <code>MataKuliah</code>:</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">mahasiswa</span><span class="hljs-params">()</span>
+</span>{
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">$this</span>-&gt;belongsToMany(Mahasiswa::class, <span class="hljs-string">'mahasiswa_matakuliah'</span>);
+}
+</div></code></pre>
+<h2 id="6-menggunakan-relasi">6. Menggunakan Relasi</h2>
+<pre class="hljs"><code><div><span class="hljs-comment">// Mendapatkan jurusan dari mahasiswa</span>
+$mahasiswa = Mahasiswa::find(<span class="hljs-number">1</span>);
+$jurusan = $mahasiswa-&gt;jurusan;
+<span class="hljs-keyword">echo</span> $jurusan-&gt;nama; <span class="hljs-comment">// Output: nama jurusan</span>
+
+<span class="hljs-comment">// Mendapatkan semua mahasiswa dari jurusan</span>
+$jurusan = Jurusan::find(<span class="hljs-number">1</span>);
+$mahasiswa_list = $jurusan-&gt;mahasiswa;
+<span class="hljs-keyword">foreach</span> ($mahasiswa_list <span class="hljs-keyword">as</span> $mhs) {
+    <span class="hljs-keyword">echo</span> $mhs-&gt;nama . <span class="hljs-string">'&lt;br&gt;'</span>;
+}
+
+<span class="hljs-comment">// Eager loading untuk optimalisasi query</span>
+$mahasiswa = Mahasiswa::with(<span class="hljs-string">'jurusan'</span>)-&gt;get();
+<span class="hljs-keyword">foreach</span> ($mahasiswa <span class="hljs-keyword">as</span> $mhs) {
+    <span class="hljs-keyword">echo</span> $mhs-&gt;nama . <span class="hljs-string">' - '</span> . $mhs-&gt;jurusan-&gt;nama . <span class="hljs-string">'&lt;br&gt;'</span>;
+}
+</div></code></pre>
+<h2 id="7-accessor-dan-mutator">7. Accessor dan Mutator</h2>
+<p>Accessor dan mutator memungkinkan Anda mengubah format data saat mengambil atau menyimpan ke database.</p>
+<h3 id="accessor-format-data-saat-diambil">Accessor: Format data saat diambil</h3>
+<pre class="hljs"><code><div><span class="hljs-comment">// Di model Mahasiswa</span>
+<span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getNamaLengkapAttribute</span><span class="hljs-params">()</span>
+</span>{
+    <span class="hljs-keyword">return</span> strtoupper(<span class="hljs-keyword">$this</span>-&gt;nama);
+}
+
+<span class="hljs-comment">// Penggunaan</span>
+$mahasiswa = Mahasiswa::find(<span class="hljs-number">1</span>);
+<span class="hljs-keyword">echo</span> $mahasiswa-&gt;nama_lengkap; <span class="hljs-comment">// Output: BUDI SANTOSO</span>
+</div></code></pre>
+<h3 id="mutator-format-data-sebelum-disimpan">Mutator: Format data sebelum disimpan</h3>
+<pre class="hljs"><code><div><span class="hljs-comment">// Di model Mahasiswa</span>
+<span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">setNamaAttribute</span><span class="hljs-params">($value)</span>
+</span>{
+    <span class="hljs-keyword">$this</span>-&gt;attributes[<span class="hljs-string">'nama'</span>] = ucwords(strtolower($value));
+}
+
+<span class="hljs-comment">// Penggunaan: nama akan disimpan dengan huruf kapital di awal kata</span>
+$mahasiswa = <span class="hljs-keyword">new</span> Mahasiswa;
+$mahasiswa-&gt;nama = <span class="hljs-string">'budi santoso'</span>; <span class="hljs-comment">// Akan disimpan sebagai "Budi Santoso"</span>
+$mahasiswa-&gt;save();
+</div></code></pre>
+<h2 id="8-scopes-untuk-query-yang-sering-digunakan">8. Scopes untuk Query yang Sering Digunakan</h2>
+<p>Scopes memungkinkan Anda mendefinisikan batasan query yang dapat digunakan berulang kali:</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// Di model Mahasiswa</span>
+<span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">scopeAktif</span><span class="hljs-params">($query)</span>
+</span>{
+    <span class="hljs-keyword">return</span> $query-&gt;where(<span class="hljs-string">'status'</span>, <span class="hljs-string">'aktif'</span>);
+}
+
+<span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">scopeJurusan</span><span class="hljs-params">($query, $jurusan_id)</span>
+</span>{
+    <span class="hljs-keyword">return</span> $query-&gt;where(<span class="hljs-string">'jurusan_id'</span>, $jurusan_id);
+}
+
+<span class="hljs-comment">// Penggunaan</span>
+$mahasiswa_TI_aktif = Mahasiswa::aktif()-&gt;jurusan(<span class="hljs-number">1</span>)-&gt;get();
+</div></code></pre>
+<h2 id="9-praktik-membuat-model-dan-relasi-untuk-aplikasi-mahasiswa">9. Praktik: Membuat Model dan Relasi untuk Aplikasi Mahasiswa</h2>
+<ol>
+<li>Buat model Mahasiswa dan Jurusan dengan relasi yang sesuai</li>
+<li>Implementasikan CRUD sederhana untuk model Mahasiswa</li>
+<li>Tampilkan data mahasiswa beserta nama jurusannya</li>
+<li>Buat filter untuk menampilkan mahasiswa berdasarkan jurusan</li>
+</ol>
+<h3 id="contoh-implementasi">Contoh Implementasi:</h3>
+<pre class="hljs"><code><div><span class="hljs-comment">// Controller MahasiswaController.php</span>
+<span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">index</span><span class="hljs-params">()</span>
+</span>{
+    $mahasiswa = Mahasiswa::with(<span class="hljs-string">'jurusan'</span>)-&gt;get();
+    <span class="hljs-keyword">return</span> view(<span class="hljs-string">'mahasiswa.index'</span>, compact(<span class="hljs-string">'mahasiswa'</span>));
+}
+
+<span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">filteredByJurusan</span><span class="hljs-params">($jurusan_id)</span>
+</span>{
+    $mahasiswa = Mahasiswa::with(<span class="hljs-string">'jurusan'</span>)-&gt;where(<span class="hljs-string">'jurusan_id'</span>, $jurusan_id)-&gt;get();
+    $jurusan = Jurusan::find($jurusan_id);
+    <span class="hljs-keyword">return</span> view(<span class="hljs-string">'mahasiswa.filtered'</span>, compact(<span class="hljs-string">'mahasiswa'</span>, <span class="hljs-string">'jurusan'</span>));
+}
+</div></code></pre>
+<h2 id="kesimpulan">Kesimpulan</h2>
+<p>Model Laravel adalah komponen penting yang menghubungkan aplikasi Anda dengan database. Dengan Eloquent ORM, interaksi dengan database menjadi lebih intuitif dan berorientasi objek. Memahami konsep model dan relasinya sangat penting untuk membangun aplikasi web yang efisien dengan Laravel.</p>
+<p>Dalam tutorial ini, kita telah mempelajari:</p>
+<ul>
+<li>Cara membuat dan mengonfigurasi model</li>
+<li>Operasi CRUD dasar menggunakan model</li>
+<li>Mendefinisikan dan menggunakan relasi antar model</li>
+<li>Menggunakan accessor dan mutator untuk memanipulasi data</li>
+<li>Menggunakan scopes untuk query yang sering digunakan</li>
+</ul>
+<p>Dengan pemahaman yang baik tentang model Laravel, Anda dapat membangun aplikasi pengelolaan data mahasiswa yang efisien dan terstruktur dengan baik.</p>
+
+</body>
+</html>

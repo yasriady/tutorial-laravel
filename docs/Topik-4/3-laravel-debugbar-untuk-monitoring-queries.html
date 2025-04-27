@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>3-laravel-debugbar-untuk-monitoring-queries.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="laravel-debugbar-untuk-monitoring-queries">Laravel Debugbar untuk Monitoring Queries</h1>
+<p>Laravel Debugbar adalah alat debugging yang sangat berguna untuk memantau dan menganalisis kinerja aplikasi Laravel, terutama query database. Dalam tutorial ini, kita akan belajar cara menginstal, mengonfigurasi, dan menggunakan Laravel Debugbar untuk memonitor query database di aplikasi mahasiswa kita.</p>
+<h2 id="apa-itu-laravel-debugbar">Apa itu Laravel Debugbar?</h2>
+<p>Laravel Debugbar adalah package yang menampilkan bar debug di bagian bawah halaman aplikasi Laravel Anda. Bar ini berisi berbagai informasi debugging seperti:</p>
+<ul>
+<li>Query database yang dijalankan</li>
+<li>Waktu eksekusi query</li>
+<li>Penggunaan memori</li>
+<li>Request dan response data</li>
+<li>Route yang diakses</li>
+<li>View yang dirender</li>
+<li>Dan banyak lagi</li>
+</ul>
+<pre><code class="language-mermaid"><div class="mermaid">flowchart LR
+    A[Request] --> B[Laravel App]
+    B -- "Eksekusi" --> C[Database Queries]
+    B -- "Tangkap data" --> D[Laravel Debugbar]
+    B --> E[Response + Debugbar]
+    
+    subgraph "Informasi yang Ditangkap"
+        F[Queries]
+        G[Routes]
+        H[Views]
+        I[Time]
+        J[Memory]
+        K[Exceptions]
+    end
+
+</div></code></pre>
+<h2 id="langkah-1-instalasi-laravel-debugbar">Langkah 1: Instalasi Laravel Debugbar</h2>
+<p>Pertama, instal package Laravel Debugbar menggunakan Composer:</p>
+<pre class="hljs"><code><div>composer require barryvdh/laravel-debugbar --dev
+</div></code></pre>
+<blockquote>
+<p><strong>Catatan</strong>: Parameter <code>--dev</code> memastikan bahwa package ini hanya diinstal di lingkungan development, tidak di production.</p>
+</blockquote>
+<p>Laravel akan otomatis mendeteksi package ini melalui fitur auto-discovery sehingga tidak perlu mendaftarkannya secara manual di <code>config/app.php</code>.</p>
+<h2 id="langkah-2-konfigurasi-debugbar">Langkah 2: Konfigurasi Debugbar</h2>
+<p>Laravel Debugbar secara default akan aktif jika <code>APP_DEBUG=true</code> di file <code>.env</code> Anda. Untuk membuat file konfigurasi kustom:</p>
+<pre class="hljs"><code><div>php artisan vendor:publish --provider=<span class="hljs-string">"Barryvdh\Debugbar\ServiceProvider"</span>
+</div></code></pre>
+<p>Perintah ini akan membuat file <code>config/debugbar.php</code> yang berisi berbagai opsi konfigurasi. Beberapa opsi penting:</p>
+<pre class="hljs"><code><div><span class="hljs-string">'enabled'</span> =&gt; env(<span class="hljs-string">'DEBUGBAR_ENABLED'</span>, <span class="hljs-keyword">null</span>),
+<span class="hljs-string">'storage'</span> =&gt; [
+    <span class="hljs-string">'enabled'</span>    =&gt; <span class="hljs-keyword">true</span>,
+    <span class="hljs-string">'path'</span>       =&gt; storage_path(<span class="hljs-string">'debugbar'</span>),
+],
+<span class="hljs-string">'collectors'</span> =&gt; [
+    <span class="hljs-string">'phpinfo'</span>         =&gt; <span class="hljs-keyword">true</span>,
+    <span class="hljs-string">'messages'</span>        =&gt; <span class="hljs-keyword">true</span>,
+    <span class="hljs-string">'time'</span>            =&gt; <span class="hljs-keyword">true</span>,
+    <span class="hljs-string">'memory'</span>          =&gt; <span class="hljs-keyword">true</span>,
+    <span class="hljs-string">'exceptions'</span>      =&gt; <span class="hljs-keyword">true</span>,
+    <span class="hljs-string">'log'</span>             =&gt; <span class="hljs-keyword">true</span>,
+    <span class="hljs-string">'db'</span>              =&gt; <span class="hljs-keyword">true</span>,  <span class="hljs-comment">// Aktifkan untuk monitor database queries</span>
+    <span class="hljs-string">'views'</span>           =&gt; <span class="hljs-keyword">true</span>,
+    <span class="hljs-string">'route'</span>           =&gt; <span class="hljs-keyword">true</span>,
+    <span class="hljs-string">'laravel'</span>         =&gt; <span class="hljs-keyword">true</span>,
+    <span class="hljs-string">'events'</span>          =&gt; <span class="hljs-keyword">false</span>,
+    <span class="hljs-string">'default_request'</span> =&gt; <span class="hljs-keyword">false</span>,
+    <span class="hljs-string">'symfony_request'</span> =&gt; <span class="hljs-keyword">true</span>,
+    <span class="hljs-string">'mail'</span>            =&gt; <span class="hljs-keyword">true</span>,
+    <span class="hljs-string">'logs'</span>            =&gt; <span class="hljs-keyword">false</span>,
+    <span class="hljs-string">'files'</span>           =&gt; <span class="hljs-keyword">false</span>,
+    <span class="hljs-string">'config'</span>          =&gt; <span class="hljs-keyword">true</span>,
+    <span class="hljs-string">'auth'</span>            =&gt; <span class="hljs-keyword">false</span>,
+    <span class="hljs-string">'gate'</span>            =&gt; <span class="hljs-keyword">false</span>,
+    <span class="hljs-string">'session'</span>         =&gt; <span class="hljs-keyword">true</span>,
+    <span class="hljs-string">'models'</span>          =&gt; <span class="hljs-keyword">true</span>,
+],
+</div></code></pre>
+<h2 id="langkah-3-menggunakan-debugbar-untuk-monitoring-queries">Langkah 3: Menggunakan Debugbar untuk Monitoring Queries</h2>
+<p>Setelah Debugbar terinstal dan dikonfigurasi, buka aplikasi Laravel Anda di browser. Anda akan melihat bar debug di bagian bawah halaman. Mari fokus pada monitoring query:</p>
+<h3 id="31-melihat-query-database">3.1 Melihat Query Database</h3>
+<ol>
+<li>Klik pada tab &quot;Queries&quot; di Debugbar</li>
+<li>Anda akan melihat daftar query yang dijalankan, waktu eksekusi, dan file yang memicu query</li>
+</ol>
+<p>Misalnya, ketika membuka halaman daftar mahasiswa, Anda akan melihat query untuk mengambil data mahasiswa:</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">SELECT</span> * <span class="hljs-keyword">FROM</span> <span class="hljs-string">`mahasiswas`</span> <span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> <span class="hljs-string">`id`</span> <span class="hljs-keyword">DESC</span> <span class="hljs-keyword">LIMIT</span> <span class="hljs-number">10</span> <span class="hljs-keyword">OFFSET</span> <span class="hljs-number">0</span>
+</div></code></pre>
+<h3 id="32-menganalisis-n1-query-problem">3.2 Menganalisis N+1 Query Problem</h3>
+<p>Debugbar sangat berguna untuk mengidentifikasi masalah N+1 Query. Misalnya:</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// Controller tanpa eager loading (akan menyebabkan N+1 problem)</span>
+<span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">index</span><span class="hljs-params">()</span>
+</span>{
+    $mahasiswas = Mahasiswa::paginate(<span class="hljs-number">10</span>);
+    <span class="hljs-keyword">return</span> view(<span class="hljs-string">'mahasiswa.index'</span>, compact(<span class="hljs-string">'mahasiswas'</span>));
+}
+</div></code></pre>
+<p>Pada view, jika kita mengakses relasi:</p>
+<pre class="hljs"><code><div>@foreach($mahasiswas as $mahasiswa)
+    &lt;tr&gt;
+        &lt;td&gt;{{ $mahasiswa-&gt;nim }}&lt;/td&gt;
+        &lt;td&gt;{{ $mahasiswa-&gt;nama }}&lt;/td&gt;
+        &lt;td&gt;{{ $mahasiswa-&gt;jurusan-&gt;nama }}&lt;/td&gt;  &lt;!-- Akan memicu query tambahan --&gt;
+    &lt;/tr&gt;
+@endforeach
+</div></code></pre>
+<p>Debugbar akan menunjukkan:</p>
+<ul>
+<li>1 query untuk mengambil semua mahasiswa</li>
+<li>N query tambahan untuk mengambil data jurusan (dimana N adalah jumlah mahasiswa)</li>
+</ul>
+<p>Solusinya adalah dengan menggunakan eager loading:</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// Controller dengan eager loading (mengatasi N+1 problem)</span>
+<span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">index</span><span class="hljs-params">()</span>
+</span>{
+    $mahasiswas = Mahasiswa::with(<span class="hljs-string">'jurusan'</span>)-&gt;paginate(<span class="hljs-number">10</span>);
+    <span class="hljs-keyword">return</span> view(<span class="hljs-string">'mahasiswa.index'</span>, compact(<span class="hljs-string">'mahasiswas'</span>));
+}
+</div></code></pre>
+<h2 id="langkah-4-fitur-monitoring-query-lanjutan">Langkah 4: Fitur Monitoring Query Lanjutan</h2>
+<h3 id="41-menampilkan-jumlah-query-dan-waktu-eksekusi">4.1 Menampilkan Jumlah Query dan Waktu Eksekusi</h3>
+<p>Debugbar otomatis menampilkan jumlah query yang dijalankan dan total waktu eksekusi di tab &quot;Queries&quot;. Informasi ini berguna untuk mengidentifikasi bottleneck performa.</p>
+<h3 id="42-melihat-explain-plan-query">4.2 Melihat Explain Plan Query</h3>
+<p>Untuk query yang lambat, Anda dapat mengklik pada query tersebut dan memilih &quot;Explain&quot; untuk melihat explain plan dari database:</p>
+<p><img src="placeholder_for_explain_plan_image" alt="Explain Plan"></p>
+<h3 id="43-mengaktifkan-highlight-untuk-query-duplikat">4.3 Mengaktifkan Highlight untuk Query Duplikat</h3>
+<p>Debugbar dapat meng-highlight query yang dijalankan lebih dari sekali (duplikat). Edit file konfigurasi:</p>
+<pre class="hljs"><code><div><span class="hljs-string">'options'</span> =&gt; [
+    <span class="hljs-string">'queries'</span> =&gt; [
+        <span class="hljs-string">'timeline'</span> =&gt; <span class="hljs-keyword">true</span>,  <span class="hljs-comment">// Tampilkan queries pada timeline</span>
+        <span class="hljs-string">'backtrace'</span> =&gt; <span class="hljs-keyword">true</span>, <span class="hljs-comment">// Tampilkan backtrace setiap query</span>
+        <span class="hljs-string">'explain'</span> =&gt; [       <span class="hljs-comment">// Tampilkan explain untuk queries yang lambat</span>
+            <span class="hljs-string">'enabled'</span> =&gt; <span class="hljs-keyword">true</span>,
+            <span class="hljs-string">'types'</span> =&gt; [<span class="hljs-string">'SELECT'</span>],
+            <span class="hljs-string">'threshold'</span> =&gt; <span class="hljs-number">0.1</span>, <span class="hljs-comment">// Query lebih dari 0.1 detik akan di-explain</span>
+        ],
+        <span class="hljs-string">'hints'</span> =&gt; <span class="hljs-keyword">true</span>,    <span class="hljs-comment">// Tampilkan hint untuk optimasi</span>
+        <span class="hljs-string">'show_copy'</span> =&gt; <span class="hljs-keyword">true</span>, <span class="hljs-comment">// Tampilkan tombol copy query</span>
+        <span class="hljs-string">'highlight'</span> =&gt; [     <span class="hljs-comment">// Highlight syntax query</span>
+            <span class="hljs-string">'enabled'</span> =&gt; <span class="hljs-keyword">true</span>,
+            <span class="hljs-string">'show_class'</span> =&gt; <span class="hljs-keyword">true</span>,
+        ],
+    ],
+],
+</div></code></pre>
+<h2 id="langkah-5-praktik-implementasi-di-aplikasi-mahasiswa">Langkah 5: Praktik Implementasi di Aplikasi Mahasiswa</h2>
+<h3 id="51-contoh-analisis-halaman-daftar-mahasiswa">5.1 Contoh Analisis Halaman Daftar Mahasiswa</h3>
+<p>Mari gunakan Debugbar untuk menganalisis dan mengoptimalkan halaman daftar mahasiswa:</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// MahasiswaController.php - Sebelum optimasi</span>
+<span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">index</span><span class="hljs-params">()</span>
+</span>{
+    $mahasiswas = Mahasiswa::paginate(<span class="hljs-number">10</span>);
+    <span class="hljs-keyword">return</span> view(<span class="hljs-string">'mahasiswa.index'</span>, compact(<span class="hljs-string">'mahasiswas'</span>));
+}
+</div></code></pre>
+<p>Setelah mengamati Debugbar, kita menemukan N+1 query saat mengakses data jurusan. Mari kita optimalkan:</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// MahasiswaController.php - Setelah optimasi</span>
+<span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">index</span><span class="hljs-params">()</span>
+</span>{
+    $mahasiswas = Mahasiswa::with(<span class="hljs-string">'jurusan'</span>)-&gt;paginate(<span class="hljs-number">10</span>);
+    <span class="hljs-keyword">return</span> view(<span class="hljs-string">'mahasiswa.index'</span>, compact(<span class="hljs-string">'mahasiswas'</span>));
+}
+</div></code></pre>
+<h3 id="52-contoh-query-builder-dengan-filter">5.2 Contoh Query Builder dengan Filter</h3>
+<pre class="hljs"><code><div><span class="hljs-comment">// MahasiswaController.php - Mencari mahasiswa dengan filter</span>
+<span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">search</span><span class="hljs-params">(Request $request)</span>
+</span>{
+    $query = Mahasiswa::query();
+    
+    <span class="hljs-keyword">if</span> ($request-&gt;has(<span class="hljs-string">'jurusan_id'</span>)) {
+        $query-&gt;where(<span class="hljs-string">'jurusan_id'</span>, $request-&gt;jurusan_id);
+    }
+    
+    <span class="hljs-keyword">if</span> ($request-&gt;has(<span class="hljs-string">'keyword'</span>)) {
+        $keyword = $request-&gt;keyword;
+        $query-&gt;where(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">($q)</span> <span class="hljs-title">use</span> <span class="hljs-params">($keyword)</span> </span>{
+            $q-&gt;where(<span class="hljs-string">'nama'</span>, <span class="hljs-string">'like'</span>, <span class="hljs-string">"%$keyword%"</span>)
+              -&gt;orWhere(<span class="hljs-string">'nim'</span>, <span class="hljs-string">'like'</span>, <span class="hljs-string">"%$keyword%"</span>);
+        });
+    }
+    
+    $mahasiswas = $query-&gt;with(<span class="hljs-string">'jurusan'</span>)-&gt;paginate(<span class="hljs-number">10</span>);
+    
+    <span class="hljs-keyword">return</span> view(<span class="hljs-string">'mahasiswa.index'</span>, compact(<span class="hljs-string">'mahasiswas'</span>));
+}
+</div></code></pre>
+<p>Debugbar akan menunjukkan query yang dihasilkan dan performanya:</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">SELECT</span> * <span class="hljs-keyword">FROM</span> <span class="hljs-string">`mahasiswas`</span> <span class="hljs-keyword">WHERE</span> <span class="hljs-string">`jurusan_id`</span> = <span class="hljs-number">1</span> 
+<span class="hljs-keyword">AND</span> (<span class="hljs-string">`nama`</span> <span class="hljs-keyword">LIKE</span> <span class="hljs-string">'%budi%'</span> <span class="hljs-keyword">OR</span> <span class="hljs-string">`nim`</span> <span class="hljs-keyword">LIKE</span> <span class="hljs-string">'%budi%'</span>) 
+<span class="hljs-keyword">LIMIT</span> <span class="hljs-number">10</span> <span class="hljs-keyword">OFFSET</span> <span class="hljs-number">0</span>
+</div></code></pre>
+<h2 id="langkah-6-menampilkan-query-debugbar-di-api-response">Langkah 6: Menampilkan Query Debugbar di API Response</h2>
+<p>Jika Anda sedang mengembangkan API dan ingin melihat query di response JSON:</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// AppServiceProvider.php - Tambahkan di method boot()</span>
+<span class="hljs-keyword">if</span> (config(<span class="hljs-string">'app.debug'</span>)) {
+    app(<span class="hljs-string">'debugbar'</span>)-&gt;enable();
+    \Debugbar::addCollector(<span class="hljs-keyword">new</span> \DebugBar\DataCollector\PDO\PDOCollector($pdo = <span class="hljs-keyword">null</span>));
+    
+    <span class="hljs-comment">// Tambahkan middleware untuk inject debugbar data di API response</span>
+    $kernel = app(<span class="hljs-string">'Illuminate\Contracts\Http\Kernel'</span>);
+    $kernel-&gt;pushMiddleware(\Illuminate\Foundation\Http\Middleware\SerializeDebugbarForAPI::class);
+}
+</div></code></pre>
+<p>Buat middleware <code>SerializeDebugbarForAPI.php</code>:</p>
+<pre class="hljs"><code><div><span class="hljs-meta">&lt;?php</span>
+
+<span class="hljs-keyword">namespace</span> <span class="hljs-title">App</span>\<span class="hljs-title">Http</span>\<span class="hljs-title">Middleware</span>;
+
+<span class="hljs-keyword">use</span> <span class="hljs-title">Closure</span>;
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SerializeDebugbarForAPI</span>
+</span>{
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">handle</span><span class="hljs-params">($request, Closure $next)</span>
+    </span>{
+        $response = $next($request);
+        
+        <span class="hljs-keyword">if</span> (app()-&gt;bound(<span class="hljs-string">'debugbar'</span>) &amp;&amp; app(<span class="hljs-string">'debugbar'</span>)-&gt;isEnabled() &amp;&amp; 
+            $request-&gt;wantsJson() &amp;&amp; $response-&gt;getStatusCode() === <span class="hljs-number">200</span>) {
+            
+            $data = $response-&gt;getData(<span class="hljs-keyword">true</span>);
+            $data[<span class="hljs-string">'_debugbar'</span>] = app(<span class="hljs-string">'debugbar'</span>)-&gt;getData();
+            $response-&gt;setData($data);
+        }
+        
+        <span class="hljs-keyword">return</span> $response;
+    }
+}
+</div></code></pre>
+<h2 id="langkah-7-praktik-terbaik-penggunaan-debugbar">Langkah 7: Praktik Terbaik Penggunaan Debugbar</h2>
+<h3 id="71-nonaktifkan-di-production">7.1 Nonaktifkan di Production</h3>
+<p>Pastikan Debugbar dinonaktifkan di lingkungan production:</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// .env di production</span>
+APP_DEBUG=<span class="hljs-keyword">false</span>
+DEBUGBAR_ENABLED=<span class="hljs-keyword">false</span>
+</div></code></pre>
+<h3 id="72-gunakan-mode-database-session-untuk-query-antar-request">7.2 Gunakan Mode Database Session untuk Query Antar Request</h3>
+<p>Edit file <code>config/debugbar.php</code>:</p>
+<pre class="hljs"><code><div><span class="hljs-string">'storage'</span> =&gt; [
+    <span class="hljs-string">'enabled'</span>    =&gt; <span class="hljs-keyword">true</span>,
+    <span class="hljs-string">'driver'</span>     =&gt; <span class="hljs-string">'database'</span>, <span class="hljs-comment">// Menggunakan database untuk menyimpan data</span>
+    <span class="hljs-string">'connection'</span> =&gt; <span class="hljs-keyword">null</span>,       <span class="hljs-comment">// Menggunakan koneksi database default</span>
+    <span class="hljs-string">'provider'</span>   =&gt; <span class="hljs-string">''</span>, <span class="hljs-comment">// Nama provider jika menggunakan penyimpanan kustom</span>
+],
+</div></code></pre>
+<p>Kemudian jalankan migrasi untuk membuat tabel:</p>
+<pre class="hljs"><code><div>php artisan vendor:publish --provider=<span class="hljs-string">"Barryvdh\Debugbar\ServiceProvider"</span> --tag=migrations
+php artisan migrate
+</div></code></pre>
+<h3 id="73-gunakan-collector-secara-selektif">7.3 Gunakan Collector Secara Selektif</h3>
+<p>Aktifkan hanya collector yang Anda butuhkan untuk menghemat memori:</p>
+<pre class="hljs"><code><div><span class="hljs-string">'collectors'</span> =&gt; [
+    <span class="hljs-string">'phpinfo'</span>         =&gt; <span class="hljs-keyword">false</span>, <span class="hljs-comment">// Nonaktifkan yang tidak perlu</span>
+    <span class="hljs-string">'messages'</span>        =&gt; <span class="hljs-keyword">true</span>,
+    <span class="hljs-string">'time'</span>            =&gt; <span class="hljs-keyword">true</span>,
+    <span class="hljs-string">'memory'</span>          =&gt; <span class="hljs-keyword">true</span>,
+    <span class="hljs-string">'exceptions'</span>      =&gt; <span class="hljs-keyword">true</span>,
+    <span class="hljs-string">'log'</span>             =&gt; <span class="hljs-keyword">true</span>,
+    <span class="hljs-string">'db'</span>              =&gt; <span class="hljs-keyword">true</span>,  <span class="hljs-comment">// Penting untuk monitoring query</span>
+    <span class="hljs-string">'views'</span>           =&gt; <span class="hljs-keyword">false</span>,
+    <span class="hljs-string">'route'</span>           =&gt; <span class="hljs-keyword">true</span>,
+    <span class="hljs-string">'laravel'</span>         =&gt; <span class="hljs-keyword">false</span>,
+    <span class="hljs-comment">// Lainnya...</span>
+],
+</div></code></pre>
+<h2 id="kesimpulan">Kesimpulan</h2>
+<p>Laravel Debugbar adalah alat yang sangat berguna untuk monitoring query database dan mengoptimalkan performa aplikasi Laravel. Dengan menggunakan fitur-fitur yang tersedia, Anda dapat:</p>
+<ol>
+<li>Mengidentifikasi masalah N+1 query</li>
+<li>Memonitor waktu eksekusi query</li>
+<li>Menemukan query duplikat atau tidak efisien</li>
+<li>Melihat explain plan untuk query lambat</li>
+</ol>
+<p>Semua ini membantu Anda membangun aplikasi mahasiswa yang lebih efisien dan responsif. Ingat untuk selalu menonaktifkan Debugbar di lingkungan production untuk menghindari kebocoran informasi sensitif dan overhead performa yang tidak perlu.</p>
+
+</body>
+</html>

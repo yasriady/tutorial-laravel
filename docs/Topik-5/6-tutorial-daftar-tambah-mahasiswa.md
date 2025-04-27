@@ -1,4 +1,4 @@
-# Tutorial: Membuat Halaman Daftar dan Form Tambah Mahasiswa di Laravel
+# Membuat Halaman Daftar dan Form Tambah Mahasiswa di Laravel
 
 Pada praktik ini, kita akan membuat halaman untuk menampilkan daftar mahasiswa dan form untuk menambah data mahasiswa baru di aplikasi Laravel. Mari kita ikuti langkah-langkah berikut:
 

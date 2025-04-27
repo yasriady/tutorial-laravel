@@ -1,4 +1,4 @@
-# Tutorial: Implementasi Pagination di Laravel
+# Implementasi Pagination di Laravel
 
 Pagination memungkinkan Anda menampilkan data dalam jumlah besar secara terpisah dalam beberapa halaman. Laravel menyediakan fitur pagination yang mudah digunakan dan sangat fleksibel.
 

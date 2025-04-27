@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>penggunaan-blade-template.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="penggunaan-blade-template">Penggunaan Blade Template</h1>
+<p>Blade adalah sistem templating yang kuat di Laravel, yang memungkinkan Anda menulis kode PHP dalam tampilan Anda dengan sintaks yang lebih mudah dan elegan. Mari kita pelajari dasar-dasar Blade dan bagaimana menggunakannya secara efektif.</p>
+<h2 id="apa-itu-blade-template">Apa itu Blade Template?</h2>
+<p>Blade adalah engine templating yang disediakan oleh Laravel. File template Blade disimpan dengan ekstensi <code>.blade.php</code> dan biasanya disimpan di direktori <code>resources/views</code>. Beberapa keunggulan Blade:</p>
+<ul>
+<li>Sintaks yang sederhana dan mudah dipahami</li>
+<li>Inheritance layout yang kuat</li>
+<li>Kompilasi ke PHP native (performa lebih baik)</li>
+<li>Tidak membatasi penggunaan PHP reguler dalam template</li>
+</ul>
+<h2 id="sintaks-dasar-blade">Sintaks Dasar Blade</h2>
+<h3 id="1-menampilkan-data">1. Menampilkan Data</h3>
+<pre class="hljs"><code><div>{{-- Menampilkan variabel --}}
+{{ $nama }}
+
+{{-- Menampilkan variabel dengan escape HTML (<span class="hljs-keyword">default</span>) --}}
+{{ $html_content }}
+
+{{-- Menampilkan variabel tanpa escape HTML --}}
+{!! $html_content !!}
+</div></code></pre>
+<blockquote>
+<p><strong>Catatan Keamanan</strong>: Selalu gunakan <code>{{ }}</code> (dengan escape) untuk mencegah XSS attack, kecuali Anda benar-benar yakin dengan konten yang ditampilkan.</p>
+</blockquote>
+<h3 id="2-direktif-kondisional">2. Direktif Kondisional</h3>
+<pre class="hljs"><code><div>{{-- <span class="hljs-keyword">If</span> statement --}}
+@<span class="hljs-keyword">if</span>($user-&gt;isAdmin)
+    &lt;p&gt;Selamat datang, Admin!&lt;/p&gt;
+@<span class="hljs-keyword">elseif</span>($user-&gt;isTeacher)
+    &lt;p&gt;Selamat datang, Pengajar!&lt;/p&gt;
+@<span class="hljs-keyword">else</span>
+    &lt;p&gt;Selamat datang, Mahasiswa!&lt;/p&gt;
+@<span class="hljs-keyword">endif</span>
+
+{{-- Unless (kebalikan <span class="hljs-keyword">if</span>) --}}
+@unless($mahasiswa-&gt;isActive)
+    &lt;p&gt;Mahasiswa tidak aktif&lt;/p&gt;
+@endunless
+
+{{-- <span class="hljs-keyword">Isset</span> dan <span class="hljs-keyword">empty</span> check --}}
+@<span class="hljs-keyword">isset</span>($mahasiswa)
+    &lt;p&gt;NIM: {{ $mahasiswa-&gt;nim }}&lt;/p&gt;
+@endisset
+
+@<span class="hljs-keyword">empty</span>($daftarMahasiswa)
+    &lt;p&gt;Tidak ada mahasiswa terdaftar&lt;/p&gt;
+@endempty
+</div></code></pre>
+<h3 id="3-perulangan">3. Perulangan</h3>
+<pre class="hljs"><code><div>{{-- <span class="hljs-keyword">For</span> loop --}}
+@<span class="hljs-keyword">for</span>($i = <span class="hljs-number">0</span>; $i &lt; <span class="hljs-number">10</span>; $i++)
+    &lt;p&gt;Iterasi ke-{{ $i }}&lt;/p&gt;
+@<span class="hljs-keyword">endfor</span>
+
+{{-- <span class="hljs-keyword">Foreach</span> loop --}}
+@<span class="hljs-keyword">foreach</span>($mahasiswas <span class="hljs-keyword">as</span> $mahasiswa)
+    &lt;p&gt;{{ $mahasiswa-&gt;nama }} ({{ $mahasiswa-&gt;nim }})&lt;/p&gt;
+@<span class="hljs-keyword">endforeach</span>
+
+{{-- Menggunakan $loop variable --}}
+@<span class="hljs-keyword">foreach</span>($mahasiswas <span class="hljs-keyword">as</span> $mahasiswa)
+    @<span class="hljs-keyword">if</span>($loop-&gt;first)
+        &lt;p&gt;Ini adalah mahasiswa pertama&lt;/p&gt;
+    @<span class="hljs-keyword">endif</span>
+    
+    &lt;p&gt;{{ $loop-&gt;iteration }}: {{ $mahasiswa-&gt;nama }}&lt;/p&gt;
+    
+    @<span class="hljs-keyword">if</span>($loop-&gt;last)
+        &lt;p&gt;Ini adalah mahasiswa terakhir&lt;/p&gt;
+    @<span class="hljs-keyword">endif</span>
+@<span class="hljs-keyword">endforeach</span>
+
+{{-- <span class="hljs-keyword">While</span> loop --}}
+@<span class="hljs-keyword">while</span>($condition)
+    &lt;p&gt;Loop <span class="hljs-keyword">while</span> berjalan&lt;/p&gt;
+@<span class="hljs-keyword">endwhile</span>
+</div></code></pre>
+<h3 id="4-komentar">4. Komentar</h3>
+<pre class="hljs"><code><div>{{-- Ini adalah komentar Blade yang tidak akan muncul di HTML yang dihasilkan --}}
+
+&lt;!-- Ini adalah komentar HTML yang akan terlihat di source code --&gt;
+</div></code></pre>
+<h3 id="5-direktif-php">5. Direktif PHP</h3>
+<pre class="hljs"><code><div>@php
+    $total = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">foreach</span>($mahasiswas <span class="hljs-keyword">as</span> $mahasiswa) {
+        $total += $mahasiswa-&gt;nilai;
+    }
+    $average = $total / count($mahasiswas);
+@endphp
+
+&lt;p&gt;Nilai rata-rata: {{ $average }}&lt;/p&gt;
+</div></code></pre>
+<h2 id="penggunaan-dalam-aplikasi-mahasiswa">Penggunaan dalam Aplikasi Mahasiswa</h2>
+<p>Mari terapkan pengetahuan ini dalam konteks aplikasi manajemen data mahasiswa:</p>
+<pre class="hljs"><code><div>{{-- resources/views/mahasiswa/index.blade.php --}}
+
+&lt;h1&gt;Daftar Mahasiswa&lt;/h1&gt;
+
+@<span class="hljs-keyword">if</span>(session(<span class="hljs-string">'success'</span>))
+    &lt;div <span class="hljs-class"><span class="hljs-keyword">class</span>="<span class="hljs-title">alert</span> <span class="hljs-title">alert</span>-<span class="hljs-title">success</span>"&gt;
+        </span>{{ session(<span class="hljs-string">'success'</span>) }}
+    &lt;/div&gt;
+@<span class="hljs-keyword">endif</span>
+
+@<span class="hljs-keyword">if</span>($mahasiswas-&gt;isEmpty())
+    &lt;p&gt;Belum ada data mahasiswa&lt;/p&gt;
+@<span class="hljs-keyword">else</span>
+    &lt;table <span class="hljs-class"><span class="hljs-keyword">class</span>="<span class="hljs-title">table</span>"&gt;
+        &lt;<span class="hljs-title">thead</span>&gt;
+            &lt;<span class="hljs-title">tr</span>&gt;
+                &lt;<span class="hljs-title">th</span>&gt;<span class="hljs-title">No</span>&lt;/<span class="hljs-title">th</span>&gt;
+                &lt;<span class="hljs-title">th</span>&gt;<span class="hljs-title">NIM</span>&lt;/<span class="hljs-title">th</span>&gt;
+                &lt;<span class="hljs-title">th</span>&gt;<span class="hljs-title">Nama</span>&lt;/<span class="hljs-title">th</span>&gt;
+                &lt;<span class="hljs-title">th</span>&gt;<span class="hljs-title">Jurusan</span>&lt;/<span class="hljs-title">th</span>&gt;
+                &lt;<span class="hljs-title">th</span>&gt;<span class="hljs-title">Aksi</span>&lt;/<span class="hljs-title">th</span>&gt;
+            &lt;/<span class="hljs-title">tr</span>&gt;
+        &lt;/<span class="hljs-title">thead</span>&gt;
+        &lt;<span class="hljs-title">tbody</span>&gt;
+            @<span class="hljs-title">foreach</span>($<span class="hljs-title">mahasiswas</span> <span class="hljs-title">as</span> $<span class="hljs-title">index</span> =&gt; $<span class="hljs-title">mahasiswa</span>)
+                &lt;<span class="hljs-title">tr</span>&gt;
+                    &lt;<span class="hljs-title">td</span>&gt;</span>{{ $index + <span class="hljs-number">1</span> }}&lt;/td&gt;
+                    &lt;td&gt;{{ $mahasiswa-&gt;nim }}&lt;/td&gt;
+                    &lt;td&gt;{{ $mahasiswa-&gt;nama }}&lt;/td&gt;
+                    &lt;td&gt;{{ $mahasiswa-&gt;jurusan-&gt;nama }}&lt;/td&gt;
+                    &lt;td&gt;
+                        &lt;a href=<span class="hljs-string">"{{ route('mahasiswa.edit', $mahasiswa-&gt;id) }}"</span> <span class="hljs-class"><span class="hljs-keyword">class</span>="<span class="hljs-title">btn</span> <span class="hljs-title">btn</span>-<span class="hljs-title">sm</span> <span class="hljs-title">btn</span>-<span class="hljs-title">primary</span>"&gt;<span class="hljs-title">Edit</span>&lt;/<span class="hljs-title">a</span>&gt;
+                        &lt;<span class="hljs-title">a</span> <span class="hljs-title">href</span>="</span>{{ route(<span class="hljs-string">'mahasiswa.show'</span>, $mahasiswa-&gt;id) }}<span class="hljs-string">" class="</span>btn btn-sm btn-info<span class="hljs-string">"&gt;Detail&lt;/a&gt;
+                        
+                        &lt;form action="</span>{{ route(<span class="hljs-string">'mahasiswa.destroy'</span>, $mahasiswa-&gt;id) }}<span class="hljs-string">" method="</span>POST<span class="hljs-string">" style="</span>display: inline;<span class="hljs-string">"&gt;
+                            @csrf
+                            @method('DELETE')
+                            &lt;button type="</span>submit<span class="hljs-string">" class="</span>btn btn-sm btn-danger<span class="hljs-string">" onclick="</span><span class="hljs-keyword">return</span> confirm(<span class="hljs-string">'Yakin ingin menghapus?'</span>)<span class="hljs-string">"&gt;Hapus&lt;/button&gt;
+                        &lt;/form&gt;
+                    &lt;/td&gt;
+                &lt;/tr&gt;
+            @endforeach
+        &lt;/tbody&gt;
+    &lt;/table&gt;
+    
+    {{ $mahasiswas-&gt;links() }}
+@endif
+</span></div></code></pre>
+<h2 id="memanggil-blade-template-dari-controller">Memanggil Blade Template dari Controller</h2>
+<p>Untuk merender view Blade dari controller:</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// MahasiswaController.php</span>
+<span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">index</span><span class="hljs-params">()</span>
+</span>{
+    $mahasiswas = Mahasiswa::with(<span class="hljs-string">'jurusan'</span>)-&gt;paginate(<span class="hljs-number">10</span>);
+    <span class="hljs-keyword">return</span> view(<span class="hljs-string">'mahasiswa.index'</span>, compact(<span class="hljs-string">'mahasiswas'</span>));
+}
+</div></code></pre>
+<p>Selanjutnya, kita akan membahas sub-topik berikutnya: <strong>Layout Master dan Komponen</strong></p>
+
+</body>
+</html>

@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>integrasi-css-framework-sederhana.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="integrasi-css-framework-sederhana">Integrasi CSS Framework Sederhana</h1>
+<p>CSS Framework sangat membantu mempercepat proses pengembangan tampilan aplikasi web. Framework ini menyediakan komponen dan utilitas yang sudah jadi, sehingga Anda tidak perlu menulis CSS dari awal. Dalam materi ini, kita akan mengintegrasikan Bootstrap, salah satu CSS framework paling populer, ke dalam aplikasi Laravel Mahasiswa.</p>
+<h2 id="cara-mengintegrasikan-bootstrap-ke-laravel">Cara Mengintegrasikan Bootstrap ke Laravel</h2>
+<p>Ada beberapa cara untuk mengintegrasikan Bootstrap ke aplikasi Laravel. Mari bahas masing-masing metode secara sistematis:</p>
+<h3 id="1-menggunakan-cdn-content-delivery-network">1. Menggunakan CDN (Content Delivery Network)</h3>
+<p>Cara termudah adalah dengan menambahkan link CDN Bootstrap di layout master:</p>
+<pre class="hljs"><code><div>{{-- resources/views/layouts/app.blade.php --}}
+&lt;!DOCTYPE html&gt;
+&lt;html lang=<span class="hljs-string">"en"</span>&gt;
+&lt;head&gt;
+    &lt;!-- Meta tags dan title --&gt;
+    
+    &lt;!-- Bootstrap CSS --&gt;
+    &lt;link href=<span class="hljs-string">"https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"</span> rel=<span class="hljs-string">"stylesheet"</span>&gt;
+    
+    &lt;!-- CSS Kustom Anda --&gt;
+    &lt;link href=<span class="hljs-string">"{{ asset('css/app.css') }}"</span> rel=<span class="hljs-string">"stylesheet"</span>&gt;
+    
+    @<span class="hljs-keyword">yield</span>(<span class="hljs-string">'styles'</span>)
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;!-- Konten website --&gt;
+    
+    &lt;!-- Bootstrap JavaScript --&gt;
+    &lt;script src=<span class="hljs-string">"https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"</span>&gt;&lt;/script&gt;
+    
+    @<span class="hljs-keyword">yield</span>(<span class="hljs-string">'scripts'</span>)
+&lt;/body&gt;
+&lt;/html&gt;
+</div></code></pre>
+<p><strong>Kelebihan metode CDN:</strong></p>
+<ul>
+<li>Sangat mudah diterapkan</li>
+<li>Tidak perlu instalasi tambahan</li>
+<li>Browser mungkin sudah menyimpan cache Bootstrap dari website lain</li>
+</ul>
+<p><strong>Kekurangan metode CDN:</strong></p>
+<ul>
+<li>Memerlukan koneksi internet</li>
+<li>Tidak dapat dikustomisasi dengan Sass</li>
+</ul>
+<h3 id="2-menggunakan-laravel-mix-untuk-laravel-8-ke-bawah">2. Menggunakan Laravel Mix (Untuk Laravel 8 ke bawah)</h3>
+<p>Laravel Mix adalah wrapper untuk Webpack yang mempermudah kompilasi aset:</p>
+<ol>
+<li>
+<p><strong>Install Node.js dan NPM</strong> jika belum terinstall.</p>
+</li>
+<li>
+<p><strong>Install Bootstrap dan dependensinya</strong>:</p>
+<pre class="hljs"><code><div>npm install bootstrap @popperjs/core
+</div></code></pre>
+</li>
+<li>
+<p><strong>Edit file webpack.mix.js</strong>:</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">const</span> mix = <span class="hljs-built_in">require</span>(<span class="hljs-string">'laravel-mix'</span>);
+
+mix.js(<span class="hljs-string">'resources/js/app.js'</span>, <span class="hljs-string">'public/js'</span>)
+   .sass(<span class="hljs-string">'resources/sass/app.scss'</span>, <span class="hljs-string">'public/css'</span>);
+</div></code></pre>
+</li>
+<li>
+<p><strong>Buat/Edit file resources/sass/app.scss</strong>:</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// Variabel Bootstrap bisa dikustomisasi di sini</span>
+<span class="hljs-variable">$primary</span>: <span class="hljs-number">#4e73df</span>;
+<span class="hljs-variable">$secondary</span>: <span class="hljs-number">#858796</span>;
+<span class="hljs-variable">$success</span>: <span class="hljs-number">#1cc88a</span>;
+
+<span class="hljs-comment">// Import Bootstrap</span>
+<span class="hljs-keyword">@import</span> <span class="hljs-string">'~bootstrap/scss/bootstrap'</span>;
+
+<span class="hljs-comment">// CSS kustom Anda</span>
+<span class="hljs-selector-tag">body</span> {
+    <span class="hljs-attribute">font-family</span>: <span class="hljs-string">'Nunito'</span>, sans-serif;
+    <span class="hljs-attribute">background-color</span>: <span class="hljs-number">#f8f9fc</span>;
+}
+
+<span class="hljs-comment">// ... CSS lainnya</span>
+</div></code></pre>
+</li>
+<li>
+<p><strong>Buat/Edit file resources/js/app.js</strong>:</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// Import Bootstrap JavaScript</span>
+<span class="hljs-keyword">import</span> <span class="hljs-string">'bootstrap'</span>;
+
+<span class="hljs-comment">// JavaScript kustom Anda</span>
+<span class="hljs-built_in">console</span>.log(<span class="hljs-string">'Aplikasi Mahasiswa dimuat'</span>);
+</div></code></pre>
+</li>
+<li>
+<p><strong>Kompilasi aset</strong>:</p>
+<pre class="hljs"><code><div>npm run dev
+</div></code></pre>
+<p>Atau untuk production:</p>
+<pre class="hljs"><code><div>npm run prod
+</div></code></pre>
+</li>
+<li>
+<p><strong>Tambahkan aset yang telah dikompilasi ke layout</strong>:</p>
+<pre class="hljs"><code><div>&lt;link href=<span class="hljs-string">"{{ asset('css/app.css') }}"</span> rel=<span class="hljs-string">"stylesheet"</span>&gt;
+&lt;script src=<span class="hljs-string">"{{ asset('js/app.js') }}"</span> defer&gt;&lt;/script&gt;
+</div></code></pre>
+</li>
+</ol>
+<h3 id="3-menggunakan-vite-laravel-9">3. Menggunakan Vite (Laravel 9+)</h3>
+<p>Laravel 9+ menggunakan Vite sebagai pengganti Laravel Mix:</p>
+<ol>
+<li>
+<p><strong>Install Bootstrap</strong>:</p>
+<pre class="hljs"><code><div>npm install bootstrap @popperjs/core
+</div></code></pre>
+</li>
+<li>
+<p><strong>Edit vite.config.js</strong>:</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">import</span> { defineConfig } <span class="hljs-keyword">from</span> <span class="hljs-string">'vite'</span>;
+<span class="hljs-keyword">import</span> laravel <span class="hljs-keyword">from</span> <span class="hljs-string">'laravel-vite-plugin'</span>;
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> defineConfig({
+    <span class="hljs-attr">plugins</span>: [
+        laravel({
+            <span class="hljs-attr">input</span>: [<span class="hljs-string">'resources/css/app.css'</span>, <span class="hljs-string">'resources/js/app.js'</span>],
+            <span class="hljs-attr">refresh</span>: <span class="hljs-literal">true</span>,
+        }),
+    ],
+    <span class="hljs-attr">resolve</span>: {
+        <span class="hljs-attr">alias</span>: {
+            <span class="hljs-string">'~bootstrap'</span>: <span class="hljs-string">'node_modules/bootstrap'</span>,
+        }
+    },
+});
+</div></code></pre>
+</li>
+<li>
+<p><strong>Buat resources/css/app.css</strong>:</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">@import</span> <span class="hljs-string">'~bootstrap/dist/css/bootstrap.min.css'</span>;
+
+<span class="hljs-comment">/* CSS kustom Anda */</span>
+</div></code></pre>
+</li>
+<li>
+<p><strong>Edit resources/js/app.js</strong>:</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">import</span> <span class="hljs-string">'../css/app.css'</span>;
+<span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> bootstrap <span class="hljs-keyword">from</span> <span class="hljs-string">'bootstrap'</span>;
+
+<span class="hljs-comment">// JavaScript kustom Anda</span>
+</div></code></pre>
+</li>
+<li>
+<p><strong>Jalankan Vite</strong>:</p>
+<pre class="hljs"><code><div>npm run dev
+</div></code></pre>
+</li>
+<li>
+<p><strong>Tambahkan ke layout</strong>:</p>
+<pre class="hljs"><code><div>@vite([<span class="hljs-string">'resources/css/app.css'</span>, <span class="hljs-string">'resources/js/app.js'</span>])
+</div></code></pre>
+</li>
+</ol>
+<h2 id="implementasi-praktis-untuk-aplikasi-mahasiswa">Implementasi Praktis untuk Aplikasi Mahasiswa</h2>
+<p>Setelah mengintegrasikan Bootstrap, kita bisa mulai menggunakannya untuk mempercantik aplikasi Mahasiswa:</p>
+<h3 id="1-dashboard-dengan-card-dan-grid-system">1. Dashboard dengan Card dan Grid System</h3>
+<pre class="hljs"><code><div>{{-- resources/views/dashboard.blade.php --}}
+@extends(<span class="hljs-string">'layouts.app'</span>)
+
+@section(<span class="hljs-string">'content'</span>)
+&lt;div <span class="hljs-class"><span class="hljs-keyword">class</span>="<span class="hljs-title">container</span>"&gt;
+    &lt;<span class="hljs-title">h1</span> <span class="hljs-title">class</span>="<span class="hljs-title">mb</span>-4"&gt;<span class="hljs-title">Dashboard</span>&lt;/<span class="hljs-title">h1</span>&gt;
+    
+    &lt;<span class="hljs-title">div</span> <span class="hljs-title">class</span>="<span class="hljs-title">row</span>"&gt;
+        &lt;!-- <span class="hljs-title">Card</span>: <span class="hljs-title">Total</span> <span class="hljs-title">Mahasiswa</span> --&gt;
+        &lt;<span class="hljs-title">div</span> <span class="hljs-title">class</span>="<span class="hljs-title">col</span>-<span class="hljs-title">md</span>-4 <span class="hljs-title">mb</span>-4"&gt;
+            &lt;<span class="hljs-title">div</span> <span class="hljs-title">class</span>="<span class="hljs-title">card</span> <span class="hljs-title">border</span>-<span class="hljs-title">left</span>-<span class="hljs-title">primary</span> <span class="hljs-title">shadow</span> <span class="hljs-title">h</span>-100"&gt;
+                &lt;<span class="hljs-title">div</span> <span class="hljs-title">class</span>="<span class="hljs-title">card</span>-<span class="hljs-title">body</span>"&gt;
+                    &lt;<span class="hljs-title">div</span> <span class="hljs-title">class</span>="<span class="hljs-title">row</span> <span class="hljs-title">no</span>-<span class="hljs-title">gutters</span> <span class="hljs-title">align</span>-<span class="hljs-title">items</span>-<span class="hljs-title">center</span>"&gt;
+                        &lt;<span class="hljs-title">div</span> <span class="hljs-title">class</span>="<span class="hljs-title">col</span> <span class="hljs-title">mr</span>-2"&gt;
+                            &lt;<span class="hljs-title">div</span> <span class="hljs-title">class</span>="<span class="hljs-title">text</span>-<span class="hljs-title">xs</span> <span class="hljs-title">font</span>-<span class="hljs-title">weight</span>-<span class="hljs-title">bold</span> <span class="hljs-title">text</span>-<span class="hljs-title">primary</span> <span class="hljs-title">text</span>-<span class="hljs-title">uppercase</span> <span class="hljs-title">mb</span>-1"&gt;
+                                <span class="hljs-title">Total</span> <span class="hljs-title">Mahasiswa</span>&lt;/<span class="hljs-title">div</span>&gt;
+                            &lt;<span class="hljs-title">div</span> <span class="hljs-title">class</span>="<span class="hljs-title">h5</span> <span class="hljs-title">mb</span>-0 <span class="hljs-title">font</span>-<span class="hljs-title">weight</span>-<span class="hljs-title">bold</span> <span class="hljs-title">text</span>-<span class="hljs-title">gray</span>-800"&gt;</span>{{ $totalMahasiswa }}&lt;/div&gt;
+                        &lt;/div&gt;
+                        &lt;div <span class="hljs-class"><span class="hljs-keyword">class</span>="<span class="hljs-title">col</span>-<span class="hljs-title">auto</span>"&gt;
+                            &lt;<span class="hljs-title">i</span> <span class="hljs-title">class</span>="<span class="hljs-title">fas</span> <span class="hljs-title">fa</span>-<span class="hljs-title">users</span> <span class="hljs-title">fa</span>-2<span class="hljs-title">x</span> <span class="hljs-title">text</span>-<span class="hljs-title">gray</span>-300"&gt;&lt;/<span class="hljs-title">i</span>&gt;
+                        &lt;/<span class="hljs-title">div</span>&gt;
+                    &lt;/<span class="hljs-title">div</span>&gt;
+                &lt;/<span class="hljs-title">div</span>&gt;
+            &lt;/<span class="hljs-title">div</span>&gt;
+        &lt;/<span class="hljs-title">div</span>&gt;
+        
+        &lt;!-- <span class="hljs-title">Card</span>: <span class="hljs-title">Total</span> <span class="hljs-title">Jurusan</span> --&gt;
+        &lt;<span class="hljs-title">div</span> <span class="hljs-title">class</span>="<span class="hljs-title">col</span>-<span class="hljs-title">md</span>-4 <span class="hljs-title">mb</span>-4"&gt;
+            &lt;<span class="hljs-title">div</span> <span class="hljs-title">class</span>="<span class="hljs-title">card</span> <span class="hljs-title">border</span>-<span class="hljs-title">left</span>-<span class="hljs-title">success</span> <span class="hljs-title">shadow</span> <span class="hljs-title">h</span>-100"&gt;
+                &lt;<span class="hljs-title">div</span> <span class="hljs-title">class</span>="<span class="hljs-title">card</span>-<span class="hljs-title">body</span>"&gt;
+                    &lt;<span class="hljs-title">div</span> <span class="hljs-title">class</span>="<span class="hljs-title">row</span> <span class="hljs-title">no</span>-<span class="hljs-title">gutters</span> <span class="hljs-title">align</span>-<span class="hljs-title">items</span>-<span class="hljs-title">center</span>"&gt;
+                        &lt;<span class="hljs-title">div</span> <span class="hljs-title">class</span>="<span class="hljs-title">col</span> <span class="hljs-title">mr</span>-2"&gt;
+                            &lt;<span class="hljs-title">div</span> <span class="hljs-title">class</span>="<span class="hljs-title">text</span>-<span class="hljs-title">xs</span> <span class="hljs-title">font</span>-<span class="hljs-title">weight</span>-<span class="hljs-title">bold</span> <span class="hljs-title">text</span>-<span class="hljs-title">success</span> <span class="hljs-title">text</span>-<span class="hljs-title">uppercase</span> <span class="hljs-title">mb</span>-1"&gt;
+                                <span class="hljs-title">Total</span> <span class="hljs-title">Jurusan</span>&lt;/<span class="hljs-title">div</span>&gt;
+                            &lt;<span class="hljs-title">div</span> <span class="hljs-title">class</span>="<span class="hljs-title">h5</span> <span class="hljs-title">mb</span>-0 <span class="hljs-title">font</span>-<span class="hljs-title">weight</span>-<span class="hljs-title">bold</span> <span class="hljs-title">text</span>-<span class="hljs-title">gray</span>-800"&gt;</span>{{ $totalJurusan }}&lt;/div&gt;
+                        &lt;/div&gt;
+                        &lt;div <span class="hljs-class"><span class="hljs-keyword">class</span>="<span class="hljs-title">col</span>-<span class="hljs-title">auto</span>"&gt;
+                            &lt;<span class="hljs-title">i</span> <span class="hljs-title">class</span>="<span class="hljs-title">fas</span> <span class="hljs-title">fa</span>-<span class="hljs-title">university</span> <span class="hljs-title">fa</span>-2<span class="hljs-title">x</span> <span class="hljs-title">text</span>-<span class="hljs-title">gray</span>-300"&gt;&lt;/<span class="hljs-title">i</span>&gt;
+                        &lt;/<span class="hljs-title">div</span>&gt;
+                    &lt;/<span class="hljs-title">div</span>&gt;
+                &lt;/<span class="hljs-title">div</span>&gt;
+            &lt;/<span class="hljs-title">div</span>&gt;
+        &lt;/<span class="hljs-title">div</span>&gt;
+        
+        &lt;!-- <span class="hljs-title">Card</span>: <span class="hljs-title">Total</span> <span class="hljs-title">Mata</span> <span class="hljs-title">Kuliah</span> --&gt;
+        &lt;<span class="hljs-title">div</span> <span class="hljs-title">class</span>="<span class="hljs-title">col</span>-<span class="hljs-title">md</span>-4 <span class="hljs-title">mb</span>-4"&gt;
+            &lt;<span class="hljs-title">div</span> <span class="hljs-title">class</span>="<span class="hljs-title">card</span> <span class="hljs-title">border</span>-<span class="hljs-title">left</span>-<span class="hljs-title">info</span> <span class="hljs-title">shadow</span> <span class="hljs-title">h</span>-100"&gt;
+                &lt;<span class="hljs-title">div</span> <span class="hljs-title">class</span>="<span class="hljs-title">card</span>-<span class="hljs-title">body</span>"&gt;
+                    &lt;<span class="hljs-title">div</span> <span class="hljs-title">class</span>="<span class="hljs-title">row</span> <span class="hljs-title">no</span>-<span class="hljs-title">gutters</span> <span class="hljs-title">align</span>-<span class="hljs-title">items</span>-<span class="hljs-title">center</span>"&gt;
+                        &lt;<span class="hljs-title">div</span> <span class="hljs-title">class</span>="<span class="hljs-title">col</span> <span class="hljs-title">mr</span>-2"&gt;
+                            &lt;<span class="hljs-title">div</span> <span class="hljs-title">class</span>="<span class="hljs-title">text</span>-<span class="hljs-title">xs</span> <span class="hljs-title">font</span>-<span class="hljs-title">weight</span>-<span class="hljs-title">bold</span> <span class="hljs-title">text</span>-<span class="hljs-title">info</span> <span class="hljs-title">text</span>-<span class="hljs-title">uppercase</span> <span class="hljs-title">mb</span>-1"&gt;
+                                <span class="hljs-title">Total</span> <span class="hljs-title">Mata</span> <span class="hljs-title">Kuliah</span>&lt;/<span class="hljs-title">div</span>&gt;
+                            &lt;<span class="hljs-title">div</span> <span class="hljs-title">class</span>="<span class="hljs-title">h5</span> <span class="hljs-title">mb</span>-0 <span class="hljs-title">font</span>-<span class="hljs-title">weight</span>-<span class="hljs-title">bold</span> <span class="hljs-title">text</span>-<span class="hljs-title">gray</span>-800"&gt;</span>{{ $totalMataKuliah }}&lt;/div&gt;
+                        &lt;/div&gt;
+                        &lt;div <span class="hljs-class"><span class="hljs-keyword">class</span>="<span class="hljs-title">col</span>-<span class="hljs-title">auto</span>"&gt;
+                            &lt;<span class="hljs-title">i</span> <span class="hljs-title">class</span>="<span class="hljs-title">fas</span> <span class="hljs-title">fa</span>-<span class="hljs-title">book</span> <span class="hljs-title">fa</span>-2<span class="hljs-title">x</span> <span class="hljs-title">text</span>-<span class="hljs-title">gray</span>-300"&gt;&lt;/<span class="hljs-title">i</span>&gt;
+                        &lt;/<span class="hljs-title">div</span>&gt;
+                    &lt;/<span class="hljs-title">div</span>&gt;
+                &lt;/<span class="hljs-title">div</span>&gt;
+            &lt;/<span class="hljs-title">div</span>&gt;
+        &lt;/<span class="hljs-title">div</span>&gt;
+    &lt;/<span class="hljs-title">div</span>&gt;
+    
+    &lt;!-- <span class="hljs-title">Grafik</span> <span class="hljs-title">Mahasiswa</span> <span class="hljs-title">per</span> <span class="hljs-title">Jurusan</span> --&gt;
+    &lt;<span class="hljs-title">div</span> <span class="hljs-title">class</span>="<span class="hljs-title">row</span>"&gt;
+        &lt;<span class="hljs-title">div</span> <span class="hljs-title">class</span>="<span class="hljs-title">col</span>-12"&gt;
+            &lt;<span class="hljs-title">div</span> <span class="hljs-title">class</span>="<span class="hljs-title">card</span> <span class="hljs-title">shadow</span> <span class="hljs-title">mb</span>-4"&gt;
+                &lt;<span class="hljs-title">div</span> <span class="hljs-title">class</span>="<span class="hljs-title">card</span>-<span class="hljs-title">header</span> <span class="hljs-title">py</span>-3"&gt;
+                    &lt;<span class="hljs-title">h6</span> <span class="hljs-title">class</span>="<span class="hljs-title">m</span>-0 <span class="hljs-title">font</span>-<span class="hljs-title">weight</span>-<span class="hljs-title">bold</span> <span class="hljs-title">text</span>-<span class="hljs-title">primary</span>"&gt;<span class="hljs-title">Mahasiswa</span> <span class="hljs-title">per</span> <span class="hljs-title">Jurusan</span>&lt;/<span class="hljs-title">h6</span>&gt;
+                &lt;/<span class="hljs-title">div</span>&gt;
+                &lt;<span class="hljs-title">div</span> <span class="hljs-title">class</span>="<span class="hljs-title">card</span>-<span class="hljs-title">body</span>"&gt;
+                    &lt;<span class="hljs-title">div</span> <span class="hljs-title">class</span>="<span class="hljs-title">chart</span>-<span class="hljs-title">bar</span>"&gt;
+                        &lt;<span class="hljs-title">canvas</span> <span class="hljs-title">id</span>="<span class="hljs-title">mahasiswaJurusanChart</span>"&gt;&lt;/<span class="hljs-title">canvas</span>&gt;
+                    &lt;/<span class="hljs-title">div</span>&gt;
+                &lt;/<span class="hljs-title">div</span>&gt;
+            &lt;/<span class="hljs-title">div</span>&gt;
+        &lt;/<span class="hljs-title">div</span>&gt;
+    &lt;/<span class="hljs-title">div</span>&gt;
+&lt;/<span class="hljs-title">div</span>&gt;
+@<span class="hljs-title">endsection</span>
+</span></div></code></pre>
+<h3 id="2-tabel-responsif-untuk-daftar-mahasiswa">2. Tabel Responsif untuk Daftar Mahasiswa</h3>
+<pre class="hljs"><code><div>{{-- resources/views/mahasiswa/index.blade.php --}}
+@extends(<span class="hljs-string">'layouts.app'</span>)
+
+@section(<span class="hljs-string">'content'</span>)
+&lt;div <span class="hljs-class"><span class="hljs-keyword">class</span>="<span class="hljs-title">container</span>"&gt;
+    &lt;<span class="hljs-title">div</span> <span class="hljs-title">class</span>="<span class="hljs-title">d</span>-<span class="hljs-title">sm</span>-<span class="hljs-title">flex</span> <span class="hljs-title">align</span>-<span class="hljs-title">items</span>-<span class="hljs-title">center</span> <span class="hljs-title">justify</span>-<span class="hljs-title">content</span>-<span class="hljs-title">between</span> <span class="hljs-title">mb</span>-4"&gt;
+        &lt;<span class="hljs-title">h1</span> <span class="hljs-title">class</span>="<span class="hljs-title">h3</span> <span class="hljs-title">mb</span>-0 <span class="hljs-title">text</span>-<span class="hljs-title">gray</span>-800"&gt;<span class="hljs-title">Daftar</span> <span class="hljs-title">Mahasiswa</span>&lt;/<span class="hljs-title">h1</span>&gt;
+        &lt;<span class="hljs-title">a</span> <span class="hljs-title">href</span>="</span>{{ route(<span class="hljs-string">'mahasiswa.create'</span>) }}<span class="hljs-string">" class="</span>btn btn-primary<span class="hljs-string">"&gt;
+            &lt;i class="</span>fas fa-plus fa-sm text-white<span class="hljs-number">-50</span><span class="hljs-string">"&gt;&lt;/i&gt; Tambah Mahasiswa
+        &lt;/a&gt;
+    &lt;/div&gt;
+    
+    @if(session('success'))
+        &lt;div class="</span>alert alert-success alert-dismissible fade show<span class="hljs-string">" role="</span>alert<span class="hljs-string">"&gt;
+            {{ session('success') }}
+            &lt;button type="</span>button<span class="hljs-string">" class="</span>btn-close<span class="hljs-string">" data-bs-dismiss="</span>alert<span class="hljs-string">" aria-label="</span>Close<span class="hljs-string">"&gt;&lt;/button&gt;
+        &lt;/div&gt;
+    @endif
+    
+    &lt;div class="</span>card shadow mb<span class="hljs-number">-4</span><span class="hljs-string">"&gt;
+        &lt;div class="</span>card-header py<span class="hljs-number">-3</span><span class="hljs-string">"&gt;
+            &lt;div class="</span>row align-items-center<span class="hljs-string">"&gt;
+                &lt;div class="</span>col<span class="hljs-string">"&gt;
+                    &lt;h6 class="</span>m<span class="hljs-number">-0</span> font-weight-bold text-primary<span class="hljs-string">"&gt;Data Mahasiswa&lt;/h6&gt;
+                &lt;/div&gt;
+                &lt;div class="</span>col-auto<span class="hljs-string">"&gt;
+                    &lt;form action="</span>{{ route(<span class="hljs-string">'mahasiswa.index'</span>) }}<span class="hljs-string">" method="</span>GET<span class="hljs-string">" class="</span>d-flex<span class="hljs-string">"&gt;
+                        &lt;input type="</span>text<span class="hljs-string">" name="</span>search<span class="hljs-string">" class="</span>form-control form-control-sm mr<span class="hljs-number">-2</span><span class="hljs-string">" 
+                               placeholder="</span>Cari mahasiswa...<span class="hljs-string">" value="</span>{{ request(<span class="hljs-string">'search'</span>) }}<span class="hljs-string">"&gt;
+                        &lt;button type="</span>submit<span class="hljs-string">" class="</span>btn btn-sm btn-primary<span class="hljs-string">"&gt;Cari&lt;/button&gt;
+                    &lt;/form&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+        &lt;div class="</span>card-body<span class="hljs-string">"&gt;
+            &lt;div class="</span>table-responsive<span class="hljs-string">"&gt;
+                &lt;table class="</span>table table-bordered table-striped<span class="hljs-string">" width="</span><span class="hljs-number">100</span>%<span class="hljs-string">" cellspacing="</span><span class="hljs-number">0</span><span class="hljs-string">"&gt;
+                    &lt;thead class="</span>bg-primary text-white<span class="hljs-string">"&gt;
+                        &lt;tr&gt;
+                            &lt;th&gt;No&lt;/th&gt;
+                            &lt;th&gt;NIM&lt;/th&gt;
+                            &lt;th&gt;Nama&lt;/th&gt;
+                            &lt;th&gt;Jurusan&lt;/th&gt;
+                            &lt;th&gt;Email&lt;/th&gt;
+                            &lt;th&gt;Aksi&lt;/th&gt;
+                        &lt;/tr&gt;
+                    &lt;/thead&gt;
+                    &lt;tbody&gt;
+                        @forelse($mahasiswas as $index =&gt; $mahasiswa)
+                            &lt;tr&gt;
+                                &lt;td&gt;{{ $index + $mahasiswas-&gt;firstItem() }}&lt;/td&gt;
+                                &lt;td&gt;{{ $mahasiswa-&gt;nim }}&lt;/td&gt;
+                                &lt;td&gt;{{ $mahasiswa-&gt;nama }}&lt;/td&gt;
+                                &lt;td&gt;{{ $mahasiswa-&gt;jurusan-&gt;nama }}&lt;/td&gt;
+                                &lt;td&gt;{{ $mahasiswa-&gt;email }}&lt;/td&gt;
+                                &lt;td&gt;
+                                    &lt;a href="</span>{{ route(<span class="hljs-string">'mahasiswa.show'</span>, $mahasiswa-&gt;id) }}<span class="hljs-string">" class="</span>btn btn-info btn-sm<span class="hljs-string">"&gt;
+                                        &lt;i class="</span>fas fa-eye<span class="hljs-string">"&gt;&lt;/i&gt;
+                                    &lt;/a&gt;
+                                    &lt;a href="</span>{{ route(<span class="hljs-string">'mahasiswa.edit'</span>, $mahasiswa-&gt;id) }}<span class="hljs-string">" class="</span>btn btn-warning btn-sm<span class="hljs-string">"&gt;
+                                        &lt;i class="</span>fas fa-edit<span class="hljs-string">"&gt;&lt;/i&gt;
+                                    &lt;/a&gt;
+                                    &lt;form action="</span>{{ route(<span class="hljs-string">'mahasiswa.destroy'</span>, $mahasiswa-&gt;id) }}<span class="hljs-string">" method="</span>POST<span class="hljs-string">" class="</span>d-inline<span class="hljs-string">"&gt;
+                                        @csrf
+                                        @method('DELETE')
+                                        &lt;button type="</span>submit<span class="hljs-string">" class="</span>btn btn-danger btn-sm<span class="hljs-string">" onclick="</span><span class="hljs-keyword">return</span> confirm(<span class="hljs-string">'Yakin ingin menghapus?'</span>)<span class="hljs-string">"&gt;
+                                            &lt;i class="</span>fas fa-trash<span class="hljs-string">"&gt;&lt;/i&gt;
+                                        &lt;/button&gt;
+                                    &lt;/form&gt;
+                                &lt;/td&gt;
+                            &lt;/tr&gt;
+                        @empty
+                            &lt;tr&gt;
+                                &lt;td colspan="</span><span class="hljs-number">6</span><span class="hljs-string">" class="</span>text-center<span class="hljs-string">"&gt;Tidak ada data mahasiswa&lt;/td&gt;
+                            &lt;/tr&gt;
+                        @endforelse
+                    &lt;/tbody&gt;
+                &lt;/table&gt;
+            &lt;/div&gt;
+            
+            &lt;div class="</span>d-flex justify-content-end<span class="hljs-string">"&gt;
+                {{ $mahasiswas-&gt;links() }}
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+@endsection
+</span></div></code></pre>
+<h3 id="3-form-responsif-untuk-tambahedit-mahasiswa">3. Form Responsif untuk Tambah/Edit Mahasiswa</h3>
+<pre class="hljs"><code><div>{{-- resources/views/mahasiswa/create.blade.php --}}
+@extends(<span class="hljs-string">'layouts.app'</span>)
+
+@section(<span class="hljs-string">'content'</span>)
+&lt;div <span class="hljs-class"><span class="hljs-keyword">class</span>="<span class="hljs-title">container</span>"&gt;
+    &lt;<span class="hljs-title">div</span> <span class="hljs-title">class</span>="<span class="hljs-title">row</span> <span class="hljs-title">justify</span>-<span class="hljs-title">content</span>-<span class="hljs-title">center</span>"&gt;
+        &lt;<span class="hljs-title">div</span> <span class="hljs-title">class</span>="<span class="hljs-title">col</span>-<span class="hljs-title">md</span>-8"&gt;
+            &lt;<span class="hljs-title">div</span> <span class="hljs-title">class</span>="<span class="hljs-title">card</span> <span class="hljs-title">shadow</span>"&gt;
+                &lt;<span class="hljs-title">div</span> <span class="hljs-title">class</span>="<span class="hljs-title">card</span>-<span class="hljs-title">header</span> <span class="hljs-title">bg</span>-<span class="hljs-title">primary</span> <span class="hljs-title">text</span>-<span class="hljs-title">white</span>"&gt;
+                    &lt;<span class="hljs-title">h5</span> <span class="hljs-title">class</span>="<span class="hljs-title">mb</span>-0"&gt;<span class="hljs-title">Tambah</span> <span class="hljs-title">Mahasiswa</span> <span class="hljs-title">Baru</span>&lt;/<span class="hljs-title">h5</span>&gt;
+                &lt;/<span class="hljs-title">div</span>&gt;
+                &lt;<span class="hljs-title">div</span> <span class="hljs-title">class</span>="<span class="hljs-title">card</span>-<span class="hljs-title">body</span>"&gt;
+                    &lt;<span class="hljs-title">form</span> <span class="hljs-title">action</span>="</span>{{ route(<span class="hljs-string">'mahasiswa.store'</span>) }}<span class="hljs-string">" method="</span>POST<span class="hljs-string">"&gt;
+                        @csrf
+                        
+                        &lt;div class="</span>mb<span class="hljs-number">-3</span><span class="hljs-string">"&gt;
+                            &lt;label for="</span>nim<span class="hljs-string">" class="</span>form-label<span class="hljs-string">"&gt;NIM&lt;/label&gt;
+                            &lt;input type="</span>text<span class="hljs-string">" class="</span>form-control @error(<span class="hljs-string">'nim'</span>) is-invalid @enderror<span class="hljs-string">" 
+                                   id="</span>nim<span class="hljs-string">" name="</span>nim<span class="hljs-string">" value="</span>{{ old(<span class="hljs-string">'nim'</span>) }}<span class="hljs-string">" required&gt;
+                            @error('nim')
+                                &lt;div class="</span>invalid-feedback<span class="hljs-string">"&gt;{{ $message }}&lt;/div&gt;
+                            @enderror
+                        &lt;/div&gt;
+                        
+                        &lt;div class="</span>mb<span class="hljs-number">-3</span><span class="hljs-string">"&gt;
+                            &lt;label for="</span>nama<span class="hljs-string">" class="</span>form-label<span class="hljs-string">"&gt;Nama Lengkap&lt;/label&gt;
+                            &lt;input type="</span>text<span class="hljs-string">" class="</span>form-control @error(<span class="hljs-string">'nama'</span>) is-invalid @enderror<span class="hljs-string">" 
+                                   id="</span>nama<span class="hljs-string">" name="</span>nama<span class="hljs-string">" value="</span>{{ old(<span class="hljs-string">'nama'</span>) }}<span class="hljs-string">" required&gt;
+                            @error('nama')
+                                &lt;div class="</span>invalid-feedback<span class="hljs-string">"&gt;{{ $message }}&lt;/div&gt;
+                            @enderror
+                        &lt;/div&gt;
+                        
+                        &lt;div class="</span>mb<span class="hljs-number">-3</span><span class="hljs-string">"&gt;
+                            &lt;label for="</span>jurusan_id<span class="hljs-string">" class="</span>form-label<span class="hljs-string">"&gt;Jurusan&lt;/label&gt;
+                            &lt;select class="</span>form-select @error(<span class="hljs-string">'jurusan_id'</span>) is-invalid @enderror<span class="hljs-string">" 
+                                    id="</span>jurusan_id<span class="hljs-string">" name="</span>jurusan_id<span class="hljs-string">" required&gt;
+                                &lt;option value="</span><span class="hljs-string">"&gt;-- Pilih Jurusan --&lt;/option&gt;
+                                @foreach($jurusans as $jurusan)
+                                    &lt;option value="</span>{{ $jurusan-&gt;id }}<span class="hljs-string">" {{ old('jurusan_id') == $jurusan-&gt;id ? 'selected' : '' }}&gt;
+                                        {{ $jurusan-&gt;nama }}
+                                    &lt;/option&gt;
+                                @endforeach
+                            &lt;/select&gt;
+                            @error('jurusan_id')
+                                &lt;div class="</span>invalid-feedback<span class="hljs-string">"&gt;{{ $message }}&lt;/div&gt;
+                            @enderror
+                        &lt;/div&gt;
+                        
+                        &lt;div class="</span>mb<span class="hljs-number">-3</span><span class="hljs-string">"&gt;
+                            &lt;label for="</span>email<span class="hljs-string">" class="</span>form-label<span class="hljs-string">"&gt;Email&lt;/label&gt;
+                            &lt;input type="</span>email<span class="hljs-string">" class="</span>form-control @error(<span class="hljs-string">'email'</span>) is-invalid @enderror<span class="hljs-string">" 
+                                   id="</span>email<span class="hljs-string">" name="</span>email<span class="hljs-string">" value="</span>{{ old(<span class="hljs-string">'email'</span>) }}<span class="hljs-string">" required&gt;
+                            @error('email')
+                                &lt;div class="</span>invalid-feedback<span class="hljs-string">"&gt;{{ $message }}&lt;/div&gt;
+                            @enderror
+                        &lt;/div&gt;
+                        
+                        &lt;div class="</span>mb<span class="hljs-number">-3</span><span class="hljs-string">"&gt;
+                            &lt;label for="</span>alamat<span class="hljs-string">" class="</span>form-label<span class="hljs-string">"&gt;Alamat&lt;/label&gt;
+                            &lt;textarea class="</span>form-control @error(<span class="hljs-string">'alamat'</span>) is-invalid @enderror<span class="hljs-string">" 
+                                      id="</span>alamat<span class="hljs-string">" name="</span>alamat<span class="hljs-string">" rows="</span><span class="hljs-number">3</span><span class="hljs-string">"&gt;{{ old('alamat') }}&lt;/textarea&gt;
+                            @error('alamat')
+                                &lt;div class="</span>invalid-feedback<span class="hljs-string">"&gt;{{ $message }}&lt;/div&gt;
+                            @enderror
+                        &lt;/div&gt;
+                        
+                        &lt;div class="</span>mb<span class="hljs-number">-3</span><span class="hljs-string">"&gt;
+                            &lt;label class="</span>form-label<span class="hljs-string">"&gt;Jenis Kelamin&lt;/label&gt;
+                            &lt;div&gt;
+                                &lt;div class="</span>form-check form-check-inline<span class="hljs-string">"&gt;
+                                    &lt;input class="</span>form-check-input<span class="hljs-string">" type="</span>radio<span class="hljs-string">" name="</span>jenis_kelamin<span class="hljs-string">" 
+                                           id="</span>jk_l<span class="hljs-string">" value="</span>L<span class="hljs-string">" {{ old('jenis_kelamin') == 'L' ? 'checked' : '' }} required&gt;
+                                    &lt;label class="</span>form-check-label<span class="hljs-string">" for="</span>jk_l<span class="hljs-string">"&gt;Laki-laki&lt;/label&gt;
+                                &lt;/div&gt;
+                                &lt;div class="</span>form-check form-check-inline<span class="hljs-string">"&gt;
+                                    &lt;input class="</span>form-check-input<span class="hljs-string">" type="</span>radio<span class="hljs-string">" name="</span>jenis_kelamin<span class="hljs-string">" 
+                                           id="</span>jk_p<span class="hljs-string">" value="</span>P<span class="hljs-string">" {{ old('jenis_kelamin') == 'P' ? 'checked' : '' }}&gt;
+                                    &lt;label class="</span>form-check-label<span class="hljs-string">" for="</span>jk_p<span class="hljs-string">"&gt;Perempuan&lt;/label&gt;
+                                &lt;/div&gt;
+                                @error('jenis_kelamin')
+                                    &lt;div class="</span>text-danger mt<span class="hljs-number">-1</span><span class="hljs-string">"&gt;{{ $message }}&lt;/div&gt;
+                                @enderror
+                            &lt;/div&gt;
+                        &lt;/div&gt;
+                        
+                        &lt;div class="</span>d-grid gap<span class="hljs-number">-2</span> d-md-flex justify-content-md-end<span class="hljs-string">"&gt;
+                            &lt;a href="</span>{{ route(<span class="hljs-string">'mahasiswa.index'</span>) }}<span class="hljs-string">" class="</span>btn btn-secondary me-md<span class="hljs-number">-2</span><span class="hljs-string">"&gt;Batal&lt;/a&gt;
+                            &lt;button type="</span>submit<span class="hljs-string">" class="</span>btn btn-primary<span class="hljs-string">"&gt;Simpan&lt;/button&gt;
+                        &lt;/div&gt;
+                    &lt;/form&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+@endsection
+</span></div></code></pre>
+<h3 id="menambahkan-font-awesome-untuk-icon">Menambahkan Font Awesome untuk Icon</h3>
+<p>Font Awesome sangat berguna untuk menambahkan icon di aplikasi:</p>
+<ol>
+<li><strong>Tambahkan link CDN Font Awesome ke layout</strong>:</li>
+</ol>
+<pre class="hljs"><code><div>&lt;!-- Font Awesome --&gt;
+&lt;link rel=<span class="hljs-string">"stylesheet"</span> href=<span class="hljs-string">"https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"</span>&gt;
+</div></code></pre>
+<ol start="2">
+<li><strong>Atau install via npm</strong>:</li>
+</ol>
+<pre class="hljs"><code><div>npm install @fortawesome/fontawesome-free
+</div></code></pre>
+<ol start="3">
+<li><strong>Tambahkan ke file Sass</strong> (jika menggunakan Laravel Mix):</li>
+</ol>
+<pre class="hljs"><code><div><span class="hljs-comment">// resources/sass/app.scss</span>
+<span class="hljs-keyword">@import</span> <span class="hljs-string">'~@fortawesome/fontawesome-free/css/all.min.css'</span>;
+</div></code></pre>
+<h2 id="tips-tambahan">Tips Tambahan</h2>
+<ol>
+<li>
+<p><strong>Responsive Mobile First</strong>: Selalu gunakan pendekatan mobile-first saat membuat tampilan.</p>
+</li>
+<li>
+<p><strong>Custom CSS</strong>: Buat file CSS kustom untuk override style Bootstrap jika diperlukan:</p>
+</li>
+</ol>
+<pre class="hljs"><code><div><span class="hljs-comment">/* public/css/custom.css */</span>
+<span class="hljs-selector-class">.sidebar</span> {
+    <span class="hljs-attribute">background</span>: <span class="hljs-built_in">linear-gradient</span>(<span class="hljs-number">180deg</span>, #<span class="hljs-number">4</span>e73df <span class="hljs-number">10%</span>, #<span class="hljs-number">224</span>abe <span class="hljs-number">100%</span>);
+}
+
+<span class="hljs-selector-class">.btn-primary</span> {
+    <span class="hljs-attribute">background-color</span>: <span class="hljs-number">#4e73df</span>;
+    <span class="hljs-attribute">border-color</span>: <span class="hljs-number">#4e73df</span>;
+}
+</div></code></pre>
+<ol start="3">
+<li><strong>Tema</strong>: Jika ingin tampilan lebih menarik, pertimbangkan untuk menggunakan tema Bootstrap seperti SB Admin 2, AdminLTE, atau Tabler.</li>
+</ol>
+<p>Dengan mengintegrasikan CSS framework seperti Bootstrap, aplikasi Laravel Mahasiswa Anda akan memiliki tampilan yang profesional dan responsif tanpa perlu menulis banyak CSS dari awal.</p>
+<p>Selanjutnya, kita akan membahas: <strong>Form dengan Validasi JavaScript</strong></p>
+
+</body>
+</html>
